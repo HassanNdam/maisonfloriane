@@ -1,0 +1,70 @@
+Site de référence en terme d'ergonomie et tout : Dior
+
+1. Page d’accueil
+
+* Présentation de mes marques FLORÉA SKIN (cosmétique) et PARFUMEmOI_🎀 (parfums).
+* Une belle bannière professionnelle.
+* Des catégories pour accéder facilement aux cosmétiques, aux parfums et aux différentes gammes.
+* Une section pour les nouveautés, les meilleures ventes et les promotions.
+
+2. Fiches détaillées pour chaque produit
+Chaque produit doit avoir :
+
+* Une ou plusieurs photos de bonne qualité.
+* Le nom du produit.
+* Une description détaillée.
+* Les ingrédients ou caractéristiques, si nécessaire.
+* Les conseils d’utilisation.
+* Le prix en FCFA.
+* La contenance ou le format.
+* La disponibilité du produit.
+* Un bouton « Commander sur WhatsApp ».
+
+
+
+3. Gestion des stocks
+Je souhaite pouvoir gérer moi-même les quantités disponibles depuis un espace administrateur.
+
+Le site doit automatiquement afficher :
+
+* « En stock » lorsque le produit est disponible.
+* « Stock limité » lorsque la quantité devient faible.
+* « Rupture de stock » lorsque le produit n’est plus disponible.
+
+Lorsqu’un produit est en rupture de stock, le client ne doit pas pouvoir le commander comme s’il était disponible. Je souhaite aussi pouvoir remettre le produit en vente dès que le stock est renouvelé.
+
+4. Commandes par WhatsApp
+Je veux que chaque produit dispose d’un bouton qui redirige directement le client vers mon WhatsApp professionnel.
+
+Le message WhatsApp doit être prérempli avec le nom du produit, son prix, la quantité souhaitée et le lien du produit sur le site.
+
+Si le client souhaite acheter plusieurs articles, il doit pouvoir préparer son panier avant de finaliser sa commande sur WhatsApp.
+
+5. Modes de paiement
+Je souhaite afficher les différents moyens de paiement acceptés et pouvoir les modifier depuis mon espace administrateur.
+
+Prévoir la possibilité d’utiliser :
+
+* Orange Money.
+* MTN Mobile Money.
+* Le paiement à la livraison, si et seulement si le client avance la moitié de l’argent.
+
+6. Livraison
+Je veux une rubrique qui explique les modalités de livraison, les zones desservies, les frais et les délais estimés.
+
+7. Espace administrateur
+Je dois pouvoir gérer moi-même le site sans avoir besoin d’un développeur à chaque modification :
+
+* Ajouter ou supprimer un produit.
+* Modifier les photos, les descriptions et les prix.
+* Ajouter de nouveaux parfums et cosmétiques.
+* Modifier les stocks.
+* Afficher les produits en rupture de stock.
+* Mettre des promotions.
+* Consulter les commandes et les demandes reçues.
+* Modifier les informations de paiement et de livraison.
+
+8. Design et identité visuelle
+Je souhaite un design chic, épuré, féminin et haut de gamme, avec une présentation aérée, des photos mises en valeur et une navigation simple.
+
+Le site doit être rapide, sécurisé, adapté aux téléphones, référencé sur Google et disposer de son propre nom de domaine.

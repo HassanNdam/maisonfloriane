@@ -1,0 +1,32 @@
+/* Charte graphique Maison Floriane v1 (voir docs/03-maquettes/prototype/styles.css). */
+@import "@fontsource/cormorant-garamond/400.css";
+@import "@fontsource/cormorant-garamond/500.css";
+@import "@fontsource/cormorant-garamond/400-italic.css";
+@import "@fontsource/jost/300.css";
+@import "@fontsource/jost/400.css";
+@import "@fontsource/jost/500.css";
+
+@theme {
+  --color-lin: #F8F4EE;      /* fond principal */
+  --color-ivoire: #FFFDFA;   /* cartes, panneaux */
+  --color-creme: #F3E8D8;    /* sections d'accent */
+  --color-ligne: #E6DDD0;    /* filets, bordures */
+  --color-encre: #2E2A26;    /* texte, boutons principaux */
+  --color-taupe: #6F665E;    /* texte secondaire */
+  --color-or: #B8862F;       /* or du logo : décor uniquement */
+  --color-or-fonce: #8A6418; /* or lisible : liens, petits accents */
+  --color-sauge: #4F6B4A;    /* en stock */
+  --color-ambre: #8F6210;    /* stock limité */
+  --color-brique: #9B3D33;   /* rupture, erreurs */
+
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Jost", "Helvetica Neue", Arial, sans-serif;
+
+  --radius-charte: 2px;
+  --container-page: 1280px;
+}
+
+@layer base {
+  body { @apply bg-lin text-encre font-sans font-light antialiased; font-size: 19px; line-height: 1.65; }
+  h1, h2, h3 { @apply font-serif font-normal; }
+}

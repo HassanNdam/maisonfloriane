@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact | Maison Floriane</title>
+<link rel="icon" href="../../01-images-site/favicon/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="32x32" href="../../01-images-site/favicon/favicon-32x32.png">
+<link rel="apple-touch-icon" href="../../01-images-site/favicon/apple-touch-icon.png">
+<meta name="theme-color" content="#F7EEE0">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-ariane="Contact">
+<main class="conteneur contact">
+  <div>
+    <span class="surtitre">Contact</span>
+    <h1 class="h1">Une question ?<br>Écrivez-nous.</h1>
+    <p class="chapo" style="margin-bottom:48px">Conseil d'utilisation, suivi de commande ou demande professionnelle : nous répondons personnellement.</p>
+    <div class="contact__canal"><span class="surtitre">WhatsApp</span><span>+41 79 273 83 53</span><a class="lien" style="justify-self:start" href="https://wa.me/41792738353">Ouvrir la conversation</a></div>
+    <div class="contact__canal"><span class="surtitre">E-mail</span><span>florekhadije@gmail.com</span></div>
+    <div class="contact__canal"><span class="surtitre">Délai de réponse</span><span>Sous 24 h ouvrées, du lundi au vendredi</span></div>
+  </div>
+  <form class="formulaire" onsubmit="return false">
+    <div class="deux">
+      <div class="champ"><label for="prenom">Prénom</label><input id="prenom"></div>
+      <div class="champ"><label for="nom">Nom</label><input id="nom"></div>
+    </div>
+    <div class="champ"><label for="email">E-mail</label><input id="email" type="email" placeholder="vous@exemple.fr"></div>
+    <div class="champ"><label for="sujet">Sujet</label><select id="sujet"><option>Conseil produit</option><option>Ma commande</option><option>Livraison</option><option>Autre</option></select></div>
+    <div class="champ"><label for="msg">Message</label><textarea id="msg" placeholder="Votre message"></textarea></div>
+    <label class="case"><span></span>J'accepte que mes données soient utilisées pour répondre à ma demande (politique de confidentialité).</label>
+    <button class="btn btn--principal btn--plein">Envoyer le message</button>
+  </form>
+</main>
+<script src="commun.js"></script>
+</body>
+</html>
