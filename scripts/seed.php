@@ -57,11 +57,18 @@ function mf_media(string $path, string $alt = '', int $parent = 0): int
     return (int) $id;
 }
 
-/** Crée ou met à jour une page repérée par son slug. */
+/**
+ * Crée une page repérée par son slug. Une page existante n'est pas modifiée,
+ * sauf avec MF_SEED_FORCE=1 (le contenu est alors régénéré depuis le prototype).
+ */
 function mf_page(string $slug, string $title, string $content = '', int $parent = 0): int
 {
     $page = get_page_by_path($slug, OBJECT, 'page');
     if ($page) {
+        if (getenv('MF_SEED_FORCE') && $content !== '' && $page->post_content !== $content) {
+            wp_update_post(['ID' => $page->ID, 'post_content' => $content]);
+            mf_log("page mise à jour : $title");
+        }
         return (int) $page->ID;
     }
     $id = wp_insert_post([
@@ -86,10 +93,15 @@ function mf_prototype(string $file): string
         return '';
     }
     $xpath = new DOMXPath($dom);
-    foreach ($xpath->query('.//img|.//script|.//svg|.//video|.//picture|.//form|.//button|.//h1', $main) as $node) {
+    foreach ($xpath->query('.//img|.//script|.//svg|.//video|.//picture|.//form|.//button|.//h1|.//*[contains(@class, "surtitre")]', $main) as $node) {
         $node->parentNode->removeChild($node);
     }
-    foreach ($xpath->query('.//@class|.//@style|.//@*[starts-with(name(), "data-")]', $main) as $attr) {
+    // Seules les classes de mise en forme du texte (chapo, alerte) sont gardées.
+    foreach ($xpath->query('.//@class', $main) as $attr) {
+        $garder = array_intersect(explode(' ', $attr->value), ['chapo', 'alerte']);
+        $garder ? $attr->ownerElement->setAttribute('class', implode(' ', $garder)) : $attr->ownerElement->removeAttributeNode($attr);
+    }
+    foreach ($xpath->query('.//@style|.//@*[starts-with(name(), "data-")]', $main) as $attr) {
         $attr->ownerElement->removeAttributeNode($attr);
     }
     $html = '';
@@ -133,8 +145,12 @@ $options = [
 foreach ($options as $key => $value) {
     update_option($key, $value);
 }
+// Adresses en français : /produit/…, /categorie-produit/…
+update_option('woocommerce_permalinks', array_merge((array) get_option('woocommerce_permalinks', []), [
+    'product_base' => 'produit', 'category_base' => 'categorie-produit', 'tag_base' => 'etiquette-produit', 'attribute_base' => '', 'use_verbose_page_rules' => false,
+]));
 
-if (class_exists('WC_Install')) {
+if (class_exists('WC_Install') && wc_get_page_id('shop') <= 0) {
     WC_Install::create_pages();
 }
 // Pages WooCommerce en français.
@@ -163,7 +179,12 @@ foreach (['hello-world' => 'post', 'sample-page' => 'page', 'privacy-policy' => 
 WP_CLI::log('Pages');
 $proto = $docs . '/03-maquettes/prototype';
 $accueil = mf_page('accueil', 'Accueil');
-$histoire = mf_page('notre-histoire', 'Notre histoire', mf_prototype("$proto/notre-histoire.html"));
+// « Notre histoire » est devenue « Mon histoire » (lettre de Flore) : renommage de la page existante.
+if (($ancienne = get_page_by_path('notre-histoire')) && ! get_page_by_path('mon-histoire')) {
+    wp_update_post(['ID' => $ancienne->ID, 'post_name' => 'mon-histoire', 'post_title' => 'Mon histoire']);
+    mf_log('page renommée : Notre histoire → Mon histoire');
+}
+$histoire = mf_page('mon-histoire', 'Mon histoire', mf_prototype("$proto/mon-histoire.html"));
 mf_page('contact', 'Contact', mf_prototype("$proto/contact.html"));
 $legales = [
     'livraison-retours' => ['Livraison et retours', 'livraison-retours.html'],
@@ -186,12 +207,22 @@ $logo = mf_media("$docs/01-images-site/logos/florea-skin/logo-florea-skin-rond-f
 if ($logo) {
     set_theme_mod('custom_logo', $logo);
 }
-$portrait = mf_media("$docs/01-images-site/florea-skin/histoire/flore-fondatrice-florea-skin-passion-mode.webp", 'Flore, fondatrice de Floréa Skin', $histoire);
+$portrait = mf_media("$docs/01-images-site/florea-skin/histoire/flore-fondatrice-florea-skin-portrait.webp", 'Portrait de Flore, fondatrice de Floréa Skin', $histoire);
 if ($portrait) {
     set_post_thumbnail($histoire, $portrait);
 }
 
-WP_CLI::log('Produits (brouillons, sans prix)');
+WP_CLI::log('Médias de l\'accueil (avant/après, vidéos)');
+foreach (glob("$docs/01-images-site/florea-skin/avant-apres/*.webp") as $file) {
+    mf_media($file, 'Avant : taches brunes, photo sans filtre');
+}
+foreach (glob("$docs/02-videos-site/florea-skin/*/*") as $file) {
+    mf_media($file, str_ends_with($file, '.webp') ? 'Aperçu de la vidéo Floréa Skin' : '');
+}
+
+// Sans prix, un produit n'est pas achetable : publié en local pour l'intégration, brouillon ailleurs.
+$statut = (defined('WP_ENV') && WP_ENV === 'development') ? 'publish' : 'draft';
+WP_CLI::log("Produits (sans prix, statut : $statut)");
 $catalogue = json_decode(file_get_contents("$docs/00-projet/catalogue-produits.json"), true);
 $galeries = [
     'FS-001' => ['savon-noir-reparateur-florea-skin-en-main.webp', 'savon-noir-reparateur-florea-skin-visage-corps.webp'],
@@ -202,20 +233,20 @@ foreach ($catalogue['produits'] as $p) {
     $product = $id ? wc_get_product($id) : new WC_Product_Simple();
     if (! $id) {
         $product->set_sku($p['reference']);
-        $product->set_status('draft'); // pas de prix fixé : ne pas publier
+    }
+    if ($product->get_price() === '') {
+        $product->set_status($statut); // jamais de prix inventé : publication réelle une fois le prix saisi
     }
     $product->set_name($p['nom']);
     $product->set_slug($p['slug']);
     $product->set_short_description($p['description_courte']);
-    $product->set_description(
-        '<p>' . esc_html($p['description']) . '</p>'
-        . '<h2>Conseils d\'utilisation</h2><p>' . esc_html($p['conseils_utilisation']) . '</p>'
-        . '<h2>Ingrédients</h2><p>' . esc_html($p['ingredients']) . '</p>'
-    );
+    $product->set_description('<p>' . esc_html($p['description']) . '</p>');
     $term = term_exists($p['categorie'], 'product_cat') ?: wp_insert_term($p['categorie'], 'product_cat');
     $product->set_category_ids([(int) ($term['term_id'] ?? 0)]);
-    $product->set_manage_stock(false);
-    $product->set_stock_status('instock');
+    if (! $id) {
+        $product->set_manage_stock(false);
+        $product->set_stock_status('instock');
+    }
     $product->set_reviews_allowed(false);
     $productId = $product->save();
 
@@ -231,6 +262,8 @@ foreach ($catalogue['produits'] as $p) {
         $product->set_gallery_image_ids(array_filter($ids));
     }
     $product->update_meta_data('_mf_contenance', $p['contenance']);
+    $product->update_meta_data('_mf_conseils', $p['conseils_utilisation']);
+    $product->update_meta_data('_mf_ingredients', str_starts_with($p['ingredients'], 'À renseigner') ? '' : $p['ingredients']);
     $product->update_meta_data('_mf_a_confirmer', $p['a_confirmer']);
     if (! empty($p['video']['src'])) {
         $product->update_meta_data('_mf_video', mf_media("$docs/" . $p['video']['src'], $p['nom'], $productId));
@@ -244,33 +277,44 @@ foreach ($catalogue['produits'] as $p) {
     mf_log("produit : {$p['nom']} (#$productId, " . get_post_status($productId) . ')');
 }
 
-WP_CLI::log('Menus');
+WP_CLI::log('Menus (resynchronisés à chaque lancement)');
+$page = fn ($title, $id) => ['title' => $title, 'type' => 'post_type', 'object' => 'page', 'id' => (int) $id];
+$produitMenu = fn ($title, $sku) => ['title' => $title, 'type' => 'post_type', 'object' => 'product', 'id' => (int) wc_get_product_id_by_sku($sku)];
+$lien = fn ($title, $url) => ['title' => $title, 'type' => 'custom', 'url' => $url];
 $menus = [
     'primary_navigation' => ['Menu principal', [
-        ['Boutique', (int) wc_get_page_id('shop')],
-        ['Notre histoire', $histoire],
-        ['Contact', (int) get_page_by_path('contact')->ID],
+        $lien('Le rituel', '/#rituel'),
+        $produitMenu('Savon noir', 'FS-001'),
+        $produitMenu('Glow Oil', 'FS-002'),
+        $lien('Résultats', '/#resultats'),
     ]],
-    'footer_navigation' => ['Pied de page', array_map(
-        fn ($slug) => [get_the_title($legalIds[$slug]), $legalIds[$slug]],
-        array_keys($legalIds)
-    )],
+    'secondary_navigation' => ['En-tête, à droite', [
+        $page('Mon histoire', $histoire),
+        $page('Contact', get_page_by_path('contact')->ID),
+    ]],
+    'footer_navigation' => ['Pied de page', [
+        $page('Mentions légales', $legalIds['mentions-legales']),
+        $page('CGV', $legalIds['conditions-generales-de-vente']),
+        $page('Confidentialité', $legalIds['politique-de-confidentialite']),
+        $page('Cookies', $legalIds['politique-de-cookies']),
+        $page('Livraison & retours', $legalIds['livraison-retours']),
+    ]],
 ];
 $locations = get_theme_mod('nav_menu_locations', []);
 foreach ($menus as $location => [$name, $items]) {
     $menu = wp_get_nav_menu_object($name);
-    if (! $menu) {
-        $menuId = wp_create_nav_menu($name);
-        foreach ($items as [$title, $pageId]) {
-            wp_update_nav_menu_item($menuId, 0, [
-                'menu-item-title' => $title, 'menu-item-object' => 'page', 'menu-item-object-id' => $pageId,
-                'menu-item-type' => 'post_type', 'menu-item-status' => 'publish',
-            ]);
-        }
-        mf_log("menu créé : $name");
-    } else {
-        $menuId = $menu->term_id;
+    $menuId = $menu ? $menu->term_id : wp_create_nav_menu($name);
+    foreach (wp_get_nav_menu_items($menuId) ?: [] as $old) {
+        wp_delete_post($old->ID, true);
     }
+    foreach ($items as $item) {
+        $data = ['menu-item-title' => $item['title'], 'menu-item-type' => $item['type'], 'menu-item-status' => 'publish'];
+        $data += $item['type'] === 'custom'
+            ? ['menu-item-url' => home_url($item['url'])]
+            : ['menu-item-object' => $item['object'], 'menu-item-object-id' => $item['id']];
+        wp_update_nav_menu_item($menuId, 0, $data);
+    }
+    mf_log("menu : $name (" . count($items) . ' liens)');
     $locations[$location] = $menuId;
 }
 set_theme_mod('nav_menu_locations', $locations);

@@ -54,7 +54,7 @@ composer seed
 ```
 
 Active WooCommerce, Germanized, Complianz et Rank Math, règle WooCommerce (euro, boutique en Espagne, vente et livraison dans le monde entier, prix TTC, seuil « stock limité » à 3, pas d'avis),
-crée les pages (Accueil, Notre histoire, Contact, Livraison et retours, CGV, mentions légales, confidentialité, cookies), francise les pages WooCommerce (`/boutique/`, `/panier/`, `/commande/`, `/mon-compte/`),
+crée les pages (Accueil, Mon histoire, Contact, Livraison et retours, CGV, mentions légales, confidentialité, cookies), francise les pages WooCommerce (`/boutique/`, `/panier/`, `/commande/`, `/mon-compte/`),
 importe les médias, crée les 2 produits **en brouillon et sans prix** depuis `docs/00-projet/catalogue-produits.json`, et les menus principal et pied de page. Relançable sans doublon.
 
 ## Installation locale (Laragon)
@@ -86,9 +86,25 @@ Sous Git Bash, préfixer par `MSYS_NO_PATHCONV=1` les commandes dont un argument
 
 Voir [`CONTRIBUTING.md`](CONTRIBUTING.md) : `main` = production, `develop` = intégration, branches `feature/*`, `release/*`, `hotfix/*`.
 
+## Thème
+
+| Vue | Page |
+| --- | --- |
+| `front-page.blade.php` | Accueil (héros vidéo, rituel, résultats avant/après, mode d'emploi, FAQ avec schema.org, lettre) |
+| `woocommerce/single-product.blade.php` | Fiche produit (galerie + vidéo, quantité, WhatsApp prérempli, accordéons) |
+| `woocommerce/archive-product.blade.php` | Boutique `/boutique/` |
+| `page-mon-histoire.blade.php` | Mon histoire (lettre de Flore) ; `/notre-histoire/` redirige en 301 |
+| `page-contact.blade.php` | Contact (formulaire envoyé par e-mail, anti-spam) |
+| `page.blade.php` | Pages légales, livraison, panier, commande, compte |
+
+- Styles : `resources/css/prototype.css` reprend `docs/03-maquettes/prototype/styles.css` (à resynchroniser si le prototype change), `site.css` ajoute WordPress/WooCommerce.
+- Logique : `app/helpers.php` (médias, prix, stock, WhatsApp), `app/woocommerce.php` (gabarits, panier latéral AJAX, duo `/?mf-duo=1`), `app/formulaires.php` (contact, lettre).
+- Sans prix, un produit affiche « Prix à venir » et le bouton « Bientôt disponible » ; la commande WhatsApp reste possible. `composer seed` publie les produits en local (`WP_ENV=development`) et les laisse en brouillon ailleurs.
+- `MF_SEED_FORCE=1 composer seed` régénère le texte des pages depuis le prototype (écrase les modifications faites dans l'admin).
+
 ## Reste à faire
 
-- Intégrer le prototype dans le thème (en-tête, accueil, fiches produits, Notre histoire, contact, bouton WhatsApp avec panier prérempli).
 - Fixer les prix et la liste INCI, puis publier les produits.
 - Zones et tarifs de livraison (UE / reste du monde), TVA espagnole, clés Stripe et PayPal.
-- Textes définitifs des pages légales.
+- Textes définitifs des pages légales ; outil d'envoi pour la Lettre Floréa (aujourd'hui : e-mail à Flore à chaque inscription).
+- Durée d'utilisation sous chaque témoignage avant/après (mention légale prévue par le cadrage).

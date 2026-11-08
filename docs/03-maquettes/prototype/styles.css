@@ -160,6 +160,25 @@ body.hero-unique .hero__unique { display: block; }
 .valeurs > div { border-top: 1px solid var(--encre); padding-top: var(--s3); }
 .valeurs .h3 { margin: var(--s2) 0 var(--s1); }
 
+/* Notre histoire : lettre de Flore */
+.lettre-hero { padding: var(--s5) 0 var(--s8); }
+.lettre-hero__grille { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s7); align-items: start; }
+.lettre-hero__photo { position: sticky; top: 140px; margin: 0; }
+.lettre-hero__photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 25%; }
+.lettre-hero__photo figcaption { margin-top: var(--s2); font-size: 16px; color: var(--taupe); letter-spacing: .04em; }
+.lettre { padding-top: var(--s6); }
+.lettre .h1 { margin: var(--s3) 0 var(--s5); }
+.lettre p + p { margin-top: var(--s3); }
+.lettre__ouverture { font: 400 30px/1.35 var(--serif); color: var(--encre); }
+.lettre__affirmation { font: italic 400 44px/1.15 var(--serif); color: var(--or-fonce); margin-top: var(--s6) !important;
+  padding-top: var(--s5); border-top: 1px solid var(--ligne); }
+.rappel { text-align: center; }
+.rappel__texte { font: italic 400 48px/1.2 var(--serif); max-width: 900px; margin: var(--s3) auto 0; }
+.lettre--centree { max-width: 760px; text-align: center; padding-top: 0; }
+.lettre__final { margin: var(--s6) 0 var(--s5); }
+.signature { font: italic 400 26px/1.4 var(--serif); margin-bottom: var(--s5); }
+.signature span { font: 500 14px/2.4 var(--sans); font-style: normal; letter-spacing: .2em; text-transform: uppercase; color: var(--or-fonce); }
+
 /* Réassurance */
 .reassurance { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ligne); border-bottom: 1px solid var(--ligne); }
 .reassurance div { padding: var(--s5) var(--s3); text-align: center; }
@@ -274,6 +293,12 @@ body.panier-ouvert .tiroir { display: flex; }
 /* Mobile */
 @media (max-width: 760px) {
   .conteneur { padding: 0 var(--s3); }
+  .lettre-hero__grille { grid-template-columns: 1fr; gap: var(--s4); }
+  .lettre-hero__photo { position: static; }
+  .lettre { padding-top: 0; }
+  .lettre__ouverture { font-size: 25px; }
+  .lettre__affirmation { font-size: 34px; }
+  .rappel__texte { font-size: 32px; }
   .annonce { font-size: 13px; letter-spacing: .03em; line-height: 36px; }
   .ligne-achat .btn { letter-spacing: .08em; }
   .section { padding: var(--s7) 0; }

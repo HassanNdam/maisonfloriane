@@ -1,0 +1,81 @@
+/* Compléments au prototype pour WordPress / WooCommerce (menus, formulaires réels, panier, blocs WooCommerce). */
+@layer components {
+  /* Menus WordPress (listes <li>) dans l'en-tête */
+  .nav ul, .actions__liens, .pied__legal { display: flex; align-items: center; list-style: none; margin: 0; padding: 0; }
+  .nav ul { gap: var(--s4); }
+  .actions__liens { gap: var(--s4); }
+  .pied__legal { flex-wrap: wrap; gap: 4px 0; }
+  .pied__legal li + li::before { content: "·"; margin: 0 8px; }
+  .pied__legal a:hover, .pied li a:hover { color: var(--ivoire); }
+  .nav .current-menu-item > a, .actions__liens .current-menu-item > a { color: var(--or-fonce); }
+
+  /* Menu mobile */
+  .menu-mobile { position: fixed; inset: 0; z-index: 40; background: var(--lin); padding: var(--s3); display: none; flex-direction: column; }
+  body.menu-ouvert { overflow: hidden; }
+  body.menu-ouvert .menu-mobile { display: flex; }
+  .menu-mobile__haut { display: flex; justify-content: space-between; align-items: center; padding-bottom: var(--s3); border-bottom: 1px solid var(--ligne); }
+  .menu-mobile nav ul { list-style: none; padding: 0; margin: 0; }
+  .menu-mobile nav a { display: block; padding: var(--s2) 0; border-bottom: 1px solid var(--ligne); font: 400 30px/1.2 var(--serif); }
+
+  /* Panier latéral */
+  body.panier-ouvert { overflow: hidden; }
+  .tiroir__contenu { display: flex; flex-direction: column; height: 100%; }
+  .tiroir__liste { overflow-y: auto; }
+  .tiroir__vide { display: grid; place-content: center; gap: var(--s2); text-align: center; color: var(--taupe); }
+  .tiroir .prix .woocommerce-Price-amount { font: inherit; }
+  .tiroir.chargement { opacity: .6; pointer-events: none; }
+
+  /* Quantité : vrai champ numérique à la place du <span> du prototype */
+  .quantite input { width: 40px; text-align: center; border: 0; background: none; font: inherit; color: inherit; -moz-appearance: textfield; appearance: textfield; }
+  .quantite input::-webkit-outer-spin-button, .quantite input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+  /* Vignettes vidéo cliquables (résultats, galerie produit) */
+  button.resultat { display: block; width: 100%; padding: 0; cursor: pointer; }
+  .galerie > button { background: #EFE6D9; aspect-ratio: 4 / 5; display: grid; place-items: center; overflow: hidden; position: relative; padding: 0; cursor: pointer; }
+  .galerie > button img { width: 100%; height: 100%; object-fit: cover; }
+  .galerie > button .lecture { position: absolute; inset: 0; margin: auto; }
+  .resultat video, .galerie video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: #1d1a17; }
+  .carte__visuel { display: grid; }
+  .duo__produit { display: flex; align-items: center; gap: var(--s4); }
+  .accordeon__texte p { padding-bottom: var(--s3); color: var(--taupe); }
+
+  /* Formulaires */
+  .piege { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .case .case__texte { width: auto; height: auto; border: 0; margin: 0; flex: 1; }
+  .case input { width: 18px; height: 18px; flex: none; margin-top: 4px; accent-color: var(--encre); }
+  .statut { padding: var(--s2) var(--s3); margin-bottom: var(--s3); font-size: 17px; border-left: 2px solid currentColor; background: var(--ivoire); }
+  .statut--ok { color: var(--sauge); }
+  .statut--erreur { color: var(--brique); }
+  .newsletter .statut { max-width: 520px; margin: var(--s3) auto 0; text-align: left; }
+  .champ-ligne button { white-space: nowrap; }
+
+  /* Pages éditoriales (contenu saisi dans WordPress) */
+  .legal .contenu > .chapo { margin-bottom: var(--s4); }
+  .legal .contenu a { border-bottom: 1px solid currentColor; }
+
+  /* Pages WooCommerce (panier, commande, compte) : blocs aux couleurs de la charte */
+  .page-boutique { padding-top: var(--s4); padding-bottom: var(--s8); }
+  .page-boutique > .h1 { margin-bottom: var(--s5); }
+  .page-boutique .wc-block-components-button:not(.is-link),
+  .page-boutique .wc-block-cart__submit-button,
+  .page-boutique .wc-block-components-checkout-place-order-button {
+    background: var(--encre); color: var(--ivoire); border-radius: var(--rayon); font: 500 15px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; min-height: 52px;
+  }
+  .page-boutique .wc-block-components-button:not(.is-link):hover { background: #4A433D; }
+  .page-boutique .wc-block-components-product-name { font: 500 24px/1.2 var(--serif); }
+  .page-boutique a { color: var(--or-fonce); }
+  .woocommerce-notices-wrapper:not(:empty) { margin: var(--s3) 0; }
+  .woocommerce-message, .woocommerce-info, .woocommerce-error { list-style: none; padding: var(--s2) var(--s3); background: var(--ivoire); border-left: 2px solid var(--or); }
+
+  /* Barre d'administration WordPress : l'en-tête collant passe dessous */
+  body.admin-bar .entete { top: 32px; }
+
+  @media (max-width: 760px) {
+    .actions__liens { display: none; }
+    .duo__produit { flex-direction: column; gap: var(--s2); }
+    .duo .btn, .ligne-achat .btn--principal { white-space: normal; text-align: center; line-height: 1.3; }
+    .duo .btn { width: 100%; height: auto; min-height: 52px; padding: 12px var(--s2); }
+    .achat, .produit > * { min-width: 0; }
+    body.admin-bar .entete { top: 0; }
+  }
+}

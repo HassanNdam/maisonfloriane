@@ -72,7 +72,8 @@
             "@php vendor/wp-cli/wp-cli/php/boot-fs.php plugin activate woocommerce woocommerce-germanized complianz-gdpr seo-by-rank-math",
             "@php vendor/wp-cli/wp-cli/php/boot-fs.php language core install fr_FR",
             "@php vendor/wp-cli/wp-cli/php/boot-fs.php language plugin install --all fr_FR",
-            "@php vendor/wp-cli/wp-cli/php/boot-fs.php eval-file scripts/seed.php --user=admin"
+            "@php vendor/wp-cli/wp-cli/php/boot-fs.php eval-file scripts/seed.php --user=admin",
+            "@php vendor/wp-cli/wp-cli/php/boot-fs.php rewrite flush"
         ]
     },
     "scripts-descriptions": {
