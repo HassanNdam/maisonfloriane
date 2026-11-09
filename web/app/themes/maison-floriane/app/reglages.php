@@ -51,12 +51,56 @@ const REGLAGES = [
     'e404_bouton' => "Retour à l'accueil",
 ];
 
+/**
+ * Valeur d'un champ SCF de $objet (« option », id de page…), ou sa valeur par défaut :
+ * null (jamais enregistré, SCF désactivée) → $defauts[$cle] ; chaîne vide (vidé volontairement) → gardée.
+ */
+function champ(string $cle, int|string $objet, array $defauts): mixed
+{
+    $valeur = function_exists('get_field') && $objet ? get_field($cle, $objet) : null;
+
+    return $valeur ?? ($defauts[$cle] ?? null);
+}
+
 /** Valeur d'un réglage du site (voir REGLAGES pour les noms). */
 function reglage(string $cle): mixed
 {
-    $valeur = function_exists('get_field') ? get_field($cle, 'option') : null;
+    return champ($cle, 'option', REGLAGES);
+}
 
-    return $valeur ?? (REGLAGES[$cle] ?? null);
+/**
+ * Identifiant d'un média : un id (champ SCF) est gardé tel quel, un nom de fichier (valeur par défaut)
+ * est retrouvé dans la médiathèque (méta `_mf_source`, voir media_id()).
+ */
+function media_ref(mixed $valeur): int
+{
+    if (is_numeric($valeur)) {
+        return (int) $valeur;
+    }
+
+    return is_string($valeur) && $valeur !== '' ? media_id($valeur) : 0;
+}
+
+/** URL d'un média (id ou nom de fichier) ; un chemin « resources/… » désigne une image du thème. */
+function media_url(mixed $valeur, string $taille = 'full'): string
+{
+    if (is_string($valeur) && str_starts_with($valeur, 'resources/')) {
+        return \Illuminate\Support\Facades\Vite::asset($valeur);
+    }
+    $id = media_ref($valeur);
+    if (! $id) {
+        return '';
+    }
+
+    return (string) (wp_attachment_is_image($id) ? wp_get_attachment_image_url($id, $taille) : wp_get_attachment_url($id));
+}
+
+/** Lignes d'un répéteur, sans les lignes vides (aucun des champs $requis rempli). */
+function lignes(mixed $valeur, array $requis): array
+{
+    return array_values(array_filter((array) $valeur, function ($ligne) use ($requis) {
+        return is_array($ligne) && array_filter(array_intersect_key($ligne, array_flip($requis)));
+    }));
 }
 
 /** Texte d'un réglage, toujours en chaîne. */
@@ -128,7 +172,7 @@ function titre(string $texte): string
 /** Lignes de réassurance : [icone, titre, texte]. */
 function reassurance(): array
 {
-    return array_values(array_filter((array) reglage('reassurance'), fn ($l) => is_array($l) && ! empty($l['titre'])));
+    return lignes(reglage('reassurance'), ['titre']);
 }
 
 add_action('acf/init', function () {

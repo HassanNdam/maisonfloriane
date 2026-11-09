@@ -133,7 +133,7 @@
             "button_label": "Ajouter un argument",
             "sub_fields": [
                 {
-                    "key": "field_mf_reassurance_icone",
+                    "key": "field_mf_reassurance__icone",
                     "label": "Icône",
                     "name": "icone",
                     "type": "select",
@@ -155,7 +155,7 @@
                     }
                 },
                 {
-                    "key": "field_mf_reassurance_titre",
+                    "key": "field_mf_reassurance__titre",
                     "label": "Titre",
                     "name": "titre",
                     "type": "text",
@@ -164,7 +164,7 @@
                     }
                 },
                 {
-                    "key": "field_mf_reassurance_texte",
+                    "key": "field_mf_reassurance__texte",
                     "label": "Texte",
                     "name": "texte",
                     "type": "text",

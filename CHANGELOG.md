@@ -7,6 +7,7 @@ Chaque version correspond à un tag `vX.Y.Z` sur `main` (voir `CONTRIBUTING.md`)
 
 ### Ajouté
 - Menu **Maison Floriane** dans le back-office (Secure Custom Fields) : logo, slogan, coordonnées (e-mail, téléphone, WhatsApp), délais de réponse, réseaux sociaux, bandeau du haut, arguments de réassurance, pied de page, messages WhatsApp préremplis et page 404 se modifient sans toucher au code.
+- Accueil modifiable dans Pages › Accueil : textes, vidéos de l'en-tête, produits présentés, résultats avant/après, étapes, extrait « Mon histoire », questions fréquentes et Lettre Floréa.
 - Compte client : connexion et création de compte côte à côte (onglets sur mobile), prénom et nom à l'inscription, Lettre Floréa en option, anti-robot.
 - Espace client en français (`/mon-compte/mes-commandes/`, `mes-adresses`, `mes-informations`…) : tableau de bord avec dernière commande et raccourcis, menu latéral, fil d'Ariane.
 - Mot de passe oublié et réinitialisation aux couleurs de la charte ; 5 essais de connexion ratés bloquent 15 minutes ; message d'erreur neutre.
@@ -17,6 +18,8 @@ Chaque version correspond à un tag `vX.Y.Z` sur `main` (voir `CONTRIBUTING.md`)
 - Page « Droit de rétractation » avec le formulaire type, liée dans le pied de page et jointe à la confirmation de commande.
 
 ### Corrigé
+- Données structurées de la FAQ (accueil) illisibles par Google : Blade cassait « @context ». Questions et réponses désormais traduites sur /en/.
+- Traductions anglaises enregistrées sous les deux formes d'apostrophe (`'` et `&#039;`) : bouton « S'inscrire » de la Lettre Floréa traduit, textes du back-office reconnus.
 - Germanized pointait vers des pages légales anglaises par défaut (confidentialité, mentions légales) dans les e-mails.
 - Textes anglais de Germanized traduits : case légale et bouton « Commander et payer » de la commande, e-mails de confirmation et de paiement, salutation « Bonjour {prénom} ».
 - Pages anglaises de Germanized traduites (moyens de paiement, authenticité des avis, formulaire de rétractation) ou remplacées par les nôtres (livraison, mentions légales).

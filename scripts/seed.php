@@ -673,6 +673,14 @@ if (class_exists('TRP_Translate_Press')) {
     $trpQuery = TRP_Translate_Press::get_trp_instance()->get_component('query');
     $table = $trpQuery->get_table_name('en_GB');
     $traductions = json_decode(file_get_contents(__DIR__ . '/traductions/en_GB.json'), true);
+    // Chaque texte aussi sous son autre forme HTML (« l'Espagne » / « l&#039;Espagne », « & » / « &amp; ») :
+    // TranslatePress compare le HTML tel quel, et les textes ne sortent pas tous échappés pareil (gabarits, champs SCF).
+    foreach ($traductions as $fr => $en) {
+        $brut = html_entity_decode($fr, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        foreach ([$brut, esc_html($brut)] as $forme) {
+            $traductions[$forme] ??= $en;
+        }
+    }
     $nouveaux = array_diff(array_keys($traductions), $wpdb->get_col("SELECT original FROM `$table`"));
     if ($nouveaux) {
         $trpQuery->insert_strings(array_values($nouveaux), 'en_GB');
@@ -689,35 +697,64 @@ if (class_exists('TRP_Translate_Press')) {
 }
 
 /*
- * Réglages du site (menu « Maison Floriane », Secure Custom Fields, champs dans le thème : acf-json/) :
- * les valeurs d'origine (App\REGLAGES) sont recopiées dans le back-office pour que Flore les voie et les modifie.
- * Un réglage déjà enregistré n'est pas écrasé, sauf avec MF_SEED_FORCE=1.
+ * Champs SCF (réglages du site, accueil) : les valeurs d'origine du thème sont recopiées dans le back-office
+ * pour que Flore les voie et les modifie. Un champ déjà enregistré n'est pas écrasé, sauf avec MF_SEED_FORCE=1.
+ * Clés des champs : field_mf_<préfixe><nom>, sous-champs d'un répéteur field_mf_<préfixe><répéteur>__<sous-champ>.
+ * Les médias sont donnés par leur nom de fichier d'origine (médiathèque) ou « resources/… » (image du thème, importée).
  */
+function mf_media_champ(mixed $valeur): mixed
+{
+    if (! is_string($valeur) || ! preg_match('/\.(webp|png|jpe?g|mp4)$/i', $valeur)) {
+        return $valeur;
+    }
+    if (str_starts_with($valeur, 'resources/')) {
+        return mf_media(get_theme_file_path($valeur));
+    }
+
+    return App\media_id($valeur);
+}
+
+/** Recopie $valeurs dans les champs de $objet ('option' ou id de page). Renvoie le nombre de champs écrits. */
+function mf_champs(array $valeurs, int|string $objet, string $prefixe = ''): int
+{
+    $faits = 0;
+    foreach ($valeurs as $cle => $valeur) {
+        $existe = $objet === 'option' ? get_option("options_$cle", null) !== null : metadata_exists('post', $objet, $cle);
+        if ($existe && ! getenv('MF_SEED_FORCE')) {
+            continue;
+        }
+        if (is_array($valeur) && is_array(reset($valeur))) {
+            $valeur = array_map(fn ($ligne) => array_combine(
+                array_map(fn ($sous) => "field_mf_{$prefixe}{$cle}__{$sous}", array_keys($ligne)),
+                array_map('mf_media_champ', array_values($ligne))
+            ), $valeur);
+        } else {
+            $valeur = mf_media_champ($valeur);
+        }
+        update_field("field_mf_{$prefixe}{$cle}", $valeur, $objet);
+        $faits++;
+    }
+
+    return $faits;
+}
+
 if (function_exists('update_field') && defined('App\REGLAGES')) {
-    WP_CLI::log('Réglages du site');
+    WP_CLI::log('Champs du back-office');
     $reglages = App\REGLAGES;
-    $reglages['logo'] = mf_media(get_theme_file_path('resources/images/logo-florea-skin-rond-400px.webp'), 'Logo Floréa Skin');
+    $reglages['logo'] = 'resources/images/logo-florea-skin-rond-400px.webp';
     // Liens des réseaux saisis auparavant dans Apparence › Personnaliser.
     foreach (['tiktok', 'instagram', 'facebook'] as $reseau) {
         if ($ancien = get_theme_mod("mf_reseau_$reseau")) {
             $reglages["reseau_$reseau"] = $ancien;
         }
     }
-    $faits = 0;
-    foreach ($reglages as $cle => $valeur) {
-        if (! getenv('MF_SEED_FORCE') && get_option("options_$cle", null) !== null) {
-            continue;
-        }
-        if (is_array($valeur)) {
-            // Répéteur : sous-champs désignés par leur clé (field_mf_<répéteur>_<sous-champ>).
-            $valeur = array_map(fn ($ligne) => array_combine(
-                array_map(fn ($sous) => "field_mf_{$cle}_{$sous}", array_keys($ligne)),
-                array_values($ligne)
-            ), $valeur);
-        }
-        $faits += update_field("field_mf_$cle", $valeur, 'option') ? 1 : 0;
+    mf_log(sprintf('Maison Floriane (réglages du site) : %d champs recopiés', mf_champs($reglages, 'option')));
+
+    if (defined('App\ACCUEIL') && ($accueilId = App\accueil_id())) {
+        $champsAccueil = App\ACCUEIL;
+        $champsAccueil['rituel_produits'] = array_values(array_filter(array_map('wc_get_product_id_by_sku', App\ACCUEIL['rituel_produits'])));
+        mf_log(sprintf('Pages › Accueil : %d champs recopiés', mf_champs($champsAccueil, $accueilId, 'accueil_')));
     }
-    mf_log(sprintf('%d réglages recopiés dans Maison Floriane (les autres étaient déjà renseignés)', $faits));
 }
 
 flush_rewrite_rules();
