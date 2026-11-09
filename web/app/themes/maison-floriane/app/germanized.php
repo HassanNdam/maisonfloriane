@@ -31,4 +31,6 @@ const GERMANIZED_FR = [
     'Required' => 'Obligatoire',
 ];
 
-add_filter('gettext_woocommerce-germanized', fn ($traduction, $texte) => GERMANIZED_FR[$texte] ?? $traduction, 10, 2);
+// Uniquement en français : sur la version anglaise (/en/), Germanized garde ses textes d'origine.
+add_filter('gettext_woocommerce-germanized', fn ($traduction, $texte) => str_starts_with(determine_locale(), 'fr')
+    ? (GERMANIZED_FR[$texte] ?? $traduction) : $traduction, 10, 2);
