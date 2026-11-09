@@ -283,15 +283,18 @@
   .nav a, .actions__liens a, .actions .txt { white-space: nowrap; }
   /*
    * En-tête : à gauche les 5 liens (… Résultats, Mon histoire), à droite Boutique, Connexion/Compte, Panier, bouton.
-   * Plus large que le reste de la page (1520 px) et 48 px d'écart minimum de chaque côté du logo :
-   * les deux groupes ne peuvent pas venir toucher le logo, même avec un texte un peu plus grand.
+   * Plus large que le reste de la page (1520 px). Les deux groupes se serrent contre le logo, avec le même écart
+   * de 40 px de chaque côté (demande du 09/11) ; ils ne peuvent pas le toucher, même avec un texte un peu plus grand.
    */
-  .entete .conteneur { max-width: 1520px; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); column-gap: var(--s5); }
+  .entete .conteneur { max-width: 1520px; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); column-gap: 40px; }
+  .nav { justify-content: flex-end; }
+  .actions { justify-content: flex-start; }
   .nav ul, .actions, .actions__liens { gap: clamp(20px, 1.7vw, 32px); }
   /* Moins de place : menu burger (comme sur mobile), Connexion, Panier et bouton gardés */
   @media (max-width: 1400px) {
     .nav, .actions__liens { display: none; }
     .burger { display: inline-flex; justify-self: start; }
+    .actions { justify-content: flex-end; } /* menu burger : icônes et bouton reviennent au bord droit */
   }
   @media (max-width: 1000px) { .panier-btn .txt, .compte-btn .txt { display: none; } }
   .pied__logo-lien { display: inline-block; }
