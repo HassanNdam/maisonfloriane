@@ -17,6 +17,7 @@ Chaque version correspond à un tag `vX.Y.Z` sur `main` (voir `CONTRIBUTING.md`)
 
 ### Modifié
 - Référencement : Yoast SEO (gratuit) remplace Rank Math. Titres et descriptions des produits, titres et descriptions de partage traduits sur /en/.
+- Fiches produits : données structurées « Product » (prix, disponibilité) rétablies ; un seul fil d'Ariane déclaré (celui du thème).
 
 ### Corrigé
 - Germanized pointait vers des pages légales anglaises par défaut (confidentialité, mentions légales) dans les e-mails.
