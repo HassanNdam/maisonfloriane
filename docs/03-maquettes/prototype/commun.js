@@ -19,7 +19,7 @@ document.body.insertAdjacentHTML("afterbegin", `
   <nav class="nav"><a href="index.html#rituel">Le rituel</a><a href="savon-noir.html">Savon noir</a><a href="savon-noir.html">Glow Oil</a><a href="index.html#resultats">Résultats</a></nav>
   <button class="burger" aria-label="Menu"><svg class="icone" style="width:24px;height:24px"><use href="#i-menu"/></svg></button>
   <a class="logo" href="index.html"><img src="${M}logos/florea-skin/logo-florea-skin-rond-400px.webp" alt="Floréa Skin, accueil"></a>
-  <div class="actions"><a class="txt" href="notre-histoire.html">Notre histoire</a><a class="txt" href="contact.html">Contact</a>
+  <div class="actions"><a class="txt" href="mon-histoire.html">Mon histoire</a><a class="txt" href="contact.html">Contact</a>
     <button class="panier-btn" onclick="document.body.classList.add('panier-ouvert')"><svg class="icone"><use href="#i-sac"/></svg><span class="txt">Panier</span><span class="pastille">2</span></button></div>
 </div></header>`);
 
@@ -29,7 +29,7 @@ document.body.insertAdjacentHTML("beforeend", `
     <div><img class="pied__logo" src="${M}logos/florea-skin/logo-florea-skin-rond-400px.webp" alt="Floréa Skin">
       <p>La beauté révélée par la nature.<br>Deux soins, un rituel, des résultats montrés sans filtre.</p></div>
     <div><h4>Boutique</h4><ul><li>Savon noir réparateur</li><li>Glow Oil</li><li>Le rituel duo</li></ul></div>
-    <div><h4>Aide</h4><ul><li><a href="notre-histoire.html">Notre histoire</a></li><li><a href="livraison-retours.html">Livraison & retours</a></li><li>Questions fréquentes</li><li><a href="contact.html">Contact</a></li><li>WhatsApp</li></ul></div>
+    <div><h4>Aide</h4><ul><li><a href="mon-histoire.html">Mon histoire</a></li><li><a href="livraison-retours.html">Livraison & retours</a></li><li>Questions fréquentes</li><li><a href="contact.html">Contact</a></li><li>WhatsApp</li></ul></div>
     <div><h4>Contact</h4><ul><li>florekhadije@gmail.com</li><li>+41 79 273 83 53</li><li>Réponse sous 24 h ouvrées</li></ul></div>
   </div>
   <div class="paiements"><span>Paiement sécurisé</span>
@@ -50,12 +50,12 @@ document.body.insertAdjacentHTML("beforeend", `
     <button onclick="document.body.classList.remove('panier-ouvert')" aria-label="Fermer"><svg class="icone"><use href="#i-fermer"/></svg></button></div>
   <div class="tiroir__liste">
     <div class="article"><div class="article__img"><img src="${M}florea-skin/produits/savon-noir-reparateur-florea-skin-detoure.webp" alt=""></div>
-      <div><div>Savon noir réparateur</div><div class="petit">250 g</div><div class="quantite"><button>−</button><span>1</span><button>+</button></div></div><span class="prix" style="font-size:20px">00,00 €</span></div>
+      <div><div>Savon noir réparateur</div><div class="petit">300 g</div><div class="quantite"><button>−</button><span>1</span><button>+</button></div></div><span class="prix" style="font-size:20px">45,99 €</span></div>
     <div class="article"><div class="article__img"><img class="couvre" src="${M}florea-skin/produits/glow-oil-florea-skin-huile-corporelle-en-main.webp" alt=""></div>
-      <div><div>Glow Oil</div><div class="petit">100 ml</div><div class="quantite"><button>−</button><span>1</span><button>+</button></div></div><span class="prix" style="font-size:20px">00,00 €</span></div>
+      <div><div>Glow Oil</div><div class="petit">100 ml</div><div class="quantite"><button>−</button><span>1</span><button>+</button></div></div><span class="prix" style="font-size:20px">35,99 €</span></div>
   </div>
   <div class="tiroir__bas">
-    <div class="carte__ligne"><span>Sous-total</span><span class="prix">00,00 €</span></div>
+    <div class="carte__ligne"><span>Sous-total</span><span class="prix">81,98 €</span></div>
     <p class="petit">Livraison calculée selon votre pays à l'étape suivante.</p>
     <button class="btn btn--principal btn--plein">Passer commande</button>
     <a class="btn btn--contour btn--plein" href="https://wa.me/${WHATSAPP}"><svg class="icone"><use href="#i-whatsapp"/></svg>Commander sur WhatsApp</a>
@@ -76,6 +76,19 @@ if (ariane) {
       ...(url ? { item: "https://maisonfloriane.com/" + url.replace("index.html", "") } : {}) })) };
   document.head.insertAdjacentHTML("beforeend", `<script type="application/ld+json">${JSON.stringify(ld)}</` + "script>");
 }
+
+// En-tête : le logo garde sa grande taille pendant le défilement ;
+// quand on revient tout en haut, il joue une petite animation (agrandissement puis ralentissement)
+const logo = document.querySelector(".entete .logo");
+let enHaut = scrollY <= 40;
+addEventListener("scroll", () => {
+  const maintenant = scrollY <= 40;
+  if (maintenant && !enHaut) {
+    logo.classList.remove("logo--retour"); void logo.offsetWidth; logo.classList.add("logo--retour");
+  }
+  enHaut = maintenant;
+}, { passive: true });
+logo.addEventListener("animationend", () => logo.classList.remove("logo--retour"));
 
 // Pour les captures : ?panier ouvre le panier, ?mesure écrit la hauteur de la page dans le titre
 const q = new URLSearchParams(location.search);

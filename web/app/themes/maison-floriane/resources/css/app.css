@@ -1,5 +1,7 @@
 @import "tailwindcss" theme(static);
 @import "./charte.css";
+@import "./prototype.css";
+@import "./site.css";
 @source "../../app/**/*.php";
 @source "../**/*.blade.php";
 @source "../**/*.js";

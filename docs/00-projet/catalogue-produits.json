@@ -17,11 +17,11 @@
       "slug": "savon-noir-reparateur-florea-skin",
       "marque": "Floréa Skin",
       "categorie": "Nettoyant visage et corps",
-      "contenance": "250 g (à confirmer)",
-      "prix": null,
+      "contenance": "300 g",
+      "prix": 45.99,
       "prix_promo": null,
       "stock": null,
-      "publie": false,
+      "publie": true,
       "images": [
         {
           "src": "01-images-site/florea-skin/produits/savon-noir-reparateur-florea-skin-detoure.webp",
@@ -34,13 +34,13 @@
       },
       "description_courte": "Savon noir réparateur pour le visage et le corps : nettoie en profondeur et prépare la peau.",
       "description": "Le savon noir réparateur Floréa Skin nettoie le visage et le corps en douceur tout en respectant la peau. Il élimine les impuretés et laisse la peau nette, prête à recevoir le Glow Oil. Floréa Skin, la beauté révélée par la nature.",
-      "conseils_utilisation": "Faire mousser une petite quantité avec de l'eau, masser le visage et le corps, puis rincer abondamment. Éviter le contour des yeux. Usage quotidien. Faire un test sur une petite zone avant la première utilisation.",
-      "ingredients": "À renseigner (liste INCI)",
+      "conseils_utilisation": "Faire mousser une petite quantité avec de l'eau, masser le visage et le corps, puis rincer abondamment. Éviter le contour des yeux. Matin et soir. Faire un test sur une petite zone avant la première utilisation.",
+      "ingredients": "Extraits de plantes, curcuma, miel, neem, glycérine",
       "seo": {
         "title": "Savon noir réparateur Floréa Skin | Maison Floriane",
         "description": "Savon noir réparateur pour le visage et le corps : nettoie en profondeur et prépare la peau. Livraison en Europe et dans le monde."
       },
-      "a_confirmer": "Prix non fixé ; liste INCI ; détourage HD à prévoir pour le Glow Oil (photo actuelle : flacon tenu en main)."
+      "a_confirmer": "Liste INCI complète et PAO (ingrédients clés reçus) ; détourage HD à prévoir pour le Glow Oil (photo actuelle : flacon tenu en main)."
     },
     {
       "reference": "FS-002",
@@ -49,13 +49,13 @@
       "marque": "Floréa Skin",
       "categorie": "Huile corporelle",
       "contenance": "100 ml",
-      "prix": null,
+      "prix": 35.99,
       "prix_promo": null,
       "stock": null,
-      "publie": false,
+      "publie": true,
       "images": [
         {
-          "src": "01-images-site/florea-skin/produits/glow-oil-florea-skin-huile-corporelle-en-main.webp",
+          "src": "01-images-site/florea-skin/produits/glow-oil-florea-skin-huile-corporelle-detoure.webp",
           "alt": "Glow Oil Floréa Skin"
         }
       ],
@@ -65,13 +65,41 @@
       },
       "description_courte": "Huile corporelle éclatante, nourrissante et réparatrice : le booster d'éclat de votre routine.",
       "description": "Le Glow Oil Floréa Skin est une huile corporelle éclatante, nourrissante et réparatrice. Il s'utilise seul ou en booster, mélangé à votre crème corporelle, pour une peau souple et lumineuse. Floréa Skin, la beauté révélée par la nature.",
-      "conseils_utilisation": "Appliquer quelques gouttes sur une peau propre et légèrement humide, masser jusqu'à pénétration. Peut se mélanger à votre crème corporelle pour booster l'éclat. Faire un test sur une petite zone avant la première utilisation.",
-      "ingredients": "À renseigner (liste INCI)",
+      "conseils_utilisation": "Le soir uniquement : appliquer quelques gouttes sur le visage et le corps, sur une peau propre et légèrement humide, masser jusqu'à pénétration. Peut se mélanger à votre crème corporelle pour booster l'éclat. En journée, utiliser une crème hydratante sur le visage et le corps, ainsi qu'une crème solaire. Faire un test sur une petite zone avant la première utilisation.",
+      "ingredients": "Huile de busserole, huile de jojoba, vitamine C, glutathion, glycérine",
       "seo": {
         "title": "Glow Oil Floréa Skin | Maison Floriane",
         "description": "Huile corporelle éclatante, nourrissante et réparatrice : le booster d'éclat de votre routine. Livraison en Europe et dans le monde."
       },
-      "a_confirmer": "Prix non fixé ; liste INCI ; détourage HD à prévoir pour le Glow Oil (photo actuelle : flacon tenu en main)."
+      "a_confirmer": "Liste INCI complète et PAO (ingrédients clés reçus) ; détourage HD à prévoir pour le Glow Oil (photo actuelle : flacon tenu en main)."
+    },
+    {
+      "reference": "FS-003",
+      "nom": "Le Duo rituel Floréa Skin",
+      "slug": "le-duo-rituel-florea-skin",
+      "marque": "Floréa Skin",
+      "categorie": "Coffrets et routines",
+      "contenance": "Savon noir 300 g + Glow Oil 100 ml",
+      "prix": 81.98,
+      "prix_promo": 73.99,
+      "stock": null,
+      "publie": true,
+      "images": [
+        {
+          "src": "01-images-site/florea-skin/produits/duo-savon-noir-glow-oil-florea-skin-rituel.webp",
+          "alt": "Le Duo rituel Floréa Skin"
+        }
+      ],
+      "video": null,
+      "description_courte": "Le savon noir réparateur et le Glow Oil réunis : la routine complète de Flore, à prix doux.",
+      "description": "Enlève les taches du visage, du dos et de la poitrine, réduit les vergetures, enlève le masque de grossesse.",
+      "conseils_utilisation": "Utiliser le savon noir matin et soir. Utiliser le Glow Oil uniquement le soir, sur le visage et le corps. En journée, utiliser une crème hydratante sur le corps et le visage, ainsi qu'une crème solaire. Faire un test sur une petite zone avant la première utilisation.",
+      "ingredients": "Savon noir : extraits de plantes, curcuma, miel, neem, glycérine. Glow Oil : huile de busserole, huile de jojoba, vitamine C, glutathion, glycérine",
+      "seo": {
+        "title": "Le Duo rituel Floréa Skin | Maison Floriane",
+        "description": "Le savon noir réparateur et le Glow Oil réunis : la routine complète de Flore, à prix doux. Livraison en Europe et dans le monde."
+      },
+      "a_confirmer": "Liste INCI complète et PAO (ingrédients clés reçus) ; détourage HD à prévoir pour le Glow Oil (photo actuelle : flacon tenu en main)."
     }
   ],
   "preuves_avant_apres": {

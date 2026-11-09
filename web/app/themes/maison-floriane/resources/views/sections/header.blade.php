@@ -1,11 +1,25 @@
-<header class="banner">
-  <a class="brand" href="{{ home_url('/') }}">
-    {!! $siteName !!}
+@php($menu = fn ($location) => wp_nav_menu(['theme_location' => $location, 'container' => false, 'items_wrap' => '%3$s', 'echo' => false, 'fallback_cb' => false, 'depth' => 1]))
+<div class="annonce">Livraison en Europe et dans le monde · Paiement sécurisé</div>
+<header class="entete"><div class="conteneur">
+  <nav class="nav" aria-label="Navigation principale"><ul>{!! $menu('primary_navigation') !!}</ul></nav>
+  <button class="burger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu-mobile" data-menu-ouvrir>
+    <svg class="icone" style="width:24px;height:24px"><use href="#i-menu"/></svg>
+  </button>
+  <a class="logo" href="{{ home_url('/') }}">
+    <img src="{{ Vite::asset('resources/images/logo-florea-skin-rond-400px.webp') }}" alt="Floréa Skin, accueil" width="150" height="150" fetchpriority="high">
   </a>
+  <div class="actions">
+    <ul class="txt actions__liens">{!! $menu('secondary_navigation') !!}</ul>
+    <button class="panier-btn" type="button" data-panier-ouvrir aria-label="Ouvrir le panier">
+      <svg class="icone"><use href="#i-sac"/></svg><span class="txt">Panier</span>@include('partials.panier-compte')
+    </button>
+  </div>
+</div></header>
 
-  @if (has_nav_menu('primary_navigation'))
-    <nav class="nav-primary" aria-label="{{ wp_get_nav_menu_name('primary_navigation') }}">
-      {!! wp_nav_menu(['theme_location' => 'primary_navigation', 'menu_class' => 'nav', 'echo' => false]) !!}
-    </nav>
-  @endif
-</header>
+<div class="menu-mobile" id="menu-mobile">
+  <div class="menu-mobile__haut">
+    <span class="surtitre">Menu</span>
+    <button type="button" aria-label="Fermer le menu" data-menu-fermer><svg class="icone"><use href="#i-fermer"/></svg></button>
+  </div>
+  <nav aria-label="Menu mobile"><ul>{!! $menu('primary_navigation') !!}{!! $menu('secondary_navigation') !!}</ul></nav>
+</div>

@@ -26,7 +26,3 @@
   --container-page: 1280px;
 }
 
-@layer base {
-  body { @apply bg-lin text-encre font-sans font-light antialiased; font-size: 19px; line-height: 1.65; }
-  h1, h2, h3 { @apply font-serif font-normal; }
-}

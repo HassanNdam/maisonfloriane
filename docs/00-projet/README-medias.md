@@ -16,15 +16,15 @@ Voir `cadrage-v2-europe.md`.
   favicon/                 favicons à déposer À LA RACINE du site (noms standards, ne pas renommer)
                            + a-copier-dans-le-head.html (balises à coller dans le <head>)
   florea-skin/
-    produits/              photos « en-main » (nettes, utilisées sur les cartes et le récit), savon noir « -detoure » (fiche produit, panier), anciennes découpes avec fond
+    produits/              photos « en-main » (cartes), savon noir et Glow Oil « -detoure » (fiche produit, panier ; Glow Oil détouré depuis la photo du duo, script 00-projet/scripts/detourer_glow_oil.py), photo « duo » (bannière du rituel, Mon histoire), anciennes découpes avec fond
     avant-apres/           photos « avant » sans filtre : taches brunes (joues, front, mâchoire)
-    histoire/              portrait de Flore (page Notre histoire)
+    histoire/              portrait de Flore (page Mon histoire)
 02-videos-site/florea-skin/   MP4 H.264, sans son, lecture web rapide + image d'aperçu « -apercu.webp »
   produits/                présentation du savon noir (8 s) et du Glow Oil (8 s), extraites de la vidéo au coucher de soleil
   avant-apres/             résultat peau sans filtre : cape noire (vidéo principale), voiture
 03-maquettes/
   charte-graphique-maison-floriane.pdf   charte graphique + maquettes (18 pages A4 paysage)
-  prototype/               pages HTML navigables : index.html (?hero=unique pour la variante), savon-noir.html, notre-histoire.html, contact.html, 5 pages légales (styles.css = la charte en code)
+  prototype/               pages HTML navigables : index.html (?hero=unique pour la variante), savon-noir.html, mon-histoire.html, contact.html, 5 pages légales (styles.css = la charte en code)
   captures/                captures pleine page desktop (1440 px) et mobile (390 px)
   charte/                  source HTML du PDF ; régénérer avec le skill charte-graphique-site (capturer.py puis exporter_pdf.py)
 99-sources-originales/     originaux non modifiés (ne pas mettre en ligne) : logo, PDF des photos de gamme,

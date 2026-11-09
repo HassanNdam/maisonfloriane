@@ -1,0 +1,165 @@
+/* Compléments au prototype pour WordPress / WooCommerce (menus, formulaires réels, panier, blocs WooCommerce). */
+@layer components {
+  /* Menus WordPress (listes <li>) dans l'en-tête */
+  .nav ul, .actions__liens, .pied__legal { display: flex; align-items: center; list-style: none; margin: 0; padding: 0; }
+  .nav ul { gap: var(--s4); }
+  .actions__liens { gap: var(--s4); }
+  .pied__legal { flex-wrap: wrap; gap: 4px 0; }
+  .pied__legal li + li::before { content: "·"; margin: 0 8px; }
+  .pied__legal a:hover, .pied li a:hover { color: var(--ivoire); }
+  /* Page en cours en or, sauf les ancres de l'accueil (#rituel, #resultats), toujours « actives » sur l'accueil */
+  .nav .current-menu-item:not(.menu-item-type-custom) > a, .actions__liens .current-menu-item > a { color: var(--or-fonce); }
+  .btn .icone { flex: none; }
+
+  /* Menu mobile */
+  .menu-mobile { position: fixed; inset: 0; z-index: 40; background: var(--lin); padding: var(--s3); display: none; flex-direction: column; }
+  body.menu-ouvert { overflow: hidden; }
+  body.menu-ouvert .menu-mobile { display: flex; }
+  .menu-mobile__haut { display: flex; justify-content: space-between; align-items: center; padding-bottom: var(--s3); border-bottom: 1px solid var(--ligne); }
+  .menu-mobile nav ul { list-style: none; padding: 0; margin: 0; }
+  .menu-mobile nav a { display: block; padding: var(--s2) 0; border-bottom: 1px solid var(--ligne); font: 400 30px/1.2 var(--serif); }
+
+  /* Panier latéral */
+  body.panier-ouvert { overflow: hidden; }
+  .tiroir__contenu { display: flex; flex-direction: column; height: 100%; }
+  .tiroir__liste { overflow-y: auto; }
+  .tiroir__vide { display: grid; place-content: center; gap: var(--s2); text-align: center; color: var(--taupe); }
+  .tiroir .prix .woocommerce-Price-amount { font: inherit; }
+  .tiroir.chargement { pointer-events: none; }
+  .tiroir.chargement .tiroir__contenu { opacity: .55; transition: opacity .15s; }
+  .tiroir.chargement::after { content: ""; position: absolute; top: 50%; left: 50%; width: 28px; height: 28px; margin: -14px 0 0 -14px;
+    border: 1.5px solid var(--ligne); border-top-color: var(--encre); border-radius: 50%; animation: mf-tourne .7s linear infinite; }
+  @keyframes mf-tourne { to { transform: rotate(360deg); } }
+
+  /* Quantité : vrai champ numérique à la place du <span> du prototype */
+  .quantite input { width: 40px; text-align: center; border: 0; background: none; font: inherit; color: inherit; -moz-appearance: textfield; appearance: textfield; }
+  .quantite input::-webkit-outer-spin-button, .quantite input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+  /* Vignettes vidéo cliquables (résultats, galerie produit) */
+  button.resultat { display: block; width: 100%; padding: 0; cursor: pointer; }
+  .galerie > button { background: #EFE6D9; aspect-ratio: 4 / 5; display: grid; place-items: center; overflow: hidden; position: relative; padding: 0; cursor: pointer; }
+  .galerie > button img { width: 100%; height: 100%; object-fit: cover; }
+  .galerie > button .lecture { position: absolute; inset: 0; margin: auto; }
+  .resultat video, .galerie video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: #1d1a17; }
+  .carte__visuel { display: grid; position: relative; }
+  .carte__visuel--photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  /* Photo très verticale dans un cadre plus large : montrée en entière sur le fond du bloc */
+  /* Produit détouré posé sur le fond du bloc : centré, 64 % de la hauteur du cadre, jamais rogné */
+  .galerie > div > img:not(.couvre):not(.contient) { position: absolute; inset: 0; margin: auto; width: auto; height: 64%; max-width: 76%; object-fit: contain; }
+  .galerie img.contient { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: contain; filter: none; }
+  .duo__produit { display: flex; align-items: center; gap: var(--s4); }
+  .accordeon__texte p { padding-bottom: var(--s3); color: var(--taupe); }
+
+  /* Formulaires */
+  .piege { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .case .case__texte { width: auto; height: auto; border: 0; margin: 0; flex: 1; }
+  .case input { width: 18px; height: 18px; flex: none; margin-top: 4px; accent-color: var(--encre); }
+  .statut { padding: var(--s2) var(--s3); margin-bottom: var(--s3); font-size: 17px; border-left: 2px solid currentColor; background: var(--ivoire); }
+  .statut--ok { color: var(--sauge); }
+  .statut--erreur { color: var(--brique); }
+  .newsletter .statut { max-width: 520px; margin: var(--s3) auto 0; text-align: left; }
+  .champ-ligne button { white-space: nowrap; }
+
+  /* Formulaire de contact Forminator (style Forminator désactivé) : reprend .champ, .case, .btn et .statut du prototype */
+  .formulaire .forminator-custom-form { display: block !important; margin: 0; }
+  .formulaire .forminator-row { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--s3); }
+  .formulaire .forminator-col { grid-column: span 12; min-width: 0; }
+  .formulaire .forminator-col-6 { grid-column: span 6; }
+  .formulaire .forminator-field { display: flex; flex-direction: column; gap: 8px; margin-bottom: var(--s3); }
+  .formulaire .forminator-label { font: 500 14px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; }
+  .formulaire .forminator-required { color: var(--or-fonce); }
+  .formulaire .forminator-input, .formulaire .forminator-textarea, .formulaire select {
+    width: 100%; font: 300 19px var(--sans); color: var(--encre); background: var(--ivoire); border: 1px solid var(--ligne);
+    border-radius: var(--rayon); padding: 14px 16px; outline: none; }
+  .formulaire .forminator-input:focus, .formulaire .forminator-textarea:focus, .formulaire select:focus { border-color: var(--encre); }
+  .formulaire .forminator-textarea { min-height: 150px; resize: vertical; }
+  .formulaire .forminator-field-consent .forminator-label { position: absolute; left: -9999px; }
+  .formulaire .forminator-checkbox__wrapper { display: flex; gap: 12px; align-items: flex-start; font-size: 16px; color: var(--taupe); margin-bottom: var(--s2); }
+  .formulaire .forminator-checkbox input { width: 18px; height: 18px; margin: 4px 0 0; accent-color: var(--encre); }
+  .formulaire .forminator-checkbox-box { display: none; }
+  .formulaire .forminator-consent__label a { border-bottom: 1px solid currentColor; }
+  .formulaire .forminator-button-submit { display: inline-flex; align-items: center; justify-content: center; width: 100%; height: 52px; padding: 0 var(--s4);
+    font: 500 15px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; border: 0; border-radius: var(--rayon); cursor: pointer;
+    background: var(--encre); color: var(--ivoire); transition: background .25s; }
+  .formulaire .forminator-button-submit:hover { background: #4A433D; }
+  .formulaire .forminator-error-message { font-size: 15px; color: var(--brique); }
+  .formulaire .forminator-has_error .forminator-input, .formulaire .forminator-has_error .forminator-textarea { border-color: var(--brique); }
+  .formulaire .forminator-response-message:not(:empty) { padding: var(--s2) var(--s3); margin-bottom: var(--s3); font-size: 17px; border-left: 2px solid currentColor; background: var(--ivoire); }
+  .formulaire .forminator-response-message[aria-hidden="true"] { display: none; }
+  .formulaire .forminator-response-message.forminator-success { color: var(--sauge); }
+  .formulaire .forminator-response-message.forminator-error { color: var(--brique); }
+  .formulaire .forminator-response-message p { margin: 0; }
+  .formulaire .forminator-hidden { position: absolute; left: -9999px; }
+
+  /* Pages éditoriales (contenu saisi dans WordPress) */
+  .legal .contenu > .chapo { margin-bottom: var(--s4); }
+  .legal .contenu a { border-bottom: 1px solid currentColor; }
+
+  /* Pages WooCommerce (panier, commande, compte) : blocs aux couleurs de la charte */
+  .page-boutique { padding-top: var(--s4); padding-bottom: var(--s8); }
+  .page-boutique > .h1 { margin-bottom: var(--s5); }
+  .page-boutique .wc-block-components-button:not(.is-link),
+  .page-boutique .wc-block-cart__submit-button,
+  .page-boutique .wc-block-components-checkout-place-order-button {
+    background: var(--encre); color: var(--ivoire); border-radius: var(--rayon); font: 500 15px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; min-height: 52px;
+  }
+  .page-boutique .wc-block-components-button:not(.is-link):hover { background: #4A433D; }
+  .page-boutique .wc-block-components-product-name { font: 500 24px/1.2 var(--serif); }
+  .page-boutique a { color: var(--or-fonce); }
+  .woocommerce-notices-wrapper:not(:empty) { margin: var(--s3) 0; }
+  .woocommerce-message, .woocommerce-info, .woocommerce-error { list-style: none; padding: var(--s2) var(--s3); background: var(--ivoire); border-left: 2px solid var(--or); }
+
+  /* Logos de paiement officiels */
+  .badge--logo { background: none; width: auto; height: auto; }
+  .badge--logo img { display: block; width: 52px; height: 34px; object-fit: contain; border-radius: 4px; background: #FFFDFA; }
+
+  /* Prix promo (duo) sur la fiche produit */
+  .achat .prix__barre { font-size: 22px; color: var(--taupe); margin-left: 10px; }
+  .achat .economie { display: inline-block; margin-bottom: var(--s2); }
+  .achat__texte { margin-top: var(--s3); }
+
+  /* « Tous types de peau, toutes carnations » */
+  .peaux { display: flex; align-items: center; gap: 8px; font-size: 15px; color: var(--taupe); }
+  .peaux .icone { width: 20px; height: 20px; color: var(--or-fonce); flex: none; }
+  .atouts .atouts__peaux { color: var(--encre); font-weight: 400; }
+
+  /* Contact avec icônes (pied de page, page contact) */
+  .pied__contact { display: inline-flex; align-items: center; gap: 10px; }
+  .pied__contact .icone { color: var(--or); flex: none; }
+  .contact__canal .surtitre { display: inline-flex; align-items: center; gap: 10px; }
+  .contact__canal .surtitre .icone { width: 18px; height: 18px; }
+
+  /* Réseaux sociaux (pied de page) */
+  .reseaux { margin-top: var(--s4); }
+  .reseaux h4 { margin-bottom: var(--s2); }
+  .reseaux__liste { display: flex; gap: 10px; list-style: none; margin: 0; padding: 0; }
+  .reseaux__liste li { margin: 0; }
+  .reseaux__liste a, .reseaux__a-venir { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid #4A433D; border-radius: 50%; color: var(--ivoire); transition: border-color .2s, color .2s; }
+  .reseaux__liste a:hover { border-color: var(--or); color: var(--or); }
+  .reseaux__a-venir { opacity: .75; cursor: default; }
+  .reseaux .icone { width: 20px; height: 20px; }
+
+  /* Bouton « Partager » (fiche produit) */
+  .partage { position: relative; margin: 0 0 var(--s4); }
+  .partage__bouton { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; }
+  .partage__bouton .icone { color: var(--or-fonce); }
+  .partage__menu { position: absolute; z-index: 15; top: calc(100% + 10px); left: 0; min-width: 230px; padding: 8px 0; background: var(--ivoire);
+    border: 1px solid var(--ligne); box-shadow: 0 12px 30px rgba(46,42,38,.12); display: grid; }
+  .partage__menu[hidden] { display: none; }
+  .partage__menu a, .partage__menu button { display: flex; align-items: center; gap: 12px; padding: 10px 18px; font-size: 16px; text-align: left; width: 100%; }
+  .partage__menu a:hover, .partage__menu button:hover { background: var(--lin); color: var(--or-fonce); }
+  .partage__menu .icone { color: var(--or-fonce); flex: none; }
+
+  /* Barre d'administration WordPress : l'en-tête collant passe dessous */
+  body.admin-bar .entete { top: 32px; }
+
+  @media (max-width: 760px) {
+    .formulaire .forminator-col-6 { grid-column: span 12; }
+    .formulaire .forminator-row { gap: 0; }
+    .actions__liens { display: none; }
+    .duo .btn { white-space: normal; text-align: center; line-height: 1.3; }
+    .duo .btn { width: 100%; height: auto; min-height: 52px; padding: 12px var(--s2); }
+    .achat, .produit > * { min-width: 0; }
+    body.admin-bar .entete { top: 0; }
+  }
+}

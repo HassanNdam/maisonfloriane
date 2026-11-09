@@ -11,26 +11,18 @@
 
   <body @php(body_class())>
     @php(wp_body_open())
+    @include('partials.icones')
 
-    <div id="app">
-      <a class="sr-only focus:not-sr-only" href="#main">
-        {{ __('Skip to content', 'sage') }}
-      </a>
+    <a class="sr-only focus:not-sr-only" href="#main">Aller au contenu</a>
 
-      @include('sections.header')
+    @include('sections.header')
+    @yield('fil')
 
-      <main id="main" class="main">
-        @yield('content')
-      </main>
+    <main id="main" class="@yield('main-classe')">
+      @yield('content')
+    </main>
 
-      @hasSection('sidebar')
-        <aside class="sidebar">
-          @yield('sidebar')
-        </aside>
-      @endif
-
-      @include('sections.footer')
-    </div>
+    @include('sections.footer')
 
     @php(do_action('get_footer'))
     @php(wp_footer())

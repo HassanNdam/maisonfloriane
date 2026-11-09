@@ -147,6 +147,13 @@ Config::define('DISABLE_WP_CRON', env('DISABLE_WP_CRON') ?: false);
 // Disable the plugin and theme file editor in the admin
 Config::define('DISALLOW_FILE_EDIT', true);
 
+/**
+ * Germanized : clé de chiffrement lue dans le .env (sinon l'extension l'écrit dans web/wp-config.php, versionné).
+ */
+if (env('WC_GZD_ENCRYPTION_KEY')) {
+    Config::define('WC_GZD_ENCRYPTION_KEY', env('WC_GZD_ENCRYPTION_KEY'));
+}
+
 // Disable plugin and theme updates and installation from the admin
 Config::define('DISALLOW_FILE_MODS', true);
 
