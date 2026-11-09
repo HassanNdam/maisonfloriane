@@ -300,3 +300,10 @@
   .pied__logo-lien { display: inline-block; }
   @media (max-width: 760px) { .contact-btn { display: none; } }
 }
+
+/* Accueil : fond doux sous le texte du hero (crème de la charte vers le lin de la page, léger halo doré en haut à gauche) */
+@layer components {
+  .hero__texte { background:
+    radial-gradient(120% 90% at 0% 0%, rgba(184, 134, 47, .10), transparent 60%),
+    linear-gradient(160deg, var(--creme) 0%, #F6EDE1 55%, var(--lin) 100%); }
+}
