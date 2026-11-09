@@ -29,16 +29,17 @@ P = [
               "Il élimine les impuretés et laisse la peau nette, prête à recevoir le Glow Oil. "
               "Floréa Skin, la beauté révélée par la nature.",
          conseils="Faire mousser une petite quantité avec de l'eau, masser le visage et le corps, puis rincer abondamment. "
-                  "Éviter le contour des yeux. Usage quotidien. " + TEST_PEAU),
+                  "Éviter le contour des yeux. Matin et soir. " + TEST_PEAU),
     dict(ref="FS-002", nom="Glow Oil Floréa Skin", categorie="Huile corporelle", contenance="100 ml", prix=35.99, ingredients="Huile de busserole, huile de jojoba, vitamine C, glutathion, glycérine",
-         image=IMG + "produits/glow-oil-florea-skin-huile-corporelle-en-main.webp",
+         image=IMG + "produits/glow-oil-florea-skin-huile-corporelle-detoure.webp",
          video=VID + "produits/video-glow-oil-florea-skin-presentation.mp4",
          desc_courte="Huile corporelle éclatante, nourrissante et réparatrice : le booster d'éclat de votre routine.",
          desc="Le Glow Oil Floréa Skin est une huile corporelle éclatante, nourrissante et réparatrice. "
               "Il s'utilise seul ou en booster, mélangé à votre crème corporelle, pour une peau souple et lumineuse. "
               "Floréa Skin, la beauté révélée par la nature.",
-         conseils="Appliquer quelques gouttes sur une peau propre et légèrement humide, masser jusqu'à pénétration. "
-                  "Peut se mélanger à votre crème corporelle pour booster l'éclat. " + TEST_PEAU),
+         conseils="Le soir uniquement : appliquer quelques gouttes sur le visage et le corps, sur une peau propre et légèrement humide, masser jusqu'à pénétration. "
+                  "Peut se mélanger à votre crème corporelle pour booster l'éclat. "
+                  "En journée, utiliser une crème hydratante sur le visage et le corps, ainsi qu'une crème solaire. " + TEST_PEAU),
     # Duo : produit à part ; prix normal = somme des deux, prix promo = prix du duo (WooCommerce barre l'ancien prix)
     dict(ref="FS-003", nom="Le Duo rituel Floréa Skin", categorie="Coffrets et routines", contenance="Savon noir 300 g + Glow Oil 100 ml",
          prix=81.98, prix_promo=73.99,

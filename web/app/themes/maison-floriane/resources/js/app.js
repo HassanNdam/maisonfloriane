@@ -129,3 +129,35 @@ if (logo) {
   }, { passive: true });
   logo.addEventListener('animationend', () => logo.classList.remove('logo--retour'));
 }
+
+/*
+ * Bouton « Partager » des fiches produits : menu natif du téléphone (Web Share API) si disponible,
+ * sinon petit menu (WhatsApp, Facebook, Pinterest, e-mail, copier le lien). Aucun script tiers.
+ */
+document.querySelectorAll('[data-partage]').forEach((bloc) => {
+  const bouton = bloc.querySelector('[data-partage-ouvrir]');
+  const menu = bloc.querySelector('.partage__menu');
+  const basculer = (ouvert) => { menu.hidden = !ouvert; bouton.setAttribute('aria-expanded', String(ouvert)); };
+
+  bouton.addEventListener('click', async () => {
+    const donnees = { title: bloc.dataset.titre, text: bloc.dataset.titre, url: bloc.dataset.url };
+    if (navigator.share && matchMedia('(pointer: coarse)').matches) {
+      try { await navigator.share(donnees); return; } catch (erreur) { if (erreur.name === 'AbortError') return; }
+    }
+    basculer(menu.hidden);
+  });
+
+  bloc.querySelector('[data-partage-copier]')?.addEventListener('click', async (e) => {
+    const libelle = e.currentTarget.querySelector('span');
+    try {
+      await navigator.clipboard.writeText(bloc.dataset.url);
+      libelle.textContent = 'Lien copié';
+    } catch {
+      libelle.textContent = bloc.dataset.url;
+    }
+    setTimeout(() => { libelle.textContent = 'Copier le lien'; }, 2500);
+  });
+
+  document.addEventListener('click', (e) => { if (!bloc.contains(e.target)) basculer(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') basculer(false); });
+});

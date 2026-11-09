@@ -8,4 +8,10 @@
   <symbol id="i-feuille" viewBox="0 0 24 24"><path d="M5 19C5 10 11 5 20 4c-1 9-6 15-15 15Z"/><path d="M5 19 13 11"/></symbol>
   <symbol id="i-courriel" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="1"/><path d="m3 7 9 6 9-6"/></symbol>
   <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20Z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8c-1-.4-1.8-1.2-2.2-2.2l.8-1-1-2L9 9.5Z"/></symbol>
+  <symbol id="i-partage" viewBox="0 0 24 24"><circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="m8.2 10.8 7.6-4.1M8.2 13.2l7.6 4.1"/></symbol>
+  <symbol id="i-lien" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+  <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6"/></symbol>
+  <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M14 20.5V13h2.6l.4-3H14V8.2c0-.9.3-1.5 1.6-1.5H17V4c-.3 0-1.2-.1-2.2-.1-2.2 0-3.8 1.4-3.8 3.9V10H8.5v3H11v7.5"/></symbol>
+  <symbol id="i-tiktok" viewBox="0 0 24 24"><path d="M13.5 3.5v11.2a3.3 3.3 0 1 1-3.3-3.3"/><path d="M13.5 3.5c.4 2.6 2.3 4.4 5 4.6"/></symbol>
+  <symbol id="i-pinterest" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M10.6 20.2 12.4 13"/><path d="M11 14.5c.5.6 1.3.9 2.1.9 2.4 0 3.9-2.2 3.9-4.6 0-2.7-2.2-4.6-5-4.6-3 0-5 2.1-5 4.6 0 1.2.5 2.2 1.3 2.6"/></symbol>
 </svg>

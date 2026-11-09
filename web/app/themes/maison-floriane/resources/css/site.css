@@ -41,8 +41,11 @@
   .galerie > button img { width: 100%; height: 100%; object-fit: cover; }
   .galerie > button .lecture { position: absolute; inset: 0; margin: auto; }
   .resultat video, .galerie video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: #1d1a17; }
-  .carte__visuel { display: grid; }
+  .carte__visuel { display: grid; position: relative; }
+  .carte__visuel--photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   /* Photo très verticale dans un cadre plus large : montrée en entière sur le fond du bloc */
+  /* Produit détouré posé sur le fond du bloc : centré, 64 % de la hauteur du cadre, jamais rogné */
+  .galerie > div > img:not(.couvre):not(.contient) { position: absolute; inset: 0; margin: auto; width: auto; height: 64%; max-width: 76%; object-fit: contain; }
   .galerie img.contient { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: contain; filter: none; }
   .duo__produit { display: flex; align-items: center; gap: var(--s4); }
   .accordeon__texte p { padding-bottom: var(--s3); color: var(--taupe); }
@@ -83,6 +86,27 @@
   .achat .prix__barre { font-size: 22px; color: var(--taupe); margin-left: 10px; }
   .achat .economie { display: inline-block; margin-bottom: var(--s2); }
   .achat__texte { margin-top: var(--s3); }
+
+  /* Réseaux sociaux (pied de page) */
+  .reseaux { margin-top: var(--s4); }
+  .reseaux h4 { margin-bottom: var(--s2); }
+  .reseaux__liste { display: flex; gap: 10px; list-style: none; margin: 0; padding: 0; }
+  .reseaux__liste li { margin: 0; }
+  .reseaux__liste a, .reseaux__a-venir { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid #4A433D; border-radius: 50%; color: var(--ivoire); transition: border-color .2s, color .2s; }
+  .reseaux__liste a:hover { border-color: var(--or); color: var(--or); }
+  .reseaux__a-venir { opacity: .75; cursor: default; }
+  .reseaux .icone { width: 20px; height: 20px; }
+
+  /* Bouton « Partager » (fiche produit) */
+  .partage { position: relative; margin: 0 0 var(--s4); }
+  .partage__bouton { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; }
+  .partage__bouton .icone { color: var(--or-fonce); }
+  .partage__menu { position: absolute; z-index: 15; top: calc(100% + 10px); left: 0; min-width: 230px; padding: 8px 0; background: var(--ivoire);
+    border: 1px solid var(--ligne); box-shadow: 0 12px 30px rgba(46,42,38,.12); display: grid; }
+  .partage__menu[hidden] { display: none; }
+  .partage__menu a, .partage__menu button { display: flex; align-items: center; gap: 12px; padding: 10px 18px; font-size: 16px; text-align: left; width: 100%; }
+  .partage__menu a:hover, .partage__menu button:hover { background: var(--lin); color: var(--or-fonce); }
+  .partage__menu .icone { color: var(--or-fonce); flex: none; }
 
   /* Barre d'administration WordPress : l'en-tête collant passe dessous */
   body.admin-bar .entete { top: 32px; }

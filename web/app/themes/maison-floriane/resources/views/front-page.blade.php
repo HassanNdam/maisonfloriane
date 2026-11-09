@@ -32,7 +32,7 @@
     <div class="entete-section">
       <span class="surtitre">Le rituel</span>
       <h2 class="h2">Nettoyer. Révéler.</h2>
-      <p class="chapo" style="margin:0 auto">Deux soins pensés pour fonctionner ensemble, matin et soir.</p>
+      <p class="chapo" style="margin:0 auto">Deux soins pensés pour fonctionner ensemble : le savon noir matin et soir, le Glow Oil le soir.</p>
     </div>
     <div class="rituel">
       @foreach ($produits as $produit)
@@ -66,11 +66,11 @@
   </div></section>
 
   <section class="section"><div class="conteneur">
-    <div class="entete-section"><span class="surtitre">Mode d'emploi</span><h2 class="h2">Trois minutes, deux fois par jour.</h2></div>
+    <div class="entete-section"><span class="surtitre">Mode d'emploi</span><h2 class="h2">Purifier matin et soir, révéler le soir.</h2></div>
     <div class="etapes">
-      <div class="etape"><span class="etape__num">01</span><h3 class="h3">Purifier</h3><p class="petit">Faites mousser le savon noir sur peau mouillée, massez, rincez.</p></div>
-      <div class="etape"><span class="etape__num">02</span><h3 class="h3">Sécher</h3><p class="petit">Tamponnez doucement en laissant la peau légèrement humide.</p></div>
-      <div class="etape"><span class="etape__num">03</span><h3 class="h3">Révéler</h3><p class="petit">Massez quelques gouttes de Glow Oil jusqu'à pénétration.</p></div>
+      <div class="etape"><span class="etape__num">01</span><h3 class="h3">Purifier</h3><p class="petit">Matin et soir, faites mousser le savon noir sur peau mouillée, massez, rincez.</p></div>
+      <div class="etape"><span class="etape__num">02</span><h3 class="h3">Révéler, le soir</h3><p class="petit">Le soir uniquement, massez quelques gouttes de Glow Oil sur le visage et le corps, sur peau légèrement humide.</p></div>
+      <div class="etape"><span class="etape__num">03</span><h3 class="h3">Protéger, le jour</h3><p class="petit">En journée, appliquez une crème hydratante sur le visage et le corps, puis une crème solaire.</p></div>
     </div>
   </div></section>
 
@@ -91,7 +91,7 @@
     <div class="entete-section"><span class="surtitre">Questions fréquentes</span><h2 class="h2">Avant de commander</h2></div>
     @php($faq = [
       ['Le savon noir convient-il au visage ?', "Oui, il s'utilise sur le visage et le corps. Évitez le contour des yeux et faites un test sur une petite zone la première fois."],
-      ['Quand voir les premiers résultats ?', "Chaque peau est différente. Comptez plusieurs semaines d'utilisation régulière, matin et soir."],
+      ['Quand voir les premiers résultats ?', "Chaque peau est différente. Comptez plusieurs semaines d'utilisation régulière : le savon noir matin et soir, le Glow Oil le soir."],
       ['Dans quels pays livrez-vous ?', "Partout dans le monde, avec des délais courts dans l'Union européenne. Les prix restent en euros ; hors UE, des droits de douane peuvent s'appliquer à l'arrivée."],
       ['Puis-je commander sur WhatsApp ?', 'Oui. Le bouton WhatsApp prépare un message avec votre panier, nous confirmons la commande avec vous.'],
     ])

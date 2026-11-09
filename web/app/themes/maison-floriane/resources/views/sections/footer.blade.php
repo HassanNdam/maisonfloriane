@@ -23,7 +23,9 @@
       <li><a href="mailto:{{ App\EMAIL }}">{{ App\EMAIL }}</a></li>
       <li><a href="{{ App\whatsapp_url() }}" target="_blank" rel="noopener">{{ App\TELEPHONE }}</a></li>
       <li>Réponse sous 24 h ouvrées</li>
-    </ul></div>
+    </ul>
+    @include('partials.reseaux')
+    </div>
   </div>
   {{-- Logos officiels fournis par WooCommerce (Visa, Mastercard, Apple Pay, Google Pay) : moyens acceptés via Stripe. --}}
   <div class="paiements"><span>Paiement sécurisé</span>

@@ -66,6 +66,7 @@
         <div><svg class="icone"><use href="#i-cadenas"/></svg>Paiement sécurisé</div>
         <div><svg class="icone"><use href="#i-retour"/></svg>Retour sous 14 jours si le produit n'est pas ouvert</div>
       </div>
+      @include('partials.partage', ['titre' => $produit->get_name(), 'url' => $produit->get_permalink(), 'image' => wp_get_attachment_url($produit->get_image_id())])
       <div class="accordeon">
         @if ($conseils = $produit->get_meta('_mf_conseils'))
           <details open><summary>Conseils d'utilisation</summary><p>{{ $conseils }}</p></details>

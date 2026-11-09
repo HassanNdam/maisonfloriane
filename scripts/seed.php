@@ -226,7 +226,7 @@ WP_CLI::log('Produits (catalogue)');
 $catalogue = json_decode(file_get_contents("$docs/00-projet/catalogue-produits.json"), true);
 $galeries = [
     'FS-001' => ['savon-noir-reparateur-florea-skin-en-main.webp'], // comme le prototype : détouré, vidéo, en main
-    'FS-002' => ['glow-oil-florea-skin-huile-corporelle-eclat.webp'],
+    'FS-002' => ['glow-oil-florea-skin-huile-corporelle-detoure.webp'], // à côté de la vidéo, sans fond (demande du 09/11)
 ];
 // Produits composés : vendre un duo retire un savon et un Glow Oil du stock (voir app/woocommerce.php du thème).
 $composants = ['FS-003' => ['FS-001', 'FS-002']];
@@ -256,7 +256,7 @@ foreach ($catalogue['produits'] as $p) {
     $productId = $product->save();
 
     $image = $p['images'][0] ?? null;
-    if ($image && ! $product->get_image_id()) {
+    if ($image) { // image principale resynchronisée avec le catalogue à chaque lancement
         $product->set_image_id(mf_media("$docs/" . $image['src'], $image['alt'], $productId));
     }
     if (isset($galeries[$p['reference']])) { // galerie resynchronisée avec le prototype à chaque lancement
@@ -286,7 +286,7 @@ foreach ($catalogue['produits'] as $p) {
 WP_CLI::log('Cadrage des photos et vidéos (object-position)');
 // Le flacon de Glow Oil est dans le haut de la photo « en main » et en bas de la vidéo : sans cadrage, il est coupé.
 $cadrages = [
-    'glow-oil-florea-skin-huile-corporelle-en-main.webp' => '50% 22%',
+    'glow-oil-florea-skin-huile-corporelle-en-main.webp' => '50% 26%',
     'video-glow-oil-florea-skin-presentation.mp4' => '50% 90%',
     'video-glow-oil-florea-skin-presentation-apercu.webp' => '50% 90%',
 ];
