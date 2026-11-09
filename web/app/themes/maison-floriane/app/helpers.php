@@ -228,3 +228,28 @@ function message_panier(): string
 
     return message_commande($lignes);
 }
+
+/**
+ * Langues du site pour le sélecteur FR · EN (TranslatePress). Vide si l'extension est désactivée :
+ * le sélecteur disparaît alors sans erreur.
+ *
+ * @return array<int, array{code: string, label: string, nom: string, url: string, active: bool}>
+ */
+function langues(): array
+{
+    if (! function_exists('trp_custom_language_switcher')) {
+        return [];
+    }
+    $courante = $GLOBALS['TRP_LANGUAGE'] ?? get_locale();
+    $langues = [];
+    foreach (trp_custom_language_switcher() as $code => $langue) {
+        $langues[] = [
+            'code' => $code,
+            'label' => strtoupper($langue['short_language_name']),
+            'nom' => $langue['language_name'],
+            'url' => $langue['current_page_url'],
+            'active' => $code === $courante,
+        ];
+    }
+    return count($langues) > 1 ? $langues : [];
+}

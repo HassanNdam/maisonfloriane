@@ -34,3 +34,11 @@ add_filter('body_class', function ($classes) {
 
     return $slug ? array_values(array_diff($classes, [$slug])) : $classes;
 }, 20);
+
+/**
+ * Bouton de validation de commande (texte Germanized, réglé en français par le seed) : en anglais sur /en/.
+ * Le texte passe aussi par les données JS du bloc Commande, que TranslatePress ne traduit pas.
+ */
+add_filter('option_woocommerce_gzd_order_submit_btn_text', function ($texte) {
+    return str_starts_with(determine_locale(), 'en') ? 'Order now' : $texte;
+});

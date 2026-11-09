@@ -541,7 +541,7 @@ if (class_exists('WooCommerce_Germanized')) {
     $gzd = [
         'woocommerce_gzd_email_title_text' => 'Bonjour {first_name},',
         'woocommerce_gzd_email_order_confirmation_text' => 'Nous avons bien reçu votre commande et nous la préparons avec soin. Vous en trouverez le détail ci-dessous.',
-        'woocommerce_gzd_order_submit_btn_text' => 'Commander et payer', // bouton « avec obligation de paiement »
+        'woocommerce_gzd_order_submit_btn_text' => 'Commander maintenant', // demandé le 09/11 (Germanized mettait « Buy Now »)
         'woocommerce_gzd_shipping_costs_text' => 'hors {link}frais de livraison{/link}',
         'woocommerce_gzd_delivery_time_text' => 'Délai de livraison : {delivery_time}',
         'woocommerce_gzd_product_units_text' => 'Contenu : {product_units} {unit}',
@@ -595,6 +595,31 @@ if (class_exists('WooCommerce_Germanized')) {
     }
 }
 mf_log('compte client : inscription ouverte, adresses en français, e-mails aux couleurs de la charte');
+
+// Multilingue (TranslatePress, gratuit avec une langue en plus) : français par défaut sans préfixe,
+// anglais sous /en/. Pas de bouton flottant : le sélecteur FR · EN est dans l'en-tête du thème.
+// Les traductions anglaises se saisissent dans l'éditeur visuel (« Traduire le site » dans la barre d'admin).
+if (class_exists('TRP_Translate_Press')) {
+    // Passés par la validation de TranslatePress : c'est elle qui crée les tables de traduction de chaque langue.
+    $trpReglages = TRP_Translate_Press::get_trp_instance()->get_component('settings');
+    $trp = (array) get_option('trp_settings', []);
+    update_option('trp_settings', $trpReglages->sanitize_settings(array_merge($trp, [
+        'default-language' => 'fr_FR',
+        'translation-languages' => ['fr_FR', 'en_GB'],
+        'publish-languages' => ['fr_FR', 'en_GB'],
+        'url-slugs' => ['fr_FR' => 'fr', 'en_GB' => 'en'],
+        'add-subdirectory-to-default-language' => 'no',
+        'force-language-to-custom-links' => 'yes',
+        'native_or_english_name' => 'native_name',
+        'trp-ls-floater' => 'no',
+        'trp-ls-show-poweredby' => 'no',
+    ])));
+    // TranslatePress 3 : le bouton flottant a ses propres réglages.
+    $switcher = (array) get_option('trp_language_switcher_settings', []);
+    $switcher['floater'] = array_merge((array) ($switcher['floater'] ?? []), ['enabled' => false, 'showPoweredBy' => false]);
+    update_option('trp_language_switcher_settings', $switcher);
+    mf_log('multilingue : français (par défaut) + anglais sous /en/');
+}
 
 flush_rewrite_rules();
 WP_CLI::success('Contenus de départ en place.');

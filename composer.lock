@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "16fafbabd31ecb9828f89e7244accd68",
+    "content-hash": "0e4f1bcdccb44e0138d03a2735dc8d47",
     "packages": [
         {
             "name": "brick/math",
@@ -7288,6 +7288,37 @@
                 "source": "https://plugins.svn.wordpress.org/seo-by-rank-math"
             },
             "time": "2026-11-03T11:42:39+00:00"
+        },
+        {
+            "name": "wp-plugin/translatepress-multilingual",
+            "version": "3.3.9",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/translatepress-multilingual/",
+                "reference": "tags/3.3.9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/translatepress-multilingual.3.3.9.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0|~2.0"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Cozmoslabs"
+                }
+            ],
+            "description": "Translate your site visually, directly from the front-end. Go multilingual in minutes using automatic AI translation. Works with any theme or plugin.",
+            "homepage": "https://translatepress.com/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/translatepress-multilingual/#developers",
+                "issues": "https://wordpress.org/support/plugin/translatepress-multilingual",
+                "source": "https://plugins.svn.wordpress.org/translatepress-multilingual"
+            },
+            "time": "2026-11-03T09:26:30+00:00"
         },
         {
             "name": "wp-plugin/updraftplus",

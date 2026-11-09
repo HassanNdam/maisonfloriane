@@ -164,3 +164,15 @@
     body.admin-bar .entete { top: 0; }
   }
 }
+
+/* Sélecteur de langue FR · EN (TranslatePress) : dans le bandeau d'annonce, à droite */
+.annonce { position: relative; }
+.langues { position: absolute; top: 0; right: var(--s4, 32px); display: flex; gap: .5em; letter-spacing: .1em; }
+.langues a { color: inherit; opacity: .65; text-decoration: none; }
+.langues a:hover, .langues a:focus-visible { opacity: 1; color: var(--or, #C9A96E); }
+.langues__active { font-weight: 500; }
+.menu-mobile .langues { position: static; margin-left: auto; margin-right: var(--s3); font: 400 15px/1 var(--sans); }
+.menu-mobile .langues a { display: inline; padding: 0; border: 0; font: inherit; }
+@media (max-width: 760px) {
+  .annonce .langues { display: none; } /* sur mobile, le sélecteur est dans le menu */
+}
