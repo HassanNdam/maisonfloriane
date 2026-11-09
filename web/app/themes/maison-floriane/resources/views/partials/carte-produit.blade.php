@@ -6,7 +6,7 @@
   <a class="carte__visuel {{ $photo && ! App\detoure($photo) ? 'carte__visuel--photo' : '' }}" href="{{ $produit->get_permalink() }}">
     @if ($r['etape'])<span class="etiquette">Étape {{ $r['etape'] }}</span>@endif
     @if ($photo)
-      {!! wp_get_attachment_image($photo, 'large', false, ['alt' => $produit->get_name() . ' tenu en main', 'loading' => 'lazy']) !!}
+      {!! wp_get_attachment_image($photo, 'large', false, array_filter(['alt' => $produit->get_name() . ' tenu en main', 'loading' => 'lazy', 'style' => App\cadrage($photo)])) !!}
     @endif
   </a>
   <div class="carte__corps">

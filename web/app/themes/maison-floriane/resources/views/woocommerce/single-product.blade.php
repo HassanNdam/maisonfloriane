@@ -20,16 +20,16 @@
   <div class="produit">
     <div class="galerie">
       @if ($produit->get_image_id())
-        <div>{!! wp_get_attachment_image($produit->get_image_id(), 'large', false, ['class' => App\detoure($produit->get_image_id()) ? '' : 'couvre', 'alt' => $produit->get_name(), 'fetchpriority' => 'high']) !!}</div>
+        <div>{!! wp_get_attachment_image($produit->get_image_id(), 'large', false, App\attributs_image($produit->get_image_id(), 0.8, ['alt' => $produit->get_name(), 'fetchpriority' => 'high'])) !!}</div>
       @endif
       @if ($video)
         @php($poster = App\media(str_replace('.mp4', '-apercu.webp', (string) get_post_meta($video, '_mf_source', true))))
-        <button type="button" class="galerie__video" data-video="{{ wp_get_attachment_url($video) }}" aria-label="Lire la vidéo de présentation">
-          <img class="couvre" src="{{ $poster }}" alt="Vidéo de présentation : {{ $nom }}" loading="lazy"><span class="lecture"></span>
+        <button type="button" class="galerie__video" data-video="{{ wp_get_attachment_url($video) }}" data-cadrage="{{ App\cadrage($video) }}" aria-label="Lire la vidéo de présentation">
+          <img class="couvre" src="{{ $poster }}" alt="Vidéo de présentation : {{ $nom }}" loading="lazy" style="{{ App\cadrage($video) }}"><span class="lecture"></span>
         </button>
       @endif
       @foreach ($produit->get_gallery_image_ids() as $image)
-        <div>{!! wp_get_attachment_image($image, 'large', false, ['class' => App\detoure($image) ? '' : 'couvre', 'loading' => 'lazy']) !!}</div>
+        <div>{!! wp_get_attachment_image($image, 'large', false, App\attributs_image($image, 1.25, ['loading' => 'lazy'])) !!}</div>
       @endforeach
     </div>
 

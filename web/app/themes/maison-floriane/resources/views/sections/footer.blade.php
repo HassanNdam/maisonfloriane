@@ -25,9 +25,9 @@
       <li>Réponse sous 24 h ouvrées</li>
     </ul></div>
   </div>
-  {{-- Logos officiels fournis par WooCommerce (Visa, Mastercard, Apple Pay, Google Pay) et WooCommerce PayPal Payments. --}}
+  {{-- Logos officiels fournis par WooCommerce (Visa, Mastercard, Apple Pay, Google Pay) : moyens acceptés via Stripe. --}}
   <div class="paiements"><span>Paiement sécurisé</span>
-    @foreach (['visa' => 'Visa', 'mastercard' => 'Mastercard', 'applepay' => 'Apple Pay', 'googlepay' => 'Google Pay', 'paypal' => 'PayPal'] as $fichier => $nom)
+    @foreach (['visa' => 'Visa', 'mastercard' => 'Mastercard', 'applepay' => 'Apple Pay', 'googlepay' => 'Google Pay'] as $fichier => $nom)
       <span class="badge badge--logo" title="{{ $nom }}"><img src="{{ Vite::asset("resources/images/paiement/{$fichier}.svg") }}" alt="{{ $nom }}" width="56" height="34" loading="lazy"></span>
     @endforeach
     <span class="badge" title="WhatsApp"><svg viewBox="0 0 48 16" role="img" aria-label="WhatsApp"><text x="24" y="12" text-anchor="middle" font-family="Arial" font-weight="600" font-size="10" fill="#1F8A4C">WhatsApp</text></svg></span>
@@ -45,6 +45,6 @@
   <svg class="icone"><use href="#i-whatsapp"/></svg>
 </a>
 <div class="voile" data-panier-fermer></div>
-<aside class="tiroir" aria-label="Panier" data-nonce="{{ wp_create_nonce('mf-panier') }}" data-ajax="{{ admin_url('admin-ajax.php') }}">
+<aside class="tiroir" aria-label="Panier" data-nonce="{{ wp_create_nonce('mf-panier') }}" data-ajax="{{ admin_url('admin-ajax.php') }}" data-wc-ajax="{{ WC_AJAX::get_endpoint('%%endpoint%%') }}">
   @include('partials.panier')
 </aside>

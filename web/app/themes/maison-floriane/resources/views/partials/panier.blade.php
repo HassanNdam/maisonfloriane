@@ -18,7 +18,7 @@
         <div class="article">
           <div class="article__img">
             @if ($image)
-              {!! wp_get_attachment_image($image, 'medium', false, ['class' => App\detoure($image) ? '' : 'couvre', 'alt' => '']) !!}
+              {!! wp_get_attachment_image($image, 'medium', false, array_filter(['class' => App\detoure($image) ? '' : 'couvre', 'alt' => '', 'style' => App\cadrage($image)])) !!}
             @endif
           </div>
           <div>

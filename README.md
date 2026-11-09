@@ -6,9 +6,9 @@ WordPress sous [Bedrock](https://roots.io/bedrock/), WooCommerce, thème sur mes
 ## Le projet en bref
 
 - **Propriétaire** : Flore, installée en Espagne (UE). Expédition depuis l'Espagne.
-- **Catalogue** : le **savon noir réparateur** (300 g, 45,99 €) et le **Glow Oil** (100 ml, 35,99 €) Floréa Skin, plus **Le Duo rituel** (81,98 € → 69,99 €), dont le stock est celui des deux soins (vendre un duo retire un savon et un Glow Oil). Prix TTC.
+- **Catalogue** : le **savon noir réparateur** (300 g, 45,99 €) et le **Glow Oil** (100 ml, 35,99 €) Floréa Skin, plus **Le Duo rituel** (81,98 € → 73,99 €), dont le stock est celui des deux soins (vendre un duo retire un savon et un Glow Oil). Prix TTC.
 - **Vente** : accent sur l'Union européenne, commandes possibles du monde entier (dont l'Afrique), **toujours en euros**, prix TTC. Commande aussi par WhatsApp.
-- **Paiement** : Stripe (carte, Apple Pay, Google Pay) et PayPal.
+- **Paiement** : Stripe (carte, Apple Pay, Google Pay). Pas de PayPal pour l'instant.
 - **Ton** : calme, haut de gamme, authentique ; preuves avant/après sans filtre (la vidéo à la cape noire est la vidéo principale).
 - Cadrage complet : [`docs/00-projet/cadrage-v2-europe.md`](docs/00-projet/cadrage-v2-europe.md) (à lire en premier).
 
@@ -40,12 +40,25 @@ Utilisation : `bg-lin text-encre font-serif`…
 | Germanized | conformité UE : mentions, rétractation, prix TTC | activée |
 | Complianz | bandeau cookies, RGPD | activée |
 | Rank Math | référencement | activée |
-| WooCommerce Stripe Gateway | carte, Apple Pay, Google Pay | à activer avec les clés |
-| WooCommerce PayPal Payments | PayPal | à activer avec les clés |
+| WooCommerce Stripe Gateway | carte, Apple Pay, Google Pay | activée, clés dans le `.env` (voir Stripe) |
 | Wordfence | sécurité | production seulement |
 | UpdraftPlus | sauvegardes | production seulement |
 
 Ajouter une extension : `composer require wp-plugin/<slug>` (dépôt wp-packages.org).
+
+## Stripe
+
+Les clés ne sont ni en base ni dans Git : `web/app/mu-plugins/stripe-env.php` les lit dans le `.env`.
+
+```dotenv
+STRIPE_MODE='test'                 # 'live' en production
+STRIPE_TEST_PUBLISHABLE_KEY='pk_test_…'
+STRIPE_TEST_SECRET_KEY='sk_test_…'
+STRIPE_TEST_WEBHOOK_SECRET='whsec_…'   # facultatif en local
+```
+
+La passerelle « Carte bancaire » ne s'active que si les deux clés du mode choisi sont renseignées.
+Cartes de test Stripe : `4242 4242 4242 4242`, date future, CVC quelconque. Apple Pay / Google Pay demandent HTTPS et un domaine vérifié : pas en local.
 
 ## Contenus de départ
 
@@ -86,6 +99,24 @@ Sous Git Bash, préfixer par `MSYS_NO_PATHCONV=1` les commandes dont un argument
 
 Voir [`CONTRIBUTING.md`](CONTRIBUTING.md) : `main` = production, `develop` = intégration, branches `feature/*`, `release/*`, `hotfix/*`.
 
+## Performance en local
+
+Activer l'OPcache de PHP dans Laragon (`C:\laragon\bin\php\php-8.3.26-Win32-vs16-x64\php.ini`) : sans lui, chaque page met 4 à 5 s.
+
+```ini
+zend_extension=opcache
+opcache.enable=1
+opcache.memory_consumption=256
+opcache.interned_strings_buffer=16
+opcache.max_accelerated_files=20000
+opcache.validate_timestamps=1
+opcache.revalidate_freq=0
+realpath_cache_size = 4096k
+realpath_cache_ttl = 600
+```
+
+L'ajout au panier passe par `?wc-ajax=add_to_cart` : le panier latéral s'ouvre au clic, sans rechargement.
+
 ## Thème
 
 | Vue | Page |
@@ -100,14 +131,14 @@ Voir [`CONTRIBUTING.md`](CONTRIBUTING.md) : `main` = production, `develop` = int
 - Styles : `resources/css/prototype.css` reprend `docs/03-maquettes/prototype/styles.css` (à resynchroniser si le prototype change), `site.css` ajoute WordPress/WooCommerce.
 - Logique : `app/helpers.php` (médias, prix, stock, WhatsApp), `app/woocommerce.php` (gabarits, panier latéral AJAX, duo `/?mf-duo=1`), `app/formulaires.php` (contact, lettre).
 - Prix, promo, contenances et ingrédients viennent de `docs/00-projet/catalogue-produits.json` : `composer seed` les réapplique à chaque lancement (le catalogue fait foi). Un produit sans prix reste en brouillon et affiche « Prix à venir ».
-- Duo : méta `_mf_composants` = `FS-001`, `FS-002`. Le stock des composants est décrémenté à la vente et rétabli à l'annulation (note sur la commande) ; le duo est en rupture si un composant l'est ; le panier refuse plus d'unités qu'en stock, duos compris. Effectif dès que le stock est géré sur le savon et le Glow Oil.
+- Stock : 200 unités par produit à la création (`composer seed` ne touche plus au stock ensuite). Duo : méta `_mf_composants` = `FS-001`, `FS-002`. Le stock des composants est décrémenté à la vente et rétabli à l'annulation (note sur la commande) ; le duo est en rupture si un composant l'est ; le panier refuse plus d'unités qu'en stock, duos compris. Vendre un duo retire donc 1 duo, 1 savon et 1 Glow Oil.
 - En-tête : logo « sceau » 150 px (92 px mobile) qui déborde sous l'en-tête, même taille au défilement, animation `logo--retour` au retour en haut (désactivée si `prefers-reduced-motion`).
-- Logos de paiement officiels copiés depuis WooCommerce et WooCommerce PayPal Payments (`resources/images/paiement/`).
+- Logos de paiement officiels copiés depuis WooCommerce (`resources/images/paiement/`).
 - `MF_SEED_FORCE=1 composer seed` régénère le texte des pages depuis le prototype (écrase les modifications faites dans l'admin).
 
 ## Reste à faire
 
-- Liste INCI complète et PAO ; activer la gestion du stock (quantités) sur le savon et le Glow Oil.
-- Zones et tarifs de livraison (UE / reste du monde), TVA espagnole, clés Stripe et PayPal.
+- Liste INCI complète et PAO.
+- Zones et tarifs de livraison (UE / reste du monde), TVA espagnole, clés Stripe de production.
 - Textes des pages légales : assistant Complianz (cookies, confidentialité) et textes Germanized/CGV ; outil d'envoi pour la Lettre Floréa (aujourd'hui : e-mail à Flore à chaque inscription).
 - Durée d'utilisation sous chaque témoignage avant/après (mention légale prévue par le cadrage).

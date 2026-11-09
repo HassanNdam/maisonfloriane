@@ -19,8 +19,9 @@
       @foreach ([['resultat-peau-sans-filtre-voiture', 'Résultat réel · sans filtre', 'clip--grand'], ['resultat-peau-sans-filtre-cape-noire', 'Résultat réel · sans filtre', ''], ['glow-oil', 'Le Glow Oil', '']] as [$nom, $legende, $classe])
         @php($src = $nom === 'glow-oil' ? App\media('video-glow-oil-florea-skin-presentation.mp4') : $v($nom))
         @php($poster = $nom === 'glow-oil' ? App\media('video-glow-oil-florea-skin-presentation-apercu.webp') : $p($nom))
+        @php($fichier = $nom === 'glow-oil' ? 'video-glow-oil-florea-skin-presentation.mp4' : "video-florea-skin-{$nom}.mp4")
         <figure class="clip {{ $classe }}">
-          <video autoplay muted loop playsinline preload="metadata" poster="{{ $poster }}">@if ($src)<source src="{{ $src }}" type="video/mp4">@endif</video>
+          <video autoplay muted loop playsinline preload="metadata" poster="{{ $poster }}" style="{{ App\cadrage(App\media_id($fichier)) }}">@if ($src)<source src="{{ $src }}" type="video/mp4">@endif</video>
           <figcaption>{{ $legende }}</figcaption>
         </figure>
       @endforeach

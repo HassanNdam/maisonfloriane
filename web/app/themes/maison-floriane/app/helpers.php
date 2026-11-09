@@ -160,6 +160,35 @@ function detoure(int $attachment): bool
     return str_contains((string) get_post_meta($attachment, '_mf_source', true), 'detoure');
 }
 
+/** Point de cadrage d'une image ou vidéo (méta `_mf_cadrage`, posée par le seed) en style CSS object-position. */
+function cadrage(int $attachment): string
+{
+    $position = $attachment ? (string) get_post_meta($attachment, '_mf_cadrage', true) : '';
+
+    return $position !== '' ? 'object-position: ' . $position : '';
+}
+
+/**
+ * Ajustement d'une photo dans un cadre de proportion $ratio (hauteur / largeur) :
+ * '' pour un détouré, 'contient' si la photo est bien plus haute que le cadre (on la montre en entier), sinon 'couvre'.
+ */
+function ajustement(int $attachment, float $ratio): string
+{
+    if (detoure($attachment)) {
+        return '';
+    }
+    $meta = wp_get_attachment_metadata($attachment);
+    $proportion = ! empty($meta['width']) ? $meta['height'] / $meta['width'] : 1;
+
+    return $proportion > $ratio * 1.3 ? 'contient' : 'couvre';
+}
+
+/** Attributs d'une image produit dans un cadre de proportion $ratio. */
+function attributs_image(int $attachment, float $ratio, array $attributs = []): array
+{
+    return array_filter($attributs + ['class' => ajustement($attachment, $ratio), 'style' => cadrage($attachment)]);
+}
+
 /** Place de chaque produit dans le rituel en deux gestes. */
 function rituel(?\WC_Product $product): array
 {

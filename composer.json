@@ -26,7 +26,6 @@
         "wp-plugin/woocommerce": "^11.2",
         "wp-plugin/woocommerce-gateway-stripe": "^11.1",
         "wp-plugin/woocommerce-germanized": "^4.1",
-        "wp-plugin/woocommerce-paypal-payments": "^4.2",
         "wp-plugin/wordfence": "^9.0",
         "wp-theme/twentytwentyfive": "^1.0"
     },
@@ -69,7 +68,7 @@
             "Roots\\Acorn\\ComposerScripts::postAutoloadDump"
         ],
         "seed": [
-            "@php vendor/wp-cli/wp-cli/php/boot-fs.php plugin activate woocommerce woocommerce-germanized complianz-gdpr seo-by-rank-math",
+            "@php vendor/wp-cli/wp-cli/php/boot-fs.php plugin activate woocommerce woocommerce-germanized complianz-gdpr seo-by-rank-math woocommerce-gateway-stripe",
             "@php vendor/wp-cli/wp-cli/php/boot-fs.php language core install fr_FR",
             "@php vendor/wp-cli/wp-cli/php/boot-fs.php language plugin install --all fr_FR",
             "@php vendor/wp-cli/wp-cli/php/boot-fs.php eval-file scripts/seed.php --user=admin",

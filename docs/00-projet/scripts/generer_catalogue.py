@@ -41,13 +41,14 @@ P = [
                   "Peut se mélanger à votre crème corporelle pour booster l'éclat. " + TEST_PEAU),
     # Duo : produit à part ; prix normal = somme des deux, prix promo = prix du duo (WooCommerce barre l'ancien prix)
     dict(ref="FS-003", nom="Le Duo rituel Floréa Skin", categorie="Coffrets et routines", contenance="Savon noir 300 g + Glow Oil 100 ml",
-         prix=81.98, prix_promo=69.99,
+         prix=81.98, prix_promo=73.99,
          ingredients="Savon noir : extraits de plantes, curcuma, miel, neem, glycérine. Glow Oil : huile de busserole, huile de jojoba, vitamine C, glutathion, glycérine",
          image=IMG + "produits/duo-savon-noir-glow-oil-florea-skin-rituel.webp", video=None,
          desc_courte="Le savon noir réparateur et le Glow Oil réunis : la routine complète de Flore, à prix doux.",
-         desc="Le Duo rituel réunit les deux gestes Floréa Skin : le savon noir réparateur pour purifier, puis le Glow Oil pour nourrir et révéler l'éclat. "
-              "Floréa Skin, la beauté révélée par la nature.",
-         conseils="Matin et soir : nettoyer avec le savon noir, rincer, puis appliquer quelques gouttes de Glow Oil sur une peau légèrement humide. " + TEST_PEAU),
+         # Texte fourni par Flore le 09/11/2026
+         desc="Enlève les taches du visage, du dos et de la poitrine, réduit les vergetures, enlève le masque de grossesse.",
+         conseils="Utiliser le savon noir matin et soir. Utiliser le Glow Oil uniquement le soir, sur le visage et le corps. "
+                  "En journée, utiliser une crème hydratante sur le corps et le visage, ainsi qu'une crème solaire. " + TEST_PEAU),
 ]
 for p in P:
     p.update(marque="Floréa Skin", genre="Mixte", slug=slug(p["nom"]), alt=p["nom"])

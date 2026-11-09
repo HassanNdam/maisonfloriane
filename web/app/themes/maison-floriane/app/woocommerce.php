@@ -130,6 +130,7 @@ function panier_quantite(): void
     WC()->cart->calculate_totals();
     wp_send_json_success(fragments());
 }
+add_action('wc_ajax_mf_panier_quantite', __NAMESPACE__ . '\panier_quantite');
 add_action('wp_ajax_mf_panier_quantite', __NAMESPACE__ . '\\panier_quantite');
 add_action('wp_ajax_nopriv_mf_panier_quantite', __NAMESPACE__ . '\\panier_quantite');
 

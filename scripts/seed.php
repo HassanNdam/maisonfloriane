@@ -248,9 +248,9 @@ foreach ($catalogue['produits'] as $p) {
     $product->set_description('<p>' . esc_html($p['description']) . '</p>');
     $term = term_exists($p['categorie'], 'product_cat') ?: wp_insert_term($p['categorie'], 'product_cat');
     $product->set_category_ids([(int) ($term['term_id'] ?? 0)]);
-    if (! $id) {
-        $product->set_manage_stock(false);
-        $product->set_stock_status('instock');
+    if (! $id) { // stock initial à la création seulement : ensuite il évolue avec les ventes
+        $product->set_manage_stock(true);
+        $product->set_stock_quantity($p['stock'] ?? 200);
     }
     $product->set_reviews_allowed(false);
     $productId = $product->save();
@@ -281,6 +281,19 @@ foreach ($catalogue['produits'] as $p) {
     }
     mf_log(sprintf('produit : %s (#%d, %s, %s €%s)', $p['nom'], $productId, get_post_status($productId),
         $prix ?: '—', $promo ? " → promo $promo €" : ''));
+}
+
+WP_CLI::log('Cadrage des photos et vidéos (object-position)');
+// Le flacon de Glow Oil est dans le haut de la photo « en main » et en bas de la vidéo : sans cadrage, il est coupé.
+$cadrages = [
+    'glow-oil-florea-skin-huile-corporelle-en-main.webp' => '50% 22%',
+    'video-glow-oil-florea-skin-presentation.mp4' => '50% 90%',
+    'video-glow-oil-florea-skin-presentation-apercu.webp' => '50% 90%',
+];
+foreach ($cadrages as $fichier => $position) {
+    foreach (get_posts(['post_type' => 'attachment', 'post_status' => 'inherit', 'numberposts' => -1, 'fields' => 'ids', 'meta_key' => '_mf_source', 'meta_value' => $fichier]) as $media) {
+        update_post_meta($media, '_mf_cadrage', $position);
+    }
 }
 
 WP_CLI::log('Menus (resynchronisés à chaque lancement)');

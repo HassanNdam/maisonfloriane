@@ -30,20 +30,55 @@ const remplacer = (fragments) => {
     document.querySelectorAll(selecteur).forEach((el) => { el.outerHTML = html; });
   });
 };
+/* Endpoint léger de WooCommerce (?wc-ajax=…), plus rapide qu'admin-ajax */
+const wcAjax = (action) => (tiroir?.dataset.wcAjax || '/?wc-ajax=%%endpoint%%').replace('%%endpoint%%', action);
+
 tiroir?.addEventListener('click', async (e) => {
   const bouton = e.target.closest('[data-quantite]');
   if (!bouton) return;
   const donnees = new FormData();
-  donnees.append('action', 'mf_panier_quantite');
   donnees.append('nonce', tiroir.dataset.nonce);
   donnees.append('cle', bouton.closest('[data-cle]').dataset.cle);
   donnees.append('quantite', bouton.dataset.quantite);
   tiroir.classList.add('chargement');
   try {
-    const reponse = await fetch(tiroir.dataset.ajax, { method: 'POST', body: donnees, credentials: 'same-origin' });
+    const reponse = await fetch(wcAjax('mf_panier_quantite'), { method: 'POST', body: donnees, credentials: 'same-origin' });
     const json = await reponse.json();
     if (json.success) remplacer(json.data);
   } finally {
+    tiroir.classList.remove('chargement');
+  }
+});
+
+/*
+ * Ajout au panier sans rechargement : le panier latéral s'ouvre tout de suite (état « chargement »),
+ * puis son contenu et la pastille sont remplacés par la réponse de WooCommerce.
+ * En cas d'erreur (stock, produit indisponible), on retombe sur l'envoi classique du formulaire.
+ */
+document.addEventListener('submit', async (e) => {
+  const bouton = e.submitter;
+  if (!bouton || bouton.name !== 'add-to-cart' || !tiroir) return;
+  e.preventDefault();
+  const formulaire = e.target;
+  const donnees = new FormData();
+  donnees.append('product_id', bouton.value);
+  donnees.append('quantity', formulaire.querySelector('input[name="quantity"]')?.value || '1');
+
+  corps.classList.add('panier-ouvert');
+  tiroir.classList.add('chargement');
+  bouton.disabled = true;
+  try {
+    const reponse = await fetch(wcAjax('add_to_cart'), { method: 'POST', body: donnees, credentials: 'same-origin' });
+    const json = await reponse.json();
+    if (!json || json.error || !json.fragments) throw new Error('ajout refusé');
+    remplacer(json.fragments);
+  } catch {
+    corps.classList.remove('panier-ouvert');
+    const champ = Object.assign(document.createElement('input'), { type: 'hidden', name: 'add-to-cart', value: bouton.value });
+    formulaire.append(champ);
+    formulaire.submit();
+  } finally {
+    bouton.disabled = false;
     tiroir.classList.remove('chargement');
   }
 });
@@ -72,6 +107,7 @@ document.querySelectorAll('[data-video]').forEach((vignette) => vignette.addEven
   if (!vignette.dataset.video || vignette.querySelector('video')) return;
   const video = document.createElement('video');
   Object.assign(video, { src: vignette.dataset.video, controls: true, autoplay: true, muted: true, playsInline: true, loop: true });
+  if (vignette.dataset.cadrage) video.style.cssText = vignette.dataset.cadrage;
   vignette.append(video);
 }, { once: true }));
 

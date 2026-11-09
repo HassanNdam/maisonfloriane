@@ -25,7 +25,11 @@
   .tiroir__liste { overflow-y: auto; }
   .tiroir__vide { display: grid; place-content: center; gap: var(--s2); text-align: center; color: var(--taupe); }
   .tiroir .prix .woocommerce-Price-amount { font: inherit; }
-  .tiroir.chargement { opacity: .6; pointer-events: none; }
+  .tiroir.chargement { pointer-events: none; }
+  .tiroir.chargement .tiroir__contenu { opacity: .55; transition: opacity .15s; }
+  .tiroir.chargement::after { content: ""; position: absolute; top: 50%; left: 50%; width: 28px; height: 28px; margin: -14px 0 0 -14px;
+    border: 1.5px solid var(--ligne); border-top-color: var(--encre); border-radius: 50%; animation: mf-tourne .7s linear infinite; }
+  @keyframes mf-tourne { to { transform: rotate(360deg); } }
 
   /* Quantité : vrai champ numérique à la place du <span> du prototype */
   .quantite input { width: 40px; text-align: center; border: 0; background: none; font: inherit; color: inherit; -moz-appearance: textfield; appearance: textfield; }
@@ -38,6 +42,8 @@
   .galerie > button .lecture { position: absolute; inset: 0; margin: auto; }
   .resultat video, .galerie video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: #1d1a17; }
   .carte__visuel { display: grid; }
+  /* Photo très verticale dans un cadre plus large : montrée en entière sur le fond du bloc */
+  .galerie img.contient { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: contain; filter: none; }
   .duo__produit { display: flex; align-items: center; gap: var(--s4); }
   .accordeon__texte p { padding-bottom: var(--s3); color: var(--taupe); }
 
