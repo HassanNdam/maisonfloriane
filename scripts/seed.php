@@ -222,8 +222,11 @@ foreach (glob("$docs/02-videos-site/florea-skin/*/*") as $file) {
     mf_media($file, str_ends_with($file, '.webp') ? 'Aperçu de la vidéo Floréa Skin' : '');
 }
 
-// Prix, promo et publication viennent du catalogue (docs/00-projet/catalogue-produits.json, généré depuis le .xlsx).
+// Produits créés depuis le catalogue (docs/00-projet/catalogue-produits.json, généré depuis le .xlsx).
 // Un produit sans prix reste en brouillon : aucun prix n'est inventé.
+// Ensuite, c'est l'admin qui fait foi : nom, prix, promo, descriptions, catégorie, statut et photos modifiés par Flore
+// ne sont plus écrasés. Le catalogue ne complète que ce qui est vide (un prix « à venir » enfin fixé publie le produit).
+// MF_SEED_FORCE=1 réapplique tout le catalogue.
 WP_CLI::log('Produits (catalogue)');
 $catalogue = json_decode(file_get_contents("$docs/00-projet/catalogue-produits.json"), true);
 $galeries = [
@@ -239,17 +242,30 @@ foreach ($catalogue['produits'] as $p) {
     if (! $id) {
         $product->set_sku($p['reference']);
     }
+    $catalogueFaitFoi = ! $id || getenv('MF_SEED_FORCE');
     $prix = $p['prix'] !== null ? wc_format_decimal($p['prix']) : '';
     $promo = $p['prix_promo'] !== null ? wc_format_decimal($p['prix_promo']) : '';
-    $product->set_regular_price($prix);
-    $product->set_sale_price($promo);
-    $product->set_status($prix !== '' && ! empty($p['publie']) ? 'publish' : 'draft');
-    $product->set_name($p['nom']);
-    $product->set_slug($p['slug']);
-    $product->set_short_description($p['description_courte']);
-    $product->set_description('<p>' . esc_html($p['description']) . '</p>');
-    $term = term_exists($p['categorie'], 'product_cat') ?: wp_insert_term($p['categorie'], 'product_cat');
-    $product->set_category_ids([(int) ($term['term_id'] ?? 0)]);
+    $prixFixe = $prix !== '' && $product->get_regular_price() === ''; // prix « à venir » enfin connu
+    if ($catalogueFaitFoi || $prixFixe) {
+        $product->set_regular_price($prix);
+        $product->set_sale_price($promo);
+        $product->set_status($prix !== '' && ! empty($p['publie']) ? 'publish' : 'draft');
+    }
+    if ($catalogueFaitFoi || $product->get_name() === '') {
+        $product->set_name($p['nom']);
+        $product->set_slug($p['slug']);
+    }
+    if ($catalogueFaitFoi || $product->get_short_description() === '') {
+        $product->set_short_description($p['description_courte']);
+    }
+    if ($catalogueFaitFoi || $product->get_description() === '') {
+        $product->set_description('<p>' . esc_html($p['description']) . '</p>');
+    }
+    $categorieDefaut = (int) get_option('default_product_cat');
+    if ($catalogueFaitFoi || ! array_diff($product->get_category_ids(), [$categorieDefaut])) {
+        $term = term_exists($p['categorie'], 'product_cat') ?: wp_insert_term($p['categorie'], 'product_cat');
+        $product->set_category_ids([(int) ($term['term_id'] ?? 0)]);
+    }
     if (! $id) { // stock initial à la création seulement : ensuite il évolue avec les ventes
         $product->set_manage_stock(true);
         $product->set_stock_quantity($p['stock'] ?? 200);
@@ -258,10 +274,10 @@ foreach ($catalogue['produits'] as $p) {
     $productId = $product->save();
 
     $image = $p['images'][0] ?? null;
-    if ($image) { // image principale resynchronisée avec le catalogue à chaque lancement
+    if ($image && ($catalogueFaitFoi || ! $product->get_image_id())) { // image principale : celle du catalogue si aucune
         $product->set_image_id(mf_media("$docs/" . $image['src'], $image['alt'], $productId));
     }
-    if (isset($galeries[$p['reference']])) { // galerie resynchronisée avec le prototype à chaque lancement
+    if (isset($galeries[$p['reference']]) && ($catalogueFaitFoi || ! $product->get_gallery_image_ids())) { // galerie du prototype si vide
         $ids = [];
         foreach ($galeries[$p['reference']] ?? [] as $file) {
             $ids[] = mf_media("$docs/01-images-site/florea-skin/produits/$file", $p['nom'], $productId);
@@ -283,8 +299,9 @@ foreach ($catalogue['produits'] as $p) {
         update_post_meta($productId, 'rank_math_title', $p['seo']['title']);
         update_post_meta($productId, 'rank_math_description', $p['seo']['description']);
     }
-    mf_log(sprintf('produit : %s (#%d, %s, %s €%s)', $p['nom'], $productId, get_post_status($productId),
-        $prix ?: '—', $promo ? " → promo $promo €" : ''));
+    mf_log(sprintf('produit : %s (#%d, %s, %s €%s)%s', $product->get_name(), $productId, get_post_status($productId),
+        $product->get_regular_price() ?: '—', $product->get_sale_price() ? ' → promo ' . $product->get_sale_price() . ' €' : '',
+        $catalogueFaitFoi ? ' — catalogue appliqué' : ''));
 }
 
 WP_CLI::log('Cadrage des photos et vidéos (object-position)');

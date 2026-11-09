@@ -19,6 +19,9 @@ Chaque version correspond à un tag `vX.Y.Z` sur `main` (voir `CONTRIBUTING.md`)
 
 - Page « Droit de rétractation » avec le formulaire type, liée dans le pied de page et jointe à la confirmation de commande.
 
+### Modifié
+- `composer seed` n'écrase plus les produits modifiés dans l'admin (nom, prix, promo, descriptions, catégorie, statut, photos) : le catalogue ne complète que ce qui est vide, sauf avec `MF_SEED_FORCE=1`.
+
 ### Corrigé
 - Données structurées de la FAQ (accueil) illisibles par Google : Blade cassait « @context ». Questions et réponses désormais traduites sur /en/.
 - Traductions anglaises enregistrées sous les deux formes d'apostrophe (`'` et `&#039;`) : bouton « S'inscrire » de la Lettre Floréa traduit, textes du back-office reconnus.
