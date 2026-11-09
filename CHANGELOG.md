@@ -21,6 +21,8 @@ Chaque version correspond à un tag `vX.Y.Z` sur `main` (voir `CONTRIBUTING.md`)
 - Lien « Compte » dans l'en-tête et le menu mobile.
 
 - Page « Droit de rétractation » avec le formulaire type, liée dans le pied de page et jointe à la confirmation de commande.
+- Logos de paiement du pied de page au choix dans Maison Floriane › Pied de page ; icône du site modifiable dans Réglages › Général.
+- Notice du back-office pour Flore : `docs/guide-back-office.md`.
 
 ### Modifié
 - `composer seed` n'écrase plus les produits modifiés dans l'admin (nom, prix, promo, descriptions, catégorie, statut, photos) : le catalogue ne complète que ce qui est vide, sauf avec `MF_SEED_FORCE=1`.

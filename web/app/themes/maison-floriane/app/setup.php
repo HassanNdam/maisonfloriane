@@ -174,8 +174,12 @@ add_action('widgets_init', function () {
 
 /**
  * Favicons (fichiers à la racine de web/, voir docs/01-images-site/favicon).
+ * Une « Icône du site » choisie dans Réglages › Général les remplace (WordPress l'affiche alors lui-même).
  */
 add_action('wp_head', function () {
+    if (has_site_icon()) {
+        return;
+    }
     echo <<<'HTML'
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">

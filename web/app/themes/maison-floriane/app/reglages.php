@@ -38,6 +38,7 @@ const REGLAGES = [
     // Pied de page
     'pied_reseaux_titre' => 'Suivez-nous',
     'pied_paiement' => 'Paiement sécurisé',
+    'pied_paiements' => ['visa', 'mastercard', 'applepay', 'googlepay', 'whatsapp'],
     'pied_copyright' => 'Maison Floriane · maisonfloriane.com',
     'pied_prix' => 'Prix en €',
     // Messages WhatsApp préremplis
@@ -179,6 +180,14 @@ function titre(string $texte): string
     $html = preg_replace('/\*(.+?)\*/u', '<em class="or">$1</em>', $html);
 
     return str_replace(["\r\n", "\r", "\n"], '<br>', $html);
+}
+
+/** Moyens de paiement affichés dans le pied de page (logos officiels dans resources/images/paiement/). */
+const PAIEMENTS = ['visa' => 'Visa', 'mastercard' => 'Mastercard', 'applepay' => 'Apple Pay', 'googlepay' => 'Google Pay', 'whatsapp' => 'WhatsApp'];
+
+function paiements(): array
+{
+    return array_intersect_key(PAIEMENTS, array_flip(array_filter((array) reglage('pied_paiements'))));
 }
 
 /** Lignes de réassurance : [icone, titre, texte]. */

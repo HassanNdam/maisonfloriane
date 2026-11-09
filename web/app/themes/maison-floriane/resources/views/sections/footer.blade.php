@@ -29,13 +29,19 @@
     @include('partials.reseaux')
     </div>
   </div>
-  {{-- Logos officiels fournis par WooCommerce (Visa, Mastercard, Apple Pay, Google Pay) : moyens acceptés via Stripe. --}}
+  {{-- Logos officiels fournis par WooCommerce (Visa, Mastercard, Apple Pay, Google Pay) : moyens acceptés via Stripe.
+       Logos affichés : Maison Floriane › Pied de page. --}}
+  @if ($paiements = App\paiements())
   <div class="paiements"><span>{!! App\affiche('pied_paiement') !!}</span>
-    @foreach (['visa' => 'Visa', 'mastercard' => 'Mastercard', 'applepay' => 'Apple Pay', 'googlepay' => 'Google Pay'] as $fichier => $nom)
-      <span class="badge badge--logo" title="{{ $nom }}"><img src="{{ Vite::asset("resources/images/paiement/{$fichier}.svg") }}" alt="{{ $nom }}" width="56" height="34" loading="lazy"></span>
-    @endforeach
+    @foreach ($paiements as $fichier => $nom)
+      @if ($fichier === 'whatsapp')
     <span class="badge" title="WhatsApp"><svg viewBox="0 0 48 16" role="img" aria-label="WhatsApp"><text x="24" y="12" text-anchor="middle" font-family="Arial" font-weight="600" font-size="10" fill="#1F8A4C">WhatsApp</text></svg></span>
+      @else
+      <span class="badge badge--logo" title="{{ $nom }}"><img src="{{ Vite::asset("resources/images/paiement/{$fichier}.svg") }}" alt="{{ $nom }}" width="56" height="34" loading="lazy"></span>
+      @endif
+    @endforeach
   </div>
+  @endif
   <div class="pied__bas">
     <span>© {{ date('Y') }} {!! App\affiche('pied_copyright') !!}</span>
     <ul class="pied__legal">

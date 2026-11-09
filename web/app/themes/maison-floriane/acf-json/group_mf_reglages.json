@@ -195,6 +195,24 @@
             "type": "text"
         },
         {
+            "key": "field_mf_pied_paiements",
+            "label": "Moyens de paiement affichés",
+            "name": "pied_paiements",
+            "type": "checkbox",
+            "instructions": "Logos officiels, dans cet ordre. Aucun coché : la ligne disparaît.",
+            "choices": {
+                "visa": "Visa",
+                "mastercard": "Mastercard",
+                "applepay": "Apple Pay",
+                "googlepay": "Google Pay",
+                "whatsapp": "WhatsApp"
+            },
+            "layout": "horizontal",
+            "return_format": "value",
+            "toggle": 0,
+            "allow_custom": 0
+        },
+        {
             "key": "field_mf_pied_copyright",
             "label": "Ligne de copyright",
             "name": "pied_copyright",
@@ -377,5 +395,5 @@
     "active": true,
     "description": "Menu Maison Floriane : coordonnées, logo, textes communs à tout le site.",
     "show_in_rest": 0,
-    "modified": 1794233405
+    "modified": 1794237099
 }
