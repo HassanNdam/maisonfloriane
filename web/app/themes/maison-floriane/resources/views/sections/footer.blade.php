@@ -20,9 +20,10 @@
       <li><a href="{{ App\whatsapp_url() }}" target="_blank" rel="noopener">WhatsApp</a></li>
     </ul></div>
     <div><h4>Contact</h4><ul>
-      <li><a href="mailto:{{ App\EMAIL }}">{{ App\EMAIL }}</a></li>
-      <li><a href="{{ App\whatsapp_url() }}" target="_blank" rel="noopener">{{ App\TELEPHONE }}</a></li>
-      <li>Réponse sous 24 h ouvrées</li>
+      <li><a class="pied__contact" href="mailto:{{ App\EMAIL }}"><svg class="icone" aria-hidden="true"><use href="#i-courriel"/></svg>{{ App\EMAIL }}</a></li>
+      <li><a class="pied__contact" href="tel:{{ str_replace(' ', '', App\TELEPHONE) }}"><svg class="icone" aria-hidden="true"><use href="#i-telephone"/></svg>{{ App\TELEPHONE }}</a></li>
+      <li><a class="pied__contact" href="{{ App\whatsapp_url() }}" target="_blank" rel="noopener"><svg class="icone" aria-hidden="true"><use href="#i-whatsapp"/></svg>WhatsApp</a></li>
+      <li class="pied__contact"><svg class="icone" aria-hidden="true"><use href="#i-retour"/></svg>Réponse sous 24 h ouvrées</li>
     </ul>
     @include('partials.reseaux')
     </div>

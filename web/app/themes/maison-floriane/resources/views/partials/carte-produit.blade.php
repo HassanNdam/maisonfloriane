@@ -19,6 +19,7 @@
     @if ($ingredients = App\ingredients($produit))
       <p class="ingredients">{{ implode(' · ', array_map(fn ($i, $k) => $k ? mb_strtolower(mb_substr($i, 0, 1)) . mb_substr($i, 1) : $i, $ingredients, array_keys($ingredients))) }}</p>
     @endif
+    <p class="peaux"><svg class="icone" aria-hidden="true"><use href="#i-peaux"/></svg>Tous types de peau, toutes carnations</p>
     <span class="stock {{ $stockClasse }}">{{ $stockLibelle }}</span>
     @if ($produit->is_purchasable() && $produit->is_in_stock())
       <form method="post" action="{{ $produit->get_permalink() }}">

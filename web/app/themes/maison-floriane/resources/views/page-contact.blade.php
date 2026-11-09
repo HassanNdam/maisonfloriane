@@ -11,9 +11,9 @@
     <span class="surtitre">Contact</span>
     <h1 class="h1">Une question ?<br>Écrivez-nous.</h1>
     <p class="chapo" style="margin-bottom:48px">Conseil d'utilisation, suivi de commande ou demande professionnelle : nous répondons personnellement.</p>
-    <div class="contact__canal"><span class="surtitre">WhatsApp</span><span>{{ App\TELEPHONE }}</span><a class="lien" style="justify-self:start" href="{{ App\whatsapp_url() }}" target="_blank" rel="noopener">Ouvrir la conversation</a></div>
-    <div class="contact__canal"><span class="surtitre">E-mail</span><a href="mailto:{{ App\EMAIL }}">{{ App\EMAIL }}</a></div>
-    <div class="contact__canal"><span class="surtitre">Délai de réponse</span><span>Sous 24 h ouvrées, du lundi au vendredi</span></div>
+    <div class="contact__canal"><span class="surtitre"><svg class="icone" aria-hidden="true"><use href="#i-whatsapp"/></svg>WhatsApp et téléphone</span><a href="tel:{{ str_replace(' ', '', App\TELEPHONE) }}">{{ App\TELEPHONE }}</a><a class="lien" style="justify-self:start" href="{{ App\whatsapp_url() }}" target="_blank" rel="noopener">Ouvrir la conversation</a></div>
+    <div class="contact__canal"><span class="surtitre"><svg class="icone" aria-hidden="true"><use href="#i-courriel"/></svg>E-mail</span><a href="mailto:{{ App\EMAIL }}">{{ App\EMAIL }}</a></div>
+    <div class="contact__canal"><span class="surtitre"><svg class="icone" aria-hidden="true"><use href="#i-retour"/></svg>Délai de réponse</span><span>Sous 24 h ouvrées, du lundi au vendredi</span></div>
   </div>
 
   <form class="formulaire" id="formulaire" method="post" action="{{ admin_url('admin-post.php') }}">

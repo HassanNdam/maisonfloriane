@@ -87,6 +87,17 @@
   .achat .economie { display: inline-block; margin-bottom: var(--s2); }
   .achat__texte { margin-top: var(--s3); }
 
+  /* « Tous types de peau, toutes carnations » */
+  .peaux { display: flex; align-items: center; gap: 8px; font-size: 15px; color: var(--taupe); }
+  .peaux .icone { width: 20px; height: 20px; color: var(--or-fonce); flex: none; }
+  .atouts .atouts__peaux { color: var(--encre); font-weight: 400; }
+
+  /* Contact avec icônes (pied de page, page contact) */
+  .pied__contact { display: inline-flex; align-items: center; gap: 10px; }
+  .pied__contact .icone { color: var(--or); flex: none; }
+  .contact__canal .surtitre { display: inline-flex; align-items: center; gap: 10px; }
+  .contact__canal .surtitre .icone { width: 18px; height: 18px; }
+
   /* Réseaux sociaux (pied de page) */
   .reseaux { margin-top: var(--s4); }
   .reseaux h4 { margin-bottom: var(--s2); }

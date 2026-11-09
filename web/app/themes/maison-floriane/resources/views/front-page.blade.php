@@ -32,7 +32,7 @@
     <div class="entete-section">
       <span class="surtitre">Le rituel</span>
       <h2 class="h2">Nettoyer. Révéler.</h2>
-      <p class="chapo" style="margin:0 auto">Deux soins pensés pour fonctionner ensemble : le savon noir matin et soir, le Glow Oil le soir.</p>
+      <p class="chapo" style="margin:0 auto">Deux soins pensés pour fonctionner ensemble, pour tous les types de peau et toutes les carnations : le savon noir matin et soir, le Glow Oil le soir.</p>
     </div>
     <div class="rituel">
       @foreach ($produits as $produit)

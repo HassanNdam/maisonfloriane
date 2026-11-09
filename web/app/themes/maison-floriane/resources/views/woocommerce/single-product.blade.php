@@ -62,6 +62,7 @@
       </a>
 
       <div class="atouts">
+        <div class="atouts__peaux"><svg class="icone"><use href="#i-peaux"/></svg>Pour tous les types de peau et toutes les carnations</div>
         <div><svg class="icone"><use href="#i-camion"/></svg>Livraison en Europe et dans le monde</div>
         <div><svg class="icone"><use href="#i-cadenas"/></svg>Paiement sécurisé</div>
         <div><svg class="icone"><use href="#i-retour"/></svg>Retour sous 14 jours si le produit n'est pas ouvert</div>
