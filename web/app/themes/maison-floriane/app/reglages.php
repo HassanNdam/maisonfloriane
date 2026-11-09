@@ -166,7 +166,7 @@ function titre(string $texte): string
     $html = echappe(trim($texte));
     $html = preg_replace('/\*(.+?)\*/u', '<em class="or">$1</em>', $html);
 
-    return nl2br($html, false);
+    return str_replace(["\r\n", "\r", "\n"], '<br>', $html);
 }
 
 /** Lignes de réassurance : [icone, titre, texte]. */

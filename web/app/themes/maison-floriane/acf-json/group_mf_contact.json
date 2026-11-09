@@ -1,0 +1,90 @@
+{
+    "key": "group_mf_contact",
+    "title": "Contact",
+    "fields": [
+        {
+            "key": "field_mf_contact_surtitre",
+            "label": "Surtitre",
+            "name": "surtitre",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_contact_titre",
+            "label": "Titre",
+            "name": "titre",
+            "type": "textarea",
+            "rows": 2,
+            "new_lines": "",
+            "instructions": "Mots entre astérisques en doré : *Flore*. Un retour à la ligne est conservé."
+        },
+        {
+            "key": "field_mf_contact_texte",
+            "label": "Texte",
+            "name": "texte",
+            "type": "textarea",
+            "rows": 2,
+            "new_lines": ""
+        },
+        {
+            "key": "field_mf_contact_whatsapp_titre",
+            "label": "Titre du bloc WhatsApp",
+            "name": "whatsapp_titre",
+            "type": "text",
+            "wrapper": {
+                "width": "50"
+            }
+        },
+        {
+            "key": "field_mf_contact_whatsapp_lien",
+            "label": "Lien WhatsApp",
+            "name": "whatsapp_lien",
+            "type": "text",
+            "wrapper": {
+                "width": "50"
+            }
+        },
+        {
+            "key": "field_mf_contact_email_titre",
+            "label": "Titre du bloc e-mail",
+            "name": "email_titre",
+            "type": "text",
+            "wrapper": {
+                "width": "50"
+            }
+        },
+        {
+            "key": "field_mf_contact_delai_titre",
+            "label": "Titre du bloc délai",
+            "name": "delai_titre",
+            "type": "text",
+            "wrapper": {
+                "width": "50"
+            }
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "mf_page",
+                "operator": "==",
+                "value": "contact"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "acf_after_title",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [
+        "the_content",
+        "excerpt",
+        "discussion",
+        "comments",
+        "featured_image"
+    ],
+    "active": true,
+    "description": "Textes de la page Contact. Téléphone, e-mail et délai : Maison Floriane › Coordonnées. Formulaire : Forminator.",
+    "show_in_rest": 0,
+    "modified": 1794233020
+}

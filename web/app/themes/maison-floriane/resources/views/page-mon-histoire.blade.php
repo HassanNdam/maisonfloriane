@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
-{{-- Mon histoire : lettre de Flore (docs/03-maquettes/prototype/mon-histoire.html). --}}
-@php($portrait = App\media_id('flore-fondatrice-florea-skin-portrait.webp'))
+{{-- Mon histoire : lettre de Flore. Textes et photos dans Pages › Mon histoire (app/pages.php). --}}
+@php($t = fn ($cle) => App\page_texte('histoire', $cle))
+@php($portrait = App\media_ref(App\page_champ('histoire', 'portrait')))
+@php($image = App\media_ref(App\page_champ('histoire', 'image')))
 
 @section('fil')
   @include('partials.fil', ['etapes' => [['Mon histoire', null]]])
@@ -11,32 +13,34 @@
   <section class="lettre-hero"><div class="conteneur lettre-hero__grille">
     <figure class="lettre-hero__photo">
       @if ($portrait)
-        {!! wp_get_attachment_image($portrait, 'large', false, ['alt' => 'Portrait de Flore, fondatrice de Floréa Skin', 'fetchpriority' => 'high']) !!}
+        {!! wp_get_attachment_image($portrait, 'large', false, ['alt' => (string) App\page_champ('histoire', 'portrait_description'), 'fetchpriority' => 'high']) !!}
       @endif
-      <figcaption>Flore, fondatrice de Floréa Skin</figcaption>
+      @if ($t('legende'))<figcaption>{!! $t('legende') !!}</figcaption>@endif
     </figure>
     <div class="lettre">
-      <span class="surtitre">Mon histoire</span>
-      <h1 class="h1">Moi, c'est <em class="or">Flore</em>.</h1>
-      <p class="lettre__ouverture">J'ai longtemps souffert d'acné hormonale. Une acné qui m'a laissé des taches. Des taches qui m'en laissent encore aujourd'hui d'ailleurs.</p>
-      <p>Je ne vais pas te mentir en te disant que tout est parti du jour au lendemain. J'en souffre encore. Mais aujourd'hui, je parviens à maintenir ma peau grâce à ces deux produits.</p>
-      <p class="lettre__affirmation">C'est devenu ma routine.<br>Mon entretien.</p>
-      @if ($duo = App\media_id('duo-savon-noir-glow-oil-florea-skin-rituel.webp'))
-        {!! wp_get_attachment_image($duo, 'large', false, ['class' => 'lettre__duo', 'alt' => 'La routine de Flore : savon noir réparateur et Glow Oil Floréa Skin', 'loading' => 'lazy']) !!}
+      <span class="surtitre">{!! $t('surtitre') !!}</span>
+      <h1 class="h1">{!! App\page_titre('histoire', 'titre') !!}</h1>
+      @if ($t('ouverture'))<p class="lettre__ouverture">{!! $t('ouverture') !!}</p>@endif
+      @if ($t('texte'))<p>{!! $t('texte') !!}</p>@endif
+      @if ($t('affirmation'))<p class="lettre__affirmation">{!! App\page_titre('histoire', 'affirmation') !!}</p>@endif
+      @if ($image)
+        {!! wp_get_attachment_image($image, 'large', false, ['class' => 'lettre__duo', 'alt' => (string) App\page_champ('histoire', 'image_description'), 'loading' => 'lazy']) !!}
       @endif
     </div>
   </div></section>
 
+  @if ($t('rappel_texte'))
   <section class="section section--creme rappel"><div class="conteneur">
-    <span class="surtitre">N'oubliez pas</span>
-    <p class="rappel__texte">Tout comme le corps a besoin d'être entretenu, le visage aussi a besoin d'être entretenu.</p>
+    <span class="surtitre">{!! $t('rappel_surtitre') !!}</span>
+    <p class="rappel__texte">{!! $t('rappel_texte') !!}</p>
   </div></section>
+  @endif
 
   <section class="section"><div class="conteneur lettre lettre--centree">
-    <p class="lettre__ouverture">À vous, qui souffrez aussi d'acné et surtout de taches, je veux vous dire : je suis là pour vous.</p>
-    <p>Je suis là parce que je suis passée par là. Et je continue de maintenir, jour après jour, comme vous.</p>
-    <h2 class="h2 lettre__final">On avance ensemble.<br>On ne cache plus notre peau, <em class="or">on en prend soin.</em></h2>
-    <p class="signature">Avec amour,<br><span>Flore · FLORÉA SKIN</span></p>
-    <a class="btn btn--principal" href="{{ home_url('/#rituel') }}">Découvrir ma routine</a>
+    @if ($t('fin_ouverture'))<p class="lettre__ouverture">{!! $t('fin_ouverture') !!}</p>@endif
+    @if ($t('fin_texte'))<p>{!! $t('fin_texte') !!}</p>@endif
+    <h2 class="h2 lettre__final">{!! App\page_titre('histoire', 'fin_titre') !!}</h2>
+    <p class="signature">{!! $t('signature') !!}<br><span>{!! $t('signature_nom') !!}</span></p>
+    @if ($t('bouton'))<a class="btn btn--principal" href="{{ home_url('/#rituel') }}">{!! $t('bouton') !!}</a>@endif
   </div></section>
 @endsection

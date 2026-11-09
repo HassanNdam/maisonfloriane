@@ -755,6 +755,13 @@ if (function_exists('update_field') && defined('App\REGLAGES')) {
         $champsAccueil['rituel_produits'] = array_values(array_filter(array_map('wc_get_product_id_by_sku', App\ACCUEIL['rituel_produits'])));
         mf_log(sprintf('Pages › Accueil : %d champs recopiés', mf_champs($champsAccueil, $accueilId, 'accueil_')));
     }
+
+    // Mon histoire, Contact, Boutique (app/pages.php).
+    foreach (defined('App\PAGES') ? App\PAGES : [] as $page => $valeurs) {
+        if ($pageId = App\page_id($page)) {
+            mf_log(sprintf('Pages › %s : %d champs recopiés', App\PAGES_NOMS[$page], mf_champs($valeurs, $pageId, "{$page}_")));
+        }
+    }
 }
 
 flush_rewrite_rules();

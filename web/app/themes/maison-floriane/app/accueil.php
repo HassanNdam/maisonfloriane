@@ -5,6 +5,7 @@
  * Même principe que les réglages du site (app/reglages.php) : valeur par défaut ci-dessous tant que le champ
  * n'est pas enregistré, rien d'affiché si Flore le vide. Médias : id (champ SCF) ou nom de fichier d'origine.
  * Les liens (#rituel, #resultats, /mon-histoire/) et la mise en page restent dans le gabarit (front-page.blade.php).
+ * Éditeur classique sans zone de texte : voir app/pages.php.
  */
 
 namespace App;
@@ -113,11 +114,3 @@ function faq_jsonld(array $faq): string
         ], $faq),
     ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG);
 }
-
-// L'accueil se modifie par ses champs : éditeur classique sans zone de texte (le contenu de la page n'est pas affiché).
-add_filter('use_block_editor_for_post', fn ($actif, $post) => $post && (int) $post->ID === accueil_id() ? false : $actif, 10, 2);
-add_action('admin_init', function () {
-    if ((int) ($_GET['post'] ?? 0) === accueil_id() && accueil_id()) {
-        remove_post_type_support('page', 'editor');
-    }
-});

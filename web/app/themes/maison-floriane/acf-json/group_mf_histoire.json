@@ -1,0 +1,211 @@
+{
+    "key": "group_mf_histoire",
+    "title": "Mon histoire",
+    "fields": [
+        {
+            "key": "field_mf_histoire_tab_18ce8236",
+            "label": "La lettre",
+            "name": "",
+            "type": "tab",
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_histoire_portrait",
+            "label": "Portrait",
+            "name": "portrait",
+            "type": "image",
+            "return_format": "id",
+            "preview_size": "medium",
+            "library": "all",
+            "mime_types": "webp,png,jpg,jpeg",
+            "wrapper": {
+                "width": "50"
+            }
+        },
+        {
+            "key": "field_mf_histoire_portrait_description",
+            "label": "Description du portrait",
+            "name": "portrait_description",
+            "type": "text",
+            "instructions": "Décrit l’image pour les malvoyants et Google.",
+            "wrapper": {
+                "width": "50"
+            }
+        },
+        {
+            "key": "field_mf_histoire_legende",
+            "label": "Légende sous le portrait",
+            "name": "legende",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_histoire_surtitre",
+            "label": "Surtitre",
+            "name": "surtitre",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_histoire_titre",
+            "label": "Titre",
+            "name": "titre",
+            "type": "textarea",
+            "rows": 2,
+            "new_lines": "",
+            "instructions": "Mots entre astérisques en doré : *Flore*. Un retour à la ligne est conservé."
+        },
+        {
+            "key": "field_mf_histoire_ouverture",
+            "label": "Premier paragraphe (mis en avant)",
+            "name": "ouverture",
+            "type": "textarea",
+            "rows": 3,
+            "new_lines": ""
+        },
+        {
+            "key": "field_mf_histoire_texte",
+            "label": "Paragraphe suivant",
+            "name": "texte",
+            "type": "textarea",
+            "rows": 4,
+            "new_lines": ""
+        },
+        {
+            "key": "field_mf_histoire_affirmation",
+            "label": "Phrase forte",
+            "name": "affirmation",
+            "type": "textarea",
+            "rows": 2,
+            "new_lines": "",
+            "instructions": "Mots entre astérisques en doré : *Flore*. Un retour à la ligne est conservé."
+        },
+        {
+            "key": "field_mf_histoire_image",
+            "label": "Photo sous la lettre",
+            "name": "image",
+            "type": "image",
+            "return_format": "id",
+            "preview_size": "medium",
+            "library": "all",
+            "mime_types": "webp,png,jpg,jpeg",
+            "wrapper": {
+                "width": "50"
+            }
+        },
+        {
+            "key": "field_mf_histoire_image_description",
+            "label": "Description de la photo",
+            "name": "image_description",
+            "type": "text",
+            "instructions": "Décrit l’image pour les malvoyants et Google.",
+            "wrapper": {
+                "width": "50"
+            }
+        },
+        {
+            "key": "field_mf_histoire_tab_4c323270",
+            "label": "Rappel",
+            "name": "",
+            "type": "tab",
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_histoire_rappel_surtitre",
+            "label": "Surtitre",
+            "name": "rappel_surtitre",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_histoire_rappel_texte",
+            "label": "Texte",
+            "name": "rappel_texte",
+            "type": "textarea",
+            "rows": 3,
+            "new_lines": "",
+            "instructions": "Vide : le bandeau disparaît."
+        },
+        {
+            "key": "field_mf_histoire_tab_b983c115",
+            "label": "Fin de la lettre",
+            "name": "",
+            "type": "tab",
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_histoire_fin_ouverture",
+            "label": "Premier paragraphe (mis en avant)",
+            "name": "fin_ouverture",
+            "type": "textarea",
+            "rows": 3,
+            "new_lines": ""
+        },
+        {
+            "key": "field_mf_histoire_fin_texte",
+            "label": "Paragraphe suivant",
+            "name": "fin_texte",
+            "type": "textarea",
+            "rows": 3,
+            "new_lines": ""
+        },
+        {
+            "key": "field_mf_histoire_fin_titre",
+            "label": "Titre final",
+            "name": "fin_titre",
+            "type": "textarea",
+            "rows": 2,
+            "new_lines": "",
+            "instructions": "Mots entre astérisques en doré : *Flore*. Un retour à la ligne est conservé."
+        },
+        {
+            "key": "field_mf_histoire_signature",
+            "label": "Formule",
+            "name": "signature",
+            "type": "text",
+            "wrapper": {
+                "width": "50"
+            }
+        },
+        {
+            "key": "field_mf_histoire_signature_nom",
+            "label": "Nom",
+            "name": "signature_nom",
+            "type": "text",
+            "wrapper": {
+                "width": "50"
+            }
+        },
+        {
+            "key": "field_mf_histoire_bouton",
+            "label": "Bouton (vers le rituel de l’accueil)",
+            "name": "bouton",
+            "type": "text"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "mf_page",
+                "operator": "==",
+                "value": "histoire"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "acf_after_title",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [
+        "the_content",
+        "excerpt",
+        "discussion",
+        "comments",
+        "featured_image"
+    ],
+    "active": true,
+    "description": "Lettre de Flore : textes et photos.",
+    "show_in_rest": 0,
+    "modified": 1794233020
+}
