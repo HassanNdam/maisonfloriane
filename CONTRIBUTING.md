@@ -46,7 +46,7 @@ Règle du projet : **rien ne reste seulement en local**.
 | Chaque étape qui fonctionne | commit (petit, une idée par commit), seulement si le site répond et que `npm run build` passe |
 | Premier commit de la branche | `git flow feature publish <sujet>` : la branche est sauvegardée sur GitHub |
 | Commits suivants | `git push` |
-| Fonctionnalité terminée et vérifiée | `git flow feature finish <sujet>` puis `git push origin develop` (supprimer la branche distante : `git push origin --delete feature/<sujet>`) |
+| Fonctionnalité terminée et vérifiée | `git flow feature finish <sujet>` (supprime aussi la branche sur GitHub) puis `git push origin develop` |
 | Mise en ligne | **sur décision explicite seulement** : `git flow release` → `main` + tag `vX.Y.Z` + `CHANGELOG.md` |
 
 Avant chaque push, vérifier qu'aucun secret n'est indexé : `.env`, clés Stripe (`sk_…`, `pk_…`, `whsec_…`), clé Germanized dans `web/wp-config.php`.
