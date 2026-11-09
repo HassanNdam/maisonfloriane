@@ -1,5 +1,5 @@
 {
-  "_lisez-moi": "Référencement (Yoast SEO). Appliqué par scripts/seo.php à chaque `composer seed` : ce fichier fait foi (il remplace les titres SEO du catalogue produits et ce qui est saisi dans Yoast pour ces pages). Pages repérées par slug, produits par SKU. Titre ≤ 60 caractères, description 120-158. Les versions anglaises sont dans scripts/traductions/en_GB.json (même texte français en clé).",
+  "_lisez-moi": "Référencement (Yoast SEO). Appliqué par scripts/seo.php à chaque `composer seed`, mais une valeur retouchée dans Yoast ou dans la médiathèque est conservée (MF_SEED_FORCE=1 pour tout réappliquer). Pages repérées par slug, produits par SKU. Titre ≤ 60 caractères, description 120-158. Les versions anglaises sont dans scripts/traductions/en_GB.json (même texte français en clé).",
 
   "pages": {
     "accueil": {

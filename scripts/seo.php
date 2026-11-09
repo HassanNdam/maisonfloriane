@@ -10,6 +10,10 @@
  *
  * Les réseaux sociaux (Organization sameAs, éditeur Facebook) viennent des liens saisis dans les réglages du site :
  * voir app/seo.php du thème.
+ *
+ * L'admin fait foi : une valeur n'est réécrite que si elle est vide ou si personne n'y a touché depuis le dernier seed
+ * (la valeur écrite par le seed est gardée en « ombre » : méta _mf_seo_auto…, option mf_seo_auto). Une retouche faite
+ * dans Yoast ou dans la médiathèque est donc conservée ; MF_SEED_FORCE=1 réapplique tout seo.json.
  */
 
 if (! defined('WPSEO_VERSION')) {
@@ -27,6 +31,33 @@ $imagePartage = function (string $fichier) use ($partage, $seo): array {
 };
 
 WP_CLI::log('Référencement (Yoast SEO)');
+
+$forcer = (bool) getenv('MF_SEED_FORCE');
+$gardes = [];
+
+/** Écrit une méta sauf si elle a été modifiée dans l'admin depuis le dernier seed (null = supprimer). */
+$ecrireMeta = function (int $id, string $meta, ?string $valeur) use ($forcer, &$gardes): void {
+    $ombre = '_mf_seo_auto' . $meta;
+    $actuel = (string) get_post_meta($id, $meta, true);
+    if (! $forcer && $actuel !== '' && metadata_exists('post', $id, $ombre)
+        && $actuel !== (string) get_post_meta($id, $ombre, true)) {
+        $gardes[] = get_the_title($id) . " ($meta)";
+        return;
+    }
+    $valeur === null ? delete_post_meta($id, $meta) : update_post_meta($id, $meta, $valeur);
+    update_post_meta($id, $ombre, (string) $valeur);
+};
+
+/** Même règle pour les réglages généraux de Yoast. */
+$auto = (array) get_option('mf_seo_auto', []);
+$ecrireOption = function (string $cle, mixed $valeur) use ($forcer, &$auto, &$gardes): void {
+    if (! $forcer && array_key_exists($cle, $auto) && WPSEO_Options::get($cle) != $auto[$cle]) {
+        $gardes[] = "réglage Yoast $cle";
+        return;
+    }
+    WPSEO_Options::set($cle, $valeur);
+    $auto[$cle] = $valeur;
+};
 
 // Réglages généraux.
 [$defautId, $defautUrl] = $imagePartage($seo['partage']['defaut']);
@@ -61,17 +92,14 @@ $titres = [
 if ($logoId) {
     $titres += ['company_logo_id' => $logoId, 'company_logo' => (string) wp_get_attachment_url($logoId)];
 }
-foreach ($titres as $cle => $valeur) {
-    WPSEO_Options::set($cle, $valeur);
-}
 if ($defautId) {
-    WPSEO_Options::set('og_default_image_id', $defautId);
-    WPSEO_Options::set('og_default_image', $defautUrl);
+    $titres += ['og_default_image_id' => $defautId, 'og_default_image' => $defautUrl];
 }
-WPSEO_Options::set('opengraph', true);
-WPSEO_Options::set('twitter', true);
-WPSEO_Options::set('twitter_card_type', 'summary_large_image');
-WPSEO_Options::set('tracking', false);
+$titres += ['opengraph' => true, 'twitter' => true, 'twitter_card_type' => 'summary_large_image', 'tracking' => false];
+foreach ($titres as $cle => $valeur) {
+    $ecrireOption($cle, $valeur);
+}
+update_option('mf_seo_auto', $auto, false);
 
 // Pages et produits.
 $faits = [];
@@ -94,7 +122,7 @@ foreach ($seo['pages'] as $cle => $reglage) {
         $metas += ['_yoast_wpseo_opengraph-image' => $imageUrl, '_yoast_wpseo_opengraph-image-id' => $imageId ?: null];
     }
     foreach ($metas as $meta => $valeur) {
-        $valeur === null ? delete_post_meta($id, $meta) : update_post_meta($id, $meta, $valeur);
+        $ecrireMeta($id, $meta, $valeur === null ? null : (string) $valeur);
     }
     $faits[] = $id;
 }
@@ -105,7 +133,7 @@ foreach ($seo['images'] as $fichier => $alt) {
         'post_type' => 'attachment', 'post_status' => 'inherit', 'numberposts' => -1, 'fields' => 'ids',
         'meta_key' => '_mf_source', 'meta_value' => $fichier,
     ]) as $imageId) {
-        update_post_meta($imageId, '_wp_attachment_image_alt', $alt);
+        $ecrireMeta($imageId, '_wp_attachment_image_alt', $alt);
     }
 }
 
@@ -117,3 +145,6 @@ foreach ($faits as $id) {
 }
 
 mf_log(sprintf('référencement : %d pages et produits, %d textes alternatifs', count($faits), count($seo['images'])));
+if ($gardes) {
+    mf_log('modifié dans l\'admin, conservé (MF_SEED_FORCE=1 pour écraser) : ' . implode(', ', $gardes));
+}
