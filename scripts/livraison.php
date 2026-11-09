@@ -110,3 +110,25 @@ if (! $monde->get_shipping_methods() || $forcer) {
     $forfait($monde, '19.90');
     mf_log('zone de livraison : reste du monde, 19,90 €');
 }
+
+// Retrait gratuit à Barcelone (décidé le 09/11/2026) : « Retrait » natif de la commande en blocs WooCommerce, proposé à
+// côté de la livraison. L'adresse exacte et le créneau sont envoyés au client après la commande (e-mail ou WhatsApp).
+// Textes anglais : scripts/traductions/en_GB.json, appliqués par app/multilingue.php du thème.
+$retrait = (array) get_option('woocommerce_pickup_location_settings', []);
+if (($retrait['enabled'] ?? 'no') !== 'yes' || $forcer) {
+    update_option('woocommerce_pickup_location_settings', [
+        'enabled' => 'yes',
+        'title' => 'Retrait à Barcelone',
+        'tax_status' => 'taxable',
+        'cost' => '',
+    ]);
+    update_option('pickup_location_pickup_locations', [[
+        'name' => 'Floréa Skin',
+        'address' => ['address_1' => '', 'city' => 'Barcelona', 'state' => 'B', 'postcode' => '', 'country' => 'ES'],
+        'details' => 'Adresse et créneau envoyés par e-mail ou WhatsApp dès que votre commande est prête.',
+        'enabled' => true,
+    ]]);
+    mf_log('retrait gratuit à Barcelone activé');
+} else {
+    mf_log('retrait à Barcelone : réglages de l’admin gardés');
+}
