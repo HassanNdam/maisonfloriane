@@ -8,8 +8,9 @@ Chaque version correspond à un tag `vX.Y.Z` sur `main` (voir `CONTRIBUTING.md`)
 ### Ajouté
 - Menu **Maison Floriane** dans le back-office (Secure Custom Fields) : logo, slogan, coordonnées (e-mail, téléphone, WhatsApp), délais de réponse, réseaux sociaux, bandeau du haut, arguments de réassurance, pied de page, messages WhatsApp préremplis et page 404 se modifient sans toucher au code.
 - Accueil modifiable dans Pages › Accueil : textes, vidéos de l'en-tête, produits présentés, résultats avant/après, étapes, extrait « Mon histoire », questions fréquentes et Lettre Floréa.
-- Pages Mon histoire, Contact et Boutique modifiables dans le back-office : textes, photos et leurs descriptions, en-tête de la boutique.
+- Pages Mon histoire, Contact et Boutique modifiables dans le back-office : textes et photos, en-tête de la boutique (descriptions des images : dans Médias).
 - Fiches produit : onglet « Fiche Floréa » (étape du rituel, accroche, quand/où, photo, soin complémentaire, contenance, ingrédients, conseils, vidéo, composition du duo) et textes communs dans Maison Floriane › Fiches produit (atouts, délai d'expédition, livraison, mention INCI).
+- Référencement de toutes les pages en français et en anglais : titres et descriptions travaillés sur les mots-clés (soins anti-taches, savon noir visage, huile éclat, routine anti-taches…), images de partage 1200 × 630 pour les réseaux, textes alternatifs des photos, schéma Organization (marque Floréa Skin, réseaux, contact), panier, commande et compte hors des résultats et du sitemap.
 - Compte client : connexion et création de compte côte à côte (onglets sur mobile), prénom et nom à l'inscription, Lettre Floréa en option, anti-robot.
 - Espace client en français (`/mon-compte/mes-commandes/`, `mes-adresses`, `mes-informations`…) : tableau de bord avec dernière commande et raccourcis, menu latéral, fil d'Ariane.
 - Mot de passe oublié et réinitialisation aux couleurs de la charte ; 5 essais de connexion ratés bloquent 15 minutes ; message d'erreur neutre.
@@ -21,6 +22,8 @@ Chaque version correspond à un tag `vX.Y.Z` sur `main` (voir `CONTRIBUTING.md`)
 
 ### Modifié
 - `composer seed` n'écrase plus les produits modifiés dans l'admin (nom, prix, promo, descriptions, catégorie, statut, photos) : le catalogue ne complète que ce qui est vide, sauf avec `MF_SEED_FORCE=1`.
+- Référencement : Yoast SEO (gratuit) remplace Rank Math. Titres et descriptions des produits, titres et descriptions de partage traduits sur /en/.
+- Fiches produits : données structurées « Product » (prix, disponibilité) rétablies ; un seul fil d'Ariane déclaré (celui du thème).
 
 ### Corrigé
 - Données structurées de la FAQ (accueil) illisibles par Google : Blade cassait « @context ». Questions et réponses désormais traduites sur /en/.

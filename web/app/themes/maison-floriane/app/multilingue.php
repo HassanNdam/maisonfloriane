@@ -60,13 +60,13 @@ add_filter('trp_node_accessors', function (array $accessors) {
     return $accessors;
 });
 
-// Titre de l'onglet, titres et descriptions de partage (Rank Math, puis WordPress à défaut).
-add_filter('rank_math/frontend/title', fn ($titre) => traduire_titre((string) $titre));
-add_filter('rank_math/frontend/description', fn ($texte) => traduire((string) $texte));
-add_filter('rank_math/opengraph/facebook/og_title', fn ($titre) => traduire_titre((string) $titre));
-add_filter('rank_math/opengraph/facebook/og_description', fn ($texte) => traduire((string) $texte));
-add_filter('rank_math/opengraph/twitter/title', fn ($titre) => traduire_titre((string) $titre));
-add_filter('rank_math/opengraph/twitter/description', fn ($texte) => traduire((string) $texte));
+// Titre de l'onglet, titres et descriptions de partage (Yoast SEO, puis WordPress à défaut).
+add_filter('wpseo_title', fn ($titre) => traduire_titre((string) $titre));
+add_filter('wpseo_metadesc', fn ($texte) => traduire((string) $texte));
+add_filter('wpseo_opengraph_title', fn ($titre) => traduire_titre((string) $titre));
+add_filter('wpseo_opengraph_desc', fn ($texte) => traduire((string) $texte));
+add_filter('wpseo_twitter_title', fn ($titre) => traduire_titre((string) $titre));
+add_filter('wpseo_twitter_description', fn ($texte) => traduire((string) $texte));
 add_filter('document_title_parts', fn ($parts) => array_map(fn ($p) => is_string($p) ? traduire($p) : $p, $parts));
 
 // Cases légales de Germanized (texte réglé en français par le seed, affiché par le bloc Commande en JavaScript,

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-{{-- Mon histoire : lettre de Flore. Textes et photos dans Pages › Mon histoire (app/pages.php). --}}
+{{-- Mon histoire : lettre de Flore. Textes et photos dans Pages › Mon histoire (app/pages.php).
+     Textes alternatifs des photos : ceux de la médiathèque (app/seo.php), le texte ci-dessous n'est qu'un secours. --}}
 @php($t = fn ($cle) => App\page_texte('histoire', $cle))
 @php($portrait = App\media_ref(App\page_champ('histoire', 'portrait')))
 @php($image = App\media_ref(App\page_champ('histoire', 'image')))
@@ -13,7 +14,7 @@
   <section class="lettre-hero"><div class="conteneur lettre-hero__grille">
     <figure class="lettre-hero__photo">
       @if ($portrait)
-        {!! wp_get_attachment_image($portrait, 'large', false, ['alt' => (string) App\page_champ('histoire', 'portrait_description'), 'fetchpriority' => 'high']) !!}
+        {!! wp_get_attachment_image($portrait, 'large', false, ['alt' => 'Portrait de Flore, fondatrice de Floréa Skin', 'fetchpriority' => 'high']) !!}
       @endif
       @if ($t('legende'))<figcaption>{!! $t('legende') !!}</figcaption>@endif
     </figure>
@@ -24,7 +25,7 @@
       @if ($t('texte'))<p>{!! $t('texte') !!}</p>@endif
       @if ($t('affirmation'))<p class="lettre__affirmation">{!! App\page_titre('histoire', 'affirmation') !!}</p>@endif
       @if ($image)
-        {!! wp_get_attachment_image($image, 'large', false, ['class' => 'lettre__duo', 'alt' => (string) App\page_champ('histoire', 'image_description'), 'loading' => 'lazy']) !!}
+        {!! wp_get_attachment_image($image, 'large', false, ['class' => 'lettre__duo', 'alt' => 'La routine de Flore : savon noir réparateur et Glow Oil Floréa Skin', 'loading' => 'lazy']) !!}
       @endif
     </div>
   </div></section>

@@ -14,7 +14,6 @@ namespace App;
 const PAGES = [
     'histoire' => [
         'portrait' => 'flore-fondatrice-florea-skin-portrait.webp',
-        'portrait_description' => 'Portrait de Flore, fondatrice de Floréa Skin',
         'legende' => 'Flore, fondatrice de Floréa Skin',
         'surtitre' => 'Mon histoire',
         'titre' => "Moi, c'est *Flore*.",
@@ -22,7 +21,6 @@ const PAGES = [
         'texte' => "Je ne vais pas te mentir en te disant que tout est parti du jour au lendemain. J'en souffre encore. Mais aujourd'hui, je parviens à maintenir ma peau grâce à ces deux produits.",
         'affirmation' => "C'est devenu ma routine.\nMon entretien.",
         'image' => 'duo-savon-noir-glow-oil-florea-skin-rituel.webp',
-        'image_description' => 'La routine de Flore : savon noir réparateur et Glow Oil Floréa Skin',
         'rappel_surtitre' => "N'oubliez pas",
         'rappel_texte' => "Tout comme le corps a besoin d'être entretenu, le visage aussi a besoin d'être entretenu.",
         'fin_ouverture' => "À vous, qui souffrez aussi d'acné et surtout de taches, je veux vous dire : je suis là pour vous.",

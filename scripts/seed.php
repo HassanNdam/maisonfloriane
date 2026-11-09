@@ -296,8 +296,8 @@ foreach ($catalogue['produits'] as $p) {
     ];
 
     if (! empty($p['seo'])) {
-        update_post_meta($productId, 'rank_math_title', $p['seo']['title']);
-        update_post_meta($productId, 'rank_math_description', $p['seo']['description']);
+        update_post_meta($productId, '_yoast_wpseo_title', $p['seo']['title']);
+        update_post_meta($productId, '_yoast_wpseo_metadesc', $p['seo']['description']);
     }
     mf_log(sprintf('produit : %s (#%d, %s, %s €%s)%s', $product->get_name(), $productId, get_post_status($productId),
         $product->get_regular_price() ?: '—', $product->get_sale_price() ? ' → promo ' . $product->get_sale_price() . ' €' : '',
@@ -796,6 +796,9 @@ if (function_exists('update_field') && defined('App\REGLAGES')) {
         }
     }
 }
+
+// Référencement (Yoast SEO) : réglages, titres et descriptions, images de partage, textes alternatifs.
+require __DIR__ . '/seo.php';
 
 flush_rewrite_rules();
 WP_CLI::success('Contenus de départ en place.');

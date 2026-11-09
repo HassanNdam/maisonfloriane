@@ -19,19 +19,7 @@
             "preview_size": "medium",
             "library": "all",
             "mime_types": "webp,png,jpg,jpeg",
-            "wrapper": {
-                "width": "50"
-            }
-        },
-        {
-            "key": "field_mf_histoire_portrait_description",
-            "label": "Description du portrait",
-            "name": "portrait_description",
-            "type": "text",
-            "instructions": "Décrit l’image pour les malvoyants et Google.",
-            "wrapper": {
-                "width": "50"
-            }
+            "instructions": "Sa description (texte alternatif, lu par les malvoyants et Google) se règle dans Médias, sur l’image elle-même."
         },
         {
             "key": "field_mf_histoire_legende",
@@ -88,19 +76,7 @@
             "preview_size": "medium",
             "library": "all",
             "mime_types": "webp,png,jpg,jpeg",
-            "wrapper": {
-                "width": "50"
-            }
-        },
-        {
-            "key": "field_mf_histoire_image_description",
-            "label": "Description de la photo",
-            "name": "image_description",
-            "type": "text",
-            "instructions": "Décrit l’image pour les malvoyants et Google.",
-            "wrapper": {
-                "width": "50"
-            }
+            "instructions": "Sa description (texte alternatif, lu par les malvoyants et Google) se règle dans Médias, sur l’image elle-même."
         },
         {
             "key": "field_mf_histoire_tab_4c323270",
@@ -207,5 +183,5 @@
     "active": true,
     "description": "Lettre de Flore : textes et photos.",
     "show_in_rest": 0,
-    "modified": 1794233020
+    "modified": 1794234991
 }
