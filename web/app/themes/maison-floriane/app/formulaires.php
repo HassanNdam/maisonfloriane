@@ -11,7 +11,7 @@ namespace App;
 /** Adresse qui reçoit les messages (Flore). Surchargeable : define('MF_CONTACT_EMAIL', '…') dans config/. */
 function destinataire(): string
 {
-    return defined('MF_CONTACT_EMAIL') ? MF_CONTACT_EMAIL : EMAIL;
+    return defined('MF_CONTACT_EMAIL') ? MF_CONTACT_EMAIL : email();
 }
 
 /** Vrai si la soumission ressemble à un robot (champ piège rempli ou envoi en moins de 3 s). */

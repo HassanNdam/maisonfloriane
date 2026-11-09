@@ -6,11 +6,6 @@
 
 namespace App;
 
-/** Coordonnées de la boutique (cadrage : docs/00-projet/cadrage-v2-europe.md). */
-const WHATSAPP = '41792738353';
-const TELEPHONE = '+41 79 273 83 53';
-const EMAIL = 'florekhadije@gmail.com';
-
 /**
  * URL d'un média de la médiathèque importé par `composer seed`, retrouvé par son nom de fichier d'origine
  * (méta `_mf_source`). Renvoie une chaîne vide si le média n'est pas importé.
@@ -40,7 +35,7 @@ function media_id(string $file): int
 /** Lien wa.me avec un message prérempli. */
 function whatsapp_url(string $message = ''): string
 {
-    return 'https://wa.me/' . WHATSAPP . ($message !== '' ? '?text=' . rawurlencode($message) : '');
+    return 'https://wa.me/' . whatsapp_numero() . ($message !== '' ? '?text=' . rawurlencode($message) : '');
 }
 
 /** Produit WooCommerce par référence (FS-001 = savon noir, FS-002 = Glow Oil). */
@@ -213,19 +208,19 @@ function rituel(?\WC_Product $product): array
 /** Message WhatsApp pour une liste de lignes [nom, quantité]. */
 function message_commande(array $lignes): string
 {
-    $texte = "Bonjour Flore, je souhaite commander :\n";
+    $texte = texte('wa_commande') . "\n";
     foreach ($lignes as [$nom, $quantite]) {
         $texte .= "- {$quantite} × {$nom}\n";
     }
 
-    return $texte . "\nLivraison vers : ";
+    return $texte . "\n" . reglage('wa_livraison');
 }
 
-/** Message WhatsApp avec le contenu du panier. */
+/** Message WhatsApp avec le contenu du panier (textes : Maison Floriane › Messages WhatsApp). */
 function message_panier(): string
 {
     if (! function_exists('WC') || ! WC()->cart || WC()->cart->is_empty()) {
-        return "Bonjour Flore, j'aimerais un conseil sur les soins Floréa Skin.";
+        return texte('wa_conseil');
     }
     $lignes = [];
     foreach (WC()->cart->get_cart() as $item) {

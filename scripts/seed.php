@@ -688,5 +688,37 @@ if (class_exists('TRP_Translate_Press')) {
     mf_log(sprintf('traductions anglaises : %d textes (%d mis à jour)', count($traductions), $faites));
 }
 
+/*
+ * Réglages du site (menu « Maison Floriane », Secure Custom Fields, champs dans le thème : acf-json/) :
+ * les valeurs d'origine (App\REGLAGES) sont recopiées dans le back-office pour que Flore les voie et les modifie.
+ * Un réglage déjà enregistré n'est pas écrasé, sauf avec MF_SEED_FORCE=1.
+ */
+if (function_exists('update_field') && defined('App\REGLAGES')) {
+    WP_CLI::log('Réglages du site');
+    $reglages = App\REGLAGES;
+    $reglages['logo'] = mf_media(get_theme_file_path('resources/images/logo-florea-skin-rond-400px.webp'), 'Logo Floréa Skin');
+    // Liens des réseaux saisis auparavant dans Apparence › Personnaliser.
+    foreach (['tiktok', 'instagram', 'facebook'] as $reseau) {
+        if ($ancien = get_theme_mod("mf_reseau_$reseau")) {
+            $reglages["reseau_$reseau"] = $ancien;
+        }
+    }
+    $faits = 0;
+    foreach ($reglages as $cle => $valeur) {
+        if (! getenv('MF_SEED_FORCE') && get_option("options_$cle", null) !== null) {
+            continue;
+        }
+        if (is_array($valeur)) {
+            // Répéteur : sous-champs désignés par leur clé (field_mf_<répéteur>_<sous-champ>).
+            $valeur = array_map(fn ($ligne) => array_combine(
+                array_map(fn ($sous) => "field_mf_{$cle}_{$sous}", array_keys($ligne)),
+                array_values($ligne)
+            ), $valeur);
+        }
+        $faits += update_field("field_mf_$cle", $valeur, 'option') ? 1 : 0;
+    }
+    mf_log(sprintf('%d réglages recopiés dans Maison Floriane (les autres étaient déjà renseignés)', $faits));
+}
+
 flush_rewrite_rules();
 WP_CLI::success('Contenus de départ en place.');

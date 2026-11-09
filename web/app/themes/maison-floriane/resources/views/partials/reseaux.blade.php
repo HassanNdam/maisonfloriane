@@ -1,6 +1,6 @@
-{{-- Réseaux sociaux : liens saisis dans Apparence › Personnaliser › Réseaux sociaux (app/reseaux.php). --}}
+{{-- Réseaux sociaux : liens saisis dans Maison Floriane › Réseaux sociaux (app/reseaux.php). --}}
 <div class="reseaux">
-  <h4>Suivez-nous</h4>
+  @if ($titre = App\texte('pied_reseaux_titre'))<h4>{!! App\echappe($titre) !!}</h4>@endif
   <ul class="reseaux__liste">
     @foreach (App\reseaux() as $reseau)
       <li>
