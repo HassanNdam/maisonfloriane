@@ -282,19 +282,18 @@
   .contact-btn:focus-visible { outline: 2px solid var(--or-fonce); outline-offset: 3px; }
   .nav a, .actions__liens a, .actions .txt { white-space: nowrap; }
   /*
-   * En-tête : à gauche les 5 liens (… Résultats, Mon histoire), à droite Boutique, compte (icône), Panier, bouton.
+   * En-tête : à gauche les 5 liens (… Résultats, Mon histoire), à droite Boutique, Connexion/Compte, Panier, bouton.
    * Plus large que le reste de la page (1520 px) et 48 px d'écart minimum de chaque côté du logo :
    * les deux groupes ne peuvent pas venir toucher le logo, même avec un texte un peu plus grand.
    */
   .entete .conteneur { max-width: 1520px; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); column-gap: var(--s5); }
   .nav ul, .actions, .actions__liens { gap: clamp(20px, 1.7vw, 32px); }
-  .compte-btn .txt { display: none; } /* compte en icône seule (nom en aria-label) */
-  /* Moins de place : menu burger (comme sur mobile), icônes, Panier et bouton gardés */
-  @media (max-width: 1360px) {
+  /* Moins de place : menu burger (comme sur mobile), Connexion, Panier et bouton gardés */
+  @media (max-width: 1400px) {
     .nav, .actions__liens { display: none; }
     .burger { display: inline-flex; justify-self: start; }
   }
-  @media (max-width: 1000px) { .panier-btn .txt { display: none; } }
+  @media (max-width: 1000px) { .panier-btn .txt, .compte-btn .txt { display: none; } }
   .pied__logo-lien { display: inline-block; }
   @media (max-width: 760px) { .contact-btn { display: none; } }
 }

@@ -12,7 +12,7 @@
     <ul class="txt actions__liens">{!! $menu('secondary_navigation') !!}</ul>
     @if (function_exists('wc_get_page_permalink'))
       <a class="compte-btn" href="{{ wc_get_page_permalink('myaccount') }}" aria-label="{{ is_user_logged_in() ? 'Mon compte' : 'Se connecter ou créer un compte' }}">
-        <svg class="icone"><use href="#i-compte"/></svg><span class="txt">{{ is_user_logged_in() ? 'Compte' : 'Connexion' }}</span>
+        <svg class="icone"><use href="#i-compte"/></svg><span class="txt">Compte</span>
       </a>
     @endif
     <button class="panier-btn" type="button" data-panier-ouvrir aria-label="Ouvrir le panier">
