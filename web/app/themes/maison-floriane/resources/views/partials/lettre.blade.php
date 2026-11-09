@@ -1,16 +1,10 @@
-{{-- Lettre Floréa (inscription envoyée par e-mail à Flore en attendant un outil d'envoi). --}}
+{{-- Lettre Floréa : formulaire Forminator (créé par composer seed, id dans l'option mf_formulaire_lettre). Inscrits dans Forminator → Envois. --}}
+@php($lettre = (int) get_option('mf_formulaire_lettre'))
 <section class="section section--creme newsletter" id="lettre"><div class="conteneur">
   <span class="surtitre">Lettre Floréa</span>
   <h2 class="h2" style="margin-top:16px">Conseils et nouveautés, une fois par mois.</h2>
-  @include('partials.formulaire-statut', ['succes' => 'inscrit', 'message' => 'Merci, votre inscription est bien prise en compte.'])
-  <form method="post" action="{{ admin_url('admin-post.php') }}">
-    <input type="hidden" name="action" value="mf_lettre">
-    @php(wp_nonce_field('mf-lettre'))
-    @include('partials.anti-robot')
-    <div class="champ-ligne">
-      <input type="email" name="email" required placeholder="Votre adresse e-mail" aria-label="Adresse e-mail" autocomplete="email">
-      <button class="lien" type="submit">S'inscrire</button>
-    </div>
-  </form>
+  @if ($lettre)
+    <div class="formulaire formulaire--lettre">{!! do_shortcode('[forminator_form id="' . $lettre . '"]') !!}</div>
+  @endif
   <p class="petit">Désinscription en un clic. Aucune autre donnée demandée.</p>
 </div></section>

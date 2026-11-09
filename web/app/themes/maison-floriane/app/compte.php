@@ -92,6 +92,10 @@ add_action('woocommerce_created_customer', function ($client) {
     if (! empty($_POST['mf_lettre'])) {
         $email = get_userdata($client)->user_email;
         update_user_meta($client, 'mf_lettre', current_time('mysql'));
+        // Même liste que le formulaire du site : Forminator → Envois → Lettre Floréa
+        if (class_exists('Forminator_API') && ($lettre = (int) get_option('mf_formulaire_lettre'))) {
+            \Forminator_API::add_form_entry($lettre, [['name' => 'email-1', 'value' => $email]]);
+        }
         wp_mail(destinataire(), '[Maison Floriane] Inscription à la Lettre Floréa', "Nouvelle inscription (à la création d'un compte client) : $email");
     }
 });

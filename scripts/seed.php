@@ -433,6 +433,53 @@ if (class_exists('Forminator_API')) {
         Forminator_API::update_form($formId, $wrappers, $settings, 'publish', $notifications);
         mf_log("formulaire de contact synchronisé → $destinataire");
     }
+
+    /*
+     * Lettre Floréa (bas de l'accueil) : un seul champ e-mail. Les inscrits sont enregistrés
+     * (Forminator → Envois → « Lettre Floréa », export CSV pour un futur outil d'envoi) et Flore est prévenue par e-mail.
+     * Repéré par l'option mf_formulaire_lettre.
+     */
+    $wrappersLettre = [
+        ['wrapper_id' => 'wrapper-mf-lettre', 'fields' => [
+            $champ('email-1', 'email', [
+                'field_label' => 'Adresse e-mail', 'placeholder' => 'Votre adresse e-mail', 'required' => 'true',
+                'validation' => true, 'validation_message' => 'Cette adresse e-mail ne semble pas valide.',
+                'required_message' => 'Merci d\'indiquer votre e-mail.',
+            ]),
+        ]],
+    ];
+    $settingsLettre = [
+        'formName' => 'Lettre Floréa',
+        'thankyou-message' => 'Merci, votre inscription est bien prise en compte.',
+        'custom-submit-text' => 'S\'inscrire',
+        'submitData' => ['custom-submit-text' => 'S\'inscrire', 'custom-invalid-form-message' => 'Merci d\'indiquer une adresse e-mail valide.'],
+    ] + $settings;
+    $notificationsLettre = [[
+        'slug' => 'notification-mf-lettre',
+        'label' => 'Nouvelle inscription à Flore',
+        'email-recipients' => 'default',
+        'recipients' => $destinataire,
+        'email-subject' => '[Maison Floriane] Inscription à la Lettre Floréa',
+        'email-editor' => 'Nouvelle inscription à la Lettre Floréa : {email-1}<br/><br/>Liste complète : Forminator → Envois → Lettre Floréa (export CSV).',
+        'replyto-email' => '{email-1}',
+        'email-attachment' => 'false',
+        'type' => 'default',
+    ]];
+    $lettreId = (int) get_option('mf_formulaire_lettre');
+    if (! $lettreId || get_post_type($lettreId) !== 'forminator_forms') {
+        $lettreId = Forminator_API::add_form('Lettre Floréa', $wrappersLettre, $settingsLettre);
+        if (is_wp_error($lettreId)) {
+            WP_CLI::warning('Forminator : ' . $lettreId->get_error_message());
+            $lettreId = 0;
+        } else {
+            update_option('mf_formulaire_lettre', $lettreId);
+            mf_log("formulaire Lettre Floréa créé (Forminator n° $lettreId)");
+        }
+    }
+    if ($lettreId) {
+        Forminator_API::update_form($lettreId, $wrappersLettre, $settingsLettre, 'publish', $notificationsLettre);
+        mf_log("formulaire Lettre Floréa synchronisé → $destinataire");
+    }
 } else {
     WP_CLI::warning('Forminator inactif : formulaire de contact non créé.');
 }

@@ -57,8 +57,6 @@
   .statut { padding: var(--s2) var(--s3); margin-bottom: var(--s3); font-size: 17px; border-left: 2px solid currentColor; background: var(--ivoire); }
   .statut--ok { color: var(--sauge); }
   .statut--erreur { color: var(--brique); }
-  .newsletter .statut { max-width: 520px; margin: var(--s3) auto 0; text-align: left; }
-  .champ-ligne button { white-space: nowrap; }
 
   /* Formulaire de contact Forminator (style Forminator désactivé) : reprend .champ, .case, .btn et .statut du prototype */
   .formulaire .forminator-custom-form { display: block !important; margin: 0; }
@@ -90,6 +88,22 @@
   .formulaire .forminator-response-message.forminator-error { color: var(--brique); }
   .formulaire .forminator-response-message p { margin: 0; }
   .formulaire .forminator-hidden { position: absolute; left: -9999px; }
+
+  /* Lettre Floréa (Forminator) : champ e-mail et bouton sur une seule ligne soulignée, comme la maquette (.champ-ligne) */
+  .formulaire--lettre { max-width: 520px; margin: var(--s4) auto var(--s2); text-align: left; }
+  .formulaire--lettre div.forminator-custom-form { display: none !important; } /* conteneur vide que Forminator ajoute avant le formulaire */
+  .formulaire--lettre form.forminator-custom-form { display: flex !important; flex-wrap: wrap; align-items: flex-end; border-bottom: 1px solid var(--encre); }
+  .formulaire--lettre .forminator-response-message { flex: 0 0 100%; }
+  .formulaire--lettre .forminator-row { display: block; flex: 1; min-width: 0; }
+  .formulaire--lettre .forminator-row-last { flex: none; }
+  .formulaire--lettre .forminator-field { margin: 0; gap: 4px; }
+  .formulaire--lettre .forminator-label { position: absolute; left: -9999px; }
+  .formulaire--lettre .forminator-input { background: none; border: 0; border-radius: 0; padding: var(--s2) 0; }
+  .formulaire--lettre .forminator-error-message { padding-bottom: 8px; }
+  .formulaire--lettre .forminator-button-submit { width: auto; height: auto; padding: var(--s2) 0 var(--s2) var(--s2); background: none; color: var(--encre);
+    font: 500 16px/1 var(--sans); letter-spacing: .04em; text-transform: none; white-space: nowrap; }
+  .formulaire--lettre .forminator-button-submit { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
+  .formulaire--lettre .forminator-button-submit:hover { background: none; color: var(--or-fonce); }
 
   /* Pages éditoriales (contenu saisi dans WordPress) */
   .legal .contenu > .chapo { margin-bottom: var(--s4); }
