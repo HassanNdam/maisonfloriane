@@ -54,6 +54,7 @@ $titres = [
     'disable-date' => true,
     'disable-post_format' => true,
     'disable-attachment' => true,
+    'noindex-tax-product_cat' => true, // 1 produit par catégorie : doublon de la boutique
     'noindex-tax-product_tag' => true,
     'noindex-tax-product_shipping_class' => true,
 ];
