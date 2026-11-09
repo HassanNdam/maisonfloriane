@@ -270,8 +270,16 @@
     .soins--boutique { grid-template-columns: minmax(0, 1fr); gap: var(--s4); }
   }
 
-  /* En-tête : bouton Contact, dernier élément à droite */
-  .contact-btn { height: 40px; padding: 0 var(--s3); font-size: 13px; }
+  /* En-tête : bouton Contact « Une question ? », dernier élément à droite. Pilule crème cerclée d'or (charte),
+     distincte des boutons d'achat noirs ; au survol, or foncé et texte ivoire (contraste 5,3). */
+  .contact-btn { display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 20px 0 16px;
+    background: var(--creme); color: var(--encre); border: 1px solid var(--or); border-radius: 999px;
+    font: 500 15px/1 var(--sans); letter-spacing: .04em; white-space: nowrap;
+    transition: background .25s, border-color .25s, color .25s, box-shadow .25s; }
+  .contact-btn .icone { width: 18px; height: 18px; color: var(--or-fonce); transition: color .25s; }
+  .actions .contact-btn:hover { background: var(--or-fonce); border-color: var(--or-fonce); color: var(--ivoire); box-shadow: 0 6px 16px rgba(138, 100, 24, .28); }
+  .contact-btn:hover .icone { color: var(--ivoire); }
+  .contact-btn:focus-visible { outline: 2px solid var(--or-fonce); outline-offset: 3px; }
   .nav a, .actions__liens a, .actions .txt { white-space: nowrap; }
   /* Connexion et Panier en icônes seules (noms gardés en aria-label) : avec le bouton Contact, les mots ne tiennent pas à côté du logo */
   .compte-btn .txt, .panier-btn .txt { display: none; }

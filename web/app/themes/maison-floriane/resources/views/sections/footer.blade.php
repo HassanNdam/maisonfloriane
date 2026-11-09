@@ -8,6 +8,7 @@
       <p>La beauté révélée par la nature.</p>
     </div>
     <div><h4>Boutique</h4><ul>
+      @if (function_exists('wc_get_page_permalink'))<li><a href="{{ wc_get_page_permalink('shop') }}">Toute la boutique</a></li>@endif
       @if ($savon)<li><a href="{{ $savon->get_permalink() }}">Savon noir réparateur</a></li>@endif
       @if ($glow)<li><a href="{{ $glow->get_permalink() }}">Glow Oil</a></li>@endif
       <li><a href="{{ $duo ? $duo->get_permalink() : home_url('/#rituel') }}">Le rituel duo</a></li>

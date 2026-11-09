@@ -18,7 +18,7 @@
     <button class="panier-btn" type="button" data-panier-ouvrir aria-label="Ouvrir le panier">
       <svg class="icone"><use href="#i-sac"/></svg><span class="txt">Panier</span>@include('partials.panier-compte')
     </button>
-    <a class="btn btn--principal contact-btn" href="{{ home_url('/contact/') }}">Contact</a>
+    <a class="contact-btn" href="{{ home_url('/contact/') }}"><svg class="icone" aria-hidden="true"><use href="#i-courriel"/></svg>Une question ?</a>
   </div>
 </div></header>
 
