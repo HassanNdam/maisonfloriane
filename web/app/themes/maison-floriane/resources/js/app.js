@@ -169,3 +169,51 @@ document.querySelectorAll('[data-onglet-vers]').forEach((bouton) => {
   bouton.addEventListener('click', () => { acces.dataset.onglet = bouton.dataset.ongletVers; maj(); });
   maj();
 });
+
+/*
+ * Ancres internes (#rituel, #resultats, #lettre…) : défilement doux qui accélère puis ralentit,
+ * arrêté dès que le visiteur reprend la main (molette, doigt, clavier). Désactivé si prefers-reduced-motion.
+ * La cible s'arrête sous l'en-tête collant (même décalage que scroll-padding-top en CSS).
+ */
+const mouvementReduit = matchMedia('(prefers-reduced-motion: reduce)');
+const adoucir = (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
+let defilement = 0;
+
+const defiler = (cible) => {
+  const entete = document.querySelector('.entete');
+  const decalage = entete ? entete.offsetHeight + (parseFloat(getComputedStyle(entete).top) || 0) : 0;
+  const max = document.documentElement.scrollHeight - innerHeight;
+  const depart = scrollY;
+  const arrivee = Math.min(max, Math.max(0, cible.getBoundingClientRect().top + depart - decalage));
+  const distance = arrivee - depart;
+  const duree = Math.min(1500, Math.max(800, Math.abs(distance) * 0.5));
+  const debut = performance.now();
+  const course = ++defilement;
+
+  const arreter = () => { defilement++; };
+  ['wheel', 'touchstart', 'keydown'].forEach((type) => addEventListener(type, arreter, { once: true, passive: true }));
+
+  const pas = (maintenant) => {
+    if (course !== defilement) return;
+    const t = Math.min(1, (maintenant - debut) / duree);
+    scrollTo(0, depart + distance * adoucir(t));
+    if (t < 1) requestAnimationFrame(pas);
+    else ['wheel', 'touchstart', 'keydown'].forEach((type) => removeEventListener(type, arreter));
+  };
+  requestAnimationFrame(pas);
+};
+
+document.addEventListener('click', (e) => {
+  const lien = e.target.closest('a[href*="#"]');
+  if (!lien || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const url = new URL(lien.href, location.href);
+  if (url.origin !== location.origin || url.pathname !== location.pathname || url.search !== location.search || url.hash.length < 2) return;
+  const cible = document.getElementById(decodeURIComponent(url.hash.slice(1)));
+  if (!cible) return;
+  e.preventDefault();
+  history.pushState(null, '', url.hash);
+  if (mouvementReduit.matches) cible.scrollIntoView();
+  else defiler(cible);
+  if (!cible.hasAttribute('tabindex')) cible.setAttribute('tabindex', '-1');
+  cible.focus({ preventScroll: true });
+});

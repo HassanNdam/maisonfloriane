@@ -154,7 +154,13 @@
   /* Barre d'administration WordPress : l'en-tête collant passe dessous */
   body.admin-bar .entete { top: 32px; }
 
+  /* Ancres : la cible s'arrête sous l'en-tête collant (le défilement doux est fait en JS, voir app.js) */
+  html { scroll-padding-top: 104px; }
+  html:has(body.admin-bar) { scroll-padding-top: 136px; }
+  [tabindex="-1"]:focus { outline: none; }
+
   @media (max-width: 760px) {
+    html, html:has(body.admin-bar) { scroll-padding-top: 76px; }
     .formulaire .forminator-col-6 { grid-column: span 12; }
     .formulaire .forminator-row { gap: 0; }
     .actions__liens { display: none; }
