@@ -278,8 +278,8 @@ foreach ($catalogue['produits'] as $p) {
     $product->save();
 
     if (! empty($p['seo'])) {
-        update_post_meta($productId, 'rank_math_title', $p['seo']['title']);
-        update_post_meta($productId, 'rank_math_description', $p['seo']['description']);
+        update_post_meta($productId, '_yoast_wpseo_title', $p['seo']['title']);
+        update_post_meta($productId, '_yoast_wpseo_metadesc', $p['seo']['description']);
     }
     mf_log(sprintf('produit : %s (#%d, %s, %s €%s)', $p['nom'], $productId, get_post_status($productId),
         $prix ?: '—', $promo ? " → promo $promo €" : ''));

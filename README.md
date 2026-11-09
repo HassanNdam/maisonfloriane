@@ -39,7 +39,7 @@ Utilisation : `bg-lin text-encre font-serif`…
 | WooCommerce | boutique, stocks, commandes | activée |
 | Germanized | conformité UE : mentions, rétractation, prix TTC | activée |
 | Complianz | bandeau cookies, RGPD | activée |
-| Rank Math | référencement | activée |
+| Yoast SEO | référencement | activée |
 | WooCommerce Stripe Gateway | carte, Apple Pay, Google Pay | activée, clés dans le `.env` (voir Stripe) |
 | Wordfence | sécurité | production seulement |
 | UpdraftPlus | sauvegardes | production seulement |
@@ -66,7 +66,7 @@ Cartes de test Stripe : `4242 4242 4242 4242`, date future, CVC quelconque. Appl
 composer seed
 ```
 
-Active WooCommerce, Germanized, Complianz et Rank Math, règle WooCommerce (euro, boutique en Espagne, vente et livraison dans le monde entier, prix TTC, seuil « stock limité » à 3, pas d'avis),
+Active WooCommerce, Germanized, Complianz et Yoast SEO, règle WooCommerce (euro, boutique en Espagne, vente et livraison dans le monde entier, prix TTC, seuil « stock limité » à 3, pas d'avis),
 crée les pages (Accueil, Mon histoire, Contact, Livraison et retours, CGV, mentions légales, confidentialité, cookies), francise les pages WooCommerce (`/boutique/`, `/panier/`, `/commande/`, `/mon-compte/`),
 importe les médias, crée les 2 produits **en brouillon et sans prix** depuis `docs/00-projet/catalogue-produits.json`, et les menus principal et pied de page. Relançable sans doublon.
 
@@ -135,7 +135,7 @@ L'ajout au panier passe par `?wc-ajax=add_to_cart` : le panier latéral s'ouvre 
 - En-tête : logo « sceau » 150 px (92 px mobile) qui déborde sous l'en-tête, même taille au défilement, animation `logo--retour` au retour en haut (désactivée si `prefers-reduced-motion`).
 - Logos de paiement officiels copiés depuis WooCommerce (`resources/images/paiement/`).
 - Réseaux sociaux (TikTok, Instagram, Facebook) : liens à saisir dans **Apparence › Personnaliser › Réseaux sociaux** (`app/reseaux.php`). Sans lien, l'icône s'affiche sans être cliquable.
-- Bouton « Partager » des fiches produits (`partials/partage.blade.php`) : menu natif du téléphone (Web Share API), sinon WhatsApp, Facebook, Pinterest, e-mail, copier le lien. Pas d'extension ni de script tiers (pas de cookies à déclarer). Les aperçus de partage viennent des balises Open Graph de Rank Math.
+- Bouton « Partager » des fiches produits (`partials/partage.blade.php`) : menu natif du téléphone (Web Share API), sinon WhatsApp, Facebook, Pinterest, e-mail, copier le lien. Pas d'extension ni de script tiers (pas de cookies à déclarer). Les aperçus de partage viennent des balises Open Graph de Yoast SEO.
 - Photos : point de cadrage par média (`_mf_cadrage`, posé par `composer seed`) ; détourés centrés à 64 % du cadre ; photos très verticales montrées en entier. Le Glow Oil détouré vient de la photo du duo (`docs/00-projet/scripts/detourer_glow_oil.py`).
 - Conseils d'utilisation : savon noir matin et soir, Glow Oil le soir uniquement, crème hydratante et solaire en journée (accueil, duo, fiches).
 - `MF_SEED_FORCE=1 composer seed` régénère le texte des pages depuis le prototype (écrase les modifications faites dans l'admin).
