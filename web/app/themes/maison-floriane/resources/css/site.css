@@ -7,7 +7,9 @@
   .pied__legal { flex-wrap: wrap; gap: 4px 0; }
   .pied__legal li + li::before { content: "·"; margin: 0 8px; }
   .pied__legal a:hover, .pied li a:hover { color: var(--ivoire); }
-  .nav .current-menu-item > a, .actions__liens .current-menu-item > a { color: var(--or-fonce); }
+  /* Page en cours en or, sauf les ancres de l'accueil (#rituel, #resultats), toujours « actives » sur l'accueil */
+  .nav .current-menu-item:not(.menu-item-type-custom) > a, .actions__liens .current-menu-item > a { color: var(--or-fonce); }
+  .btn .icone { flex: none; }
 
   /* Menu mobile */
   .menu-mobile { position: fixed; inset: 0; z-index: 40; background: var(--lin); padding: var(--s3); display: none; flex-direction: column; }
@@ -67,13 +69,21 @@
   .woocommerce-notices-wrapper:not(:empty) { margin: var(--s3) 0; }
   .woocommerce-message, .woocommerce-info, .woocommerce-error { list-style: none; padding: var(--s2) var(--s3); background: var(--ivoire); border-left: 2px solid var(--or); }
 
+  /* Logos de paiement officiels */
+  .badge--logo { background: none; width: auto; height: auto; }
+  .badge--logo img { display: block; width: 52px; height: 34px; object-fit: contain; border-radius: 4px; background: #FFFDFA; }
+
+  /* Prix promo (duo) sur la fiche produit */
+  .achat .prix__barre { font-size: 22px; color: var(--taupe); margin-left: 10px; }
+  .achat .economie { display: inline-block; margin-bottom: var(--s2); }
+  .achat__texte { margin-top: var(--s3); }
+
   /* Barre d'administration WordPress : l'en-tête collant passe dessous */
   body.admin-bar .entete { top: 32px; }
 
   @media (max-width: 760px) {
     .actions__liens { display: none; }
-    .duo__produit { flex-direction: column; gap: var(--s2); }
-    .duo .btn, .ligne-achat .btn--principal { white-space: normal; text-align: center; line-height: 1.3; }
+    .duo .btn { white-space: normal; text-align: center; line-height: 1.3; }
     .duo .btn { width: 100%; height: auto; min-height: 52px; padding: 12px var(--s2); }
     .achat, .produit > * { min-width: 0; }
     body.admin-bar .entete { top: 0; }

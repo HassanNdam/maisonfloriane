@@ -6,7 +6,7 @@ WordPress sous [Bedrock](https://roots.io/bedrock/), WooCommerce, thème sur mes
 ## Le projet en bref
 
 - **Propriétaire** : Flore, installée en Espagne (UE). Expédition depuis l'Espagne.
-- **Catalogue** : 2 produits seulement, le **savon noir réparateur** et le **Glow Oil** Floréa Skin. Les prix ne sont pas encore fixés : les produits restent en brouillon.
+- **Catalogue** : le **savon noir réparateur** (300 g, 45,99 €) et le **Glow Oil** (100 ml, 35,99 €) Floréa Skin, plus **Le Duo rituel** (81,98 € → 69,99 €), dont le stock est celui des deux soins (vendre un duo retire un savon et un Glow Oil). Prix TTC.
 - **Vente** : accent sur l'Union européenne, commandes possibles du monde entier (dont l'Afrique), **toujours en euros**, prix TTC. Commande aussi par WhatsApp.
 - **Paiement** : Stripe (carte, Apple Pay, Google Pay) et PayPal.
 - **Ton** : calme, haut de gamme, authentique ; preuves avant/après sans filtre (la vidéo à la cape noire est la vidéo principale).
@@ -99,12 +99,15 @@ Voir [`CONTRIBUTING.md`](CONTRIBUTING.md) : `main` = production, `develop` = int
 
 - Styles : `resources/css/prototype.css` reprend `docs/03-maquettes/prototype/styles.css` (à resynchroniser si le prototype change), `site.css` ajoute WordPress/WooCommerce.
 - Logique : `app/helpers.php` (médias, prix, stock, WhatsApp), `app/woocommerce.php` (gabarits, panier latéral AJAX, duo `/?mf-duo=1`), `app/formulaires.php` (contact, lettre).
-- Sans prix, un produit affiche « Prix à venir » et le bouton « Bientôt disponible » ; la commande WhatsApp reste possible. `composer seed` publie les produits en local (`WP_ENV=development`) et les laisse en brouillon ailleurs.
+- Prix, promo, contenances et ingrédients viennent de `docs/00-projet/catalogue-produits.json` : `composer seed` les réapplique à chaque lancement (le catalogue fait foi). Un produit sans prix reste en brouillon et affiche « Prix à venir ».
+- Duo : méta `_mf_composants` = `FS-001`, `FS-002`. Le stock des composants est décrémenté à la vente et rétabli à l'annulation (note sur la commande) ; le duo est en rupture si un composant l'est ; le panier refuse plus d'unités qu'en stock, duos compris. Effectif dès que le stock est géré sur le savon et le Glow Oil.
+- En-tête : logo « sceau » 150 px (92 px mobile) qui déborde sous l'en-tête, même taille au défilement, animation `logo--retour` au retour en haut (désactivée si `prefers-reduced-motion`).
+- Logos de paiement officiels copiés depuis WooCommerce et WooCommerce PayPal Payments (`resources/images/paiement/`).
 - `MF_SEED_FORCE=1 composer seed` régénère le texte des pages depuis le prototype (écrase les modifications faites dans l'admin).
 
 ## Reste à faire
 
-- Fixer les prix et la liste INCI, puis publier les produits.
+- Liste INCI complète et PAO ; activer la gestion du stock (quantités) sur le savon et le Glow Oil.
 - Zones et tarifs de livraison (UE / reste du monde), TVA espagnole, clés Stripe et PayPal.
-- Textes définitifs des pages légales ; outil d'envoi pour la Lettre Floréa (aujourd'hui : e-mail à Flore à chaque inscription).
+- Textes des pages légales : assistant Complianz (cookies, confidentialité) et textes Germanized/CGV ; outil d'envoi pour la Lettre Floréa (aujourd'hui : e-mail à Flore à chaque inscription).
 - Durée d'utilisation sous chaque témoignage avant/après (mention légale prévue par le cadrage).

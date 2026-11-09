@@ -21,7 +21,7 @@ def slug(s):
 
 
 P = [
-    dict(ref="FS-001", nom="Savon noir réparateur Floréa Skin", categorie="Nettoyant visage et corps", contenance="250 g (à confirmer)",
+    dict(ref="FS-001", nom="Savon noir réparateur Floréa Skin", categorie="Nettoyant visage et corps", contenance="300 g", prix=45.99, ingredients="Extraits de plantes, curcuma, miel, neem, glycérine",
          image=IMG + "produits/savon-noir-reparateur-florea-skin-detoure.webp",
          video=VID + "produits/video-savon-noir-florea-skin-presentation.mp4",
          desc_courte="Savon noir réparateur pour le visage et le corps : nettoie en profondeur et prépare la peau.",
@@ -30,7 +30,7 @@ P = [
               "Floréa Skin, la beauté révélée par la nature.",
          conseils="Faire mousser une petite quantité avec de l'eau, masser le visage et le corps, puis rincer abondamment. "
                   "Éviter le contour des yeux. Usage quotidien. " + TEST_PEAU),
-    dict(ref="FS-002", nom="Glow Oil Floréa Skin", categorie="Huile corporelle", contenance="100 ml",
+    dict(ref="FS-002", nom="Glow Oil Floréa Skin", categorie="Huile corporelle", contenance="100 ml", prix=35.99, ingredients="Huile de busserole, huile de jojoba, vitamine C, glutathion, glycérine",
          image=IMG + "produits/glow-oil-florea-skin-huile-corporelle-en-main.webp",
          video=VID + "produits/video-glow-oil-florea-skin-presentation.mp4",
          desc_courte="Huile corporelle éclatante, nourrissante et réparatrice : le booster d'éclat de votre routine.",
@@ -39,13 +39,22 @@ P = [
               "Floréa Skin, la beauté révélée par la nature.",
          conseils="Appliquer quelques gouttes sur une peau propre et légèrement humide, masser jusqu'à pénétration. "
                   "Peut se mélanger à votre crème corporelle pour booster l'éclat. " + TEST_PEAU),
+    # Duo : produit à part ; prix normal = somme des deux, prix promo = prix du duo (WooCommerce barre l'ancien prix)
+    dict(ref="FS-003", nom="Le Duo rituel Floréa Skin", categorie="Coffrets et routines", contenance="Savon noir 300 g + Glow Oil 100 ml",
+         prix=81.98, prix_promo=69.99,
+         ingredients="Savon noir : extraits de plantes, curcuma, miel, neem, glycérine. Glow Oil : huile de busserole, huile de jojoba, vitamine C, glutathion, glycérine",
+         image=IMG + "produits/duo-savon-noir-glow-oil-florea-skin-rituel.webp", video=None,
+         desc_courte="Le savon noir réparateur et le Glow Oil réunis : la routine complète de Flore, à prix doux.",
+         desc="Le Duo rituel réunit les deux gestes Floréa Skin : le savon noir réparateur pour purifier, puis le Glow Oil pour nourrir et révéler l'éclat. "
+              "Floréa Skin, la beauté révélée par la nature.",
+         conseils="Matin et soir : nettoyer avec le savon noir, rincer, puis appliquer quelques gouttes de Glow Oil sur une peau légèrement humide. " + TEST_PEAU),
 ]
 for p in P:
-    p.update(marque="Floréa Skin", genre="Mixte", slug=slug(p["nom"]), alt=p["nom"], ingredients="À renseigner (liste INCI)")
+    p.update(marque="Floréa Skin", genre="Mixte", slug=slug(p["nom"]), alt=p["nom"])
     titre = p["nom"] + " | Maison Floriane"
     p["meta_title"] = titre if len(titre) <= 60 else p["nom"]
     p["meta_description"] = (p["desc_courte"].rstrip(".") + ". Livraison en Europe et dans le monde.")[:160]
-    p["a_confirmer"] = "Prix non fixé ; liste INCI ; détourage HD à prévoir pour le Glow Oil (photo actuelle : flacon tenu en main)."
+    p["a_confirmer"] = "Liste INCI complète et PAO (ingrédients clés reçus) ; détourage HD à prévoir pour le Glow Oil (photo actuelle : flacon tenu en main)."
 
 # ---------- Excel ----------
 wb = Workbook()
@@ -68,9 +77,9 @@ for c, (h, w) in enumerate(cols, 1):
     ws.column_dimensions[cell.column_letter].width = w
 ws.row_dimensions[1].height = 32
 for r, p in enumerate(P, 2):
-    vals = [p["ref"], p["nom"], p["categorie"], p["contenance"], None, None, None,
+    vals = [p["ref"], p["nom"], p["categorie"], p["contenance"], p["prix"], p.get("prix_promo"), None,
             f'=IF(G{r}="","À renseigner",IF(G{r}<=0,"Rupture de stock",IF(G{r}<=Paramètres!$B$4,"Stock limité","En stock")))',
-            None, p["image"], p["video"], p["alt"], p["desc_courte"], p["desc"], p["conseils"], p["ingredients"], p["slug"],
+            None, p["image"], p["video"] or "", p["alt"], p["desc_courte"], p["desc"], p["conseils"], p["ingredients"], p["slug"],
             p["meta_title"], p["meta_description"], p["a_confirmer"]]
     for c, v in enumerate(vals, 1):
         cell = ws.cell(row=r, column=c, value=v)
@@ -99,7 +108,7 @@ rows = [
     ("Nom de domaine", "maisonfloriane.com", "Confirmé le 08/11/2026"),
     ("E-mail de contact", CONTACT["email"], "Transmis par la propriétaire le 08/11/2026"),
     ("Téléphone / WhatsApp", CONTACT["telephone"], "Transmis le 08/11/2026, sert aussi de WhatsApp (bouton de contact du site)"),
-    ("Devise", "EUR (€)", "Prix non fixés pour l'instant"),
+    ("Devise", "EUR (€)", "Prix TTC fixés le 09/11/2026 : savon noir 45,99 €, Glow Oil 35,99 €, duo 69,99 € au lieu de 81,98 €"),
     (None, None, None),
     ("Livraison", None, None),
     ("Zones desservies", "Monde entier, accent sur l'UE", "Expédition depuis l'Espagne ; hors UE : droits de douane à la charge du client"),
@@ -148,9 +157,9 @@ data = {
     "devise": "EUR", "zone_livraison": "Monde entier (accent Union européenne)", "seuil_stock_limite": SEUIL_STOCK_LIMITE,
     "produits": [{
         "reference": p["ref"], "nom": p["nom"], "slug": p["slug"], "marque": p["marque"], "categorie": p["categorie"],
-        "contenance": p["contenance"], "prix": None, "prix_promo": None, "stock": None, "publie": False,
+        "contenance": p["contenance"], "prix": p["prix"], "prix_promo": p.get("prix_promo"), "stock": None, "publie": True,
         "images": [{"src": p["image"], "alt": p["alt"]}],
-        "video": {"src": p["video"], "poster": p["video"].replace(".mp4", "-apercu.webp")},
+        "video": {"src": p["video"], "poster": p["video"].replace(".mp4", "-apercu.webp")} if p["video"] else None,
         "description_courte": p["desc_courte"], "description": p["desc"], "conseils_utilisation": p["conseils"],
         "ingredients": p["ingredients"], "seo": {"title": p["meta_title"], "description": p["meta_description"]},
         "a_confirmer": p["a_confirmer"],
@@ -164,5 +173,5 @@ data = {
 with open(os.path.join(OUT, "catalogue-produits.json"), "w", encoding="utf-8") as f:
     json.dump(data, f, ensure_ascii=False, indent=2)
 
-paths = [p["image"] for p in P] + [p["video"] for p in P] + data["preuves_avant_apres"]["videos_resultat"]
+paths = [p["image"] for p in P] + [p["video"] for p in P if p["video"]] + data["preuves_avant_apres"]["videos_resultat"]
 print(len(P), "produits ; fichiers manquants :", [x for x in paths if not os.path.exists(x)])

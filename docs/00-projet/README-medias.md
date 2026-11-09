@@ -16,7 +16,7 @@ Voir `cadrage-v2-europe.md`.
   favicon/                 favicons à déposer À LA RACINE du site (noms standards, ne pas renommer)
                            + a-copier-dans-le-head.html (balises à coller dans le <head>)
   florea-skin/
-    produits/              photos « en-main » (nettes, utilisées sur les cartes et le récit), savon noir « -detoure » (fiche produit, panier), anciennes découpes avec fond
+    produits/              photos « en-main » (cartes), savon noir « -detoure » (fiche produit, panier), photo « duo » (bannière du rituel, Mon histoire), anciennes découpes avec fond
     avant-apres/           photos « avant » sans filtre : taches brunes (joues, front, mâchoire)
     histoire/              portrait de Flore (page Mon histoire)
 02-videos-site/florea-skin/   MP4 H.264, sans son, lecture web rapide + image d'aperçu « -apercu.webp »

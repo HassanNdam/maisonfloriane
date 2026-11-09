@@ -37,9 +37,13 @@
       @if ($r['etape'])<span class="surtitre">Étape {{ $r['etape'] }} du rituel · {{ $r['geste'] }}</span>@endif
       <h1 class="h1">{{ $nom }}</h1>
       <p class="petit">{{ implode(' · ', array_filter([$r['usage'], App\contenance($produit)])) }}</p>
-      <span class="prix">{{ App\prix($produit) }}</span>
+      <span class="prix">{{ App\prix($produit) }}@if ($barre = App\prix_barre($produit)) <s class="prix__barre">{{ $barre }}</s>@endif</span>
+      @if ($eco = App\economie($produit))<span class="economie">Vous économisez {{ $eco }}</span>@endif
       <span class="stock {{ $stockClasse }}">{{ $stockLibelle }}{{ $achetable ? ' · expédié sous 48 h' : '' }}</span>
-      <div style="margin-top:24px">{!! wpautop(wp_kses_post($produit->get_short_description())) !!}</div>
+      <div class="achat__texte">{!! wpautop(wp_kses_post($produit->get_description() ?: $produit->get_short_description())) !!}</div>
+      @if ($ingredients = App\ingredients($produit))
+        <ul class="actifs" aria-label="Ingrédients clés">@foreach ($ingredients as $ingredient)<li>{{ $ingredient }}</li>@endforeach</ul>
+      @endif
 
       <form class="ligne-achat" method="post" action="{{ $produit->get_permalink() }}" data-produit="{{ $nom }}">
         <div class="quantite">
@@ -63,12 +67,12 @@
         <div><svg class="icone"><use href="#i-retour"/></svg>Retour sous 14 jours si le produit n'est pas ouvert</div>
       </div>
       <div class="accordeon">
-        <details open><summary>Description</summary><div class="accordeon__texte">{!! wpautop(wp_kses_post($produit->get_description())) !!}</div></details>
         @if ($conseils = $produit->get_meta('_mf_conseils'))
-          <details><summary>Conseils d'utilisation</summary><p>{{ $conseils }}</p></details>
+          <details open><summary>Conseils d'utilisation</summary><p>{{ $conseils }}</p></details>
         @endif
-        <details><summary>Ingrédients</summary><p>{{ $produit->get_meta('_mf_ingredients') ?: 'Liste INCI complète à venir.' }}</p></details>
-        <details><summary>Livraison & retours</summary><p>Expédition depuis l'Espagne sous 48 h ouvrées. Frais et délais selon le pays, affichés avant paiement. <a class="lien" href="{{ home_url('/livraison-retours/') }}">En savoir plus</a></p></details>
+        @php($ingr = rtrim((string) $produit->get_meta('_mf_ingredients'), '. '))
+        <details><summary>Ingrédients</summary><p>{{ $ingr ? $ingr . ". La liste INCI complète figure sur l'emballage." : 'Liste INCI complète à venir.' }}</p></details>
+        <details><summary>Livraison & retours</summary><p>Expédition depuis l'Espagne sous 48 h ouvrées, en Europe et dans le monde. Frais et délais selon le pays, affichés avant paiement ; prix toujours en euros. Hors Union européenne, les droits de douane sont à la charge du client. <a class="lien" href="{{ home_url('/livraison-retours/') }}">En savoir plus</a></p></details>
       </div>
     </div>
   </div>

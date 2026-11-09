@@ -74,3 +74,22 @@ document.querySelectorAll('[data-video]').forEach((vignette) => vignette.addEven
   Object.assign(video, { src: vignette.dataset.video, controls: true, autoplay: true, muted: true, playsInline: true, loop: true });
   vignette.append(video);
 }, { once: true }));
+
+/*
+ * En-tête : le logo « sceau » garde sa taille pendant le défilement ; au retour tout en haut,
+ * petite animation (agrandissement puis ralentissement), désactivée en CSS si prefers-reduced-motion.
+ */
+const logo = document.querySelector('.entete .logo');
+if (logo) {
+  let enHaut = scrollY <= 40;
+  addEventListener('scroll', () => {
+    const maintenant = scrollY <= 40;
+    if (maintenant && !enHaut) {
+      logo.classList.remove('logo--retour');
+      void logo.offsetWidth; // relance l'animation
+      logo.classList.add('logo--retour');
+    }
+    enHaut = maintenant;
+  }, { passive: true });
+  logo.addEventListener('animationend', () => logo.classList.remove('logo--retour'));
+}

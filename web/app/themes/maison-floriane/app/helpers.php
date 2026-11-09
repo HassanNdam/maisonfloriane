@@ -55,25 +55,86 @@ function produit(string $sku): ?\WC_Product
     return $product ?: null;
 }
 
-/** Prix affiché : « Prix à venir » tant qu'aucun prix n'est fixé (aucun prix inventé). */
+/** Montant formaté en texte brut (« 45,99 € »), prêt pour {{ }} dans Blade. */
+function montant(float $valeur): string
+{
+    return html_entity_decode(wp_strip_all_tags(wc_price($valeur)), ENT_QUOTES, 'UTF-8');
+}
+
+/** Prix affiché (prix promo s'il y en a un) : « Prix à venir » tant qu'aucun prix n'est fixé (aucun prix inventé). */
 function prix(?\WC_Product $product): string
 {
     if (! $product || $product->get_price() === '') {
         return esc_html__('Prix à venir', 'sage');
     }
 
-    return wp_strip_all_tags(wc_price(wc_get_price_to_display($product)));
+    return montant(wc_get_price_to_display($product));
 }
 
-/** Badge de stock : [classe CSS, libellé]. Seuil « stock limité » = option WooCommerce (3). */
+/** Prix normal barré quand le produit est en promotion, sinon chaîne vide. */
+function prix_barre(?\WC_Product $product): string
+{
+    if (! $product || ! $product->is_on_sale() || $product->get_regular_price() === '') {
+        return '';
+    }
+
+    return montant(wc_get_price_to_display($product, ['price' => $product->get_regular_price()]));
+}
+
+/** Économie réalisée sur un produit en promotion (« 11,99 € »), sinon chaîne vide. */
+function economie(?\WC_Product $product): string
+{
+    if (! prix_barre($product)) {
+        return '';
+    }
+    $ecart = wc_get_price_to_display($product, ['price' => $product->get_regular_price()]) - wc_get_price_to_display($product);
+
+    return $ecart > 0 ? montant($ecart) : '';
+}
+
+/**
+ * Ingrédients clés (méta `_mf_ingredients`) en liste, sans doublon.
+ * Le duo (« Savon noir : … . Glow Oil : … ») est aplati.
+ */
+function ingredients(?\WC_Product $product): array
+{
+    $texte = $product ? (string) $product->get_meta('_mf_ingredients') : '';
+    if ($texte === '') {
+        return [];
+    }
+    $liste = [];
+    foreach (preg_split('/\.\s+/', $texte) as $groupe) {
+        $groupe = preg_replace('/^[^:]{1,30}:\s*/u', '', $groupe);
+        foreach (explode(',', $groupe) as $ingredient) {
+            $ingredient = trim($ingredient, " .\t\n");
+            if ($ingredient !== '') {
+                $liste[mb_strtolower($ingredient)] = mb_strtoupper(mb_substr($ingredient, 0, 1)) . mb_substr($ingredient, 1);
+            }
+        }
+    }
+
+    return array_values($liste);
+}
+
+/** Composants d'un produit composé (le duo) : méta `_mf_composants` = références. */
+function composants(?\WC_Product $product): array
+{
+    $skus = $product ? (array) $product->get_meta('_mf_composants') : [];
+
+    return array_values(array_filter(array_map(fn ($sku) => produit((string) $sku), array_filter($skus))));
+}
+
+/** Badge de stock : [classe CSS, libellé]. Seuil « stock limité » = option WooCommerce (3). Le duo suit ses composants. */
 function stock(?\WC_Product $product): array
 {
     if (! $product || ! $product->is_in_stock()) {
         return ['stock--rupture', __('Rupture de stock', 'sage')];
     }
     $seuil = (int) get_option('woocommerce_notify_low_stock_amount', 3);
-    if ($product->managing_stock() && $product->get_stock_quantity() !== null && $product->get_stock_quantity() <= $seuil) {
-        return ['stock--limite', __('Stock limité', 'sage')];
+    foreach (array_merge([$product], composants($product)) as $p) {
+        if ($p->managing_stock() && $p->get_stock_quantity() !== null && $p->get_stock_quantity() <= $seuil) {
+            return ['stock--limite', __('Stock limité', 'sage')];
+        }
     }
 
     return ['stock--ok', __('En stock', 'sage')];
@@ -107,6 +168,8 @@ function rituel(?\WC_Product $product): array
             'accroche' => 'Nettoie en profondeur et prépare la peau, sans la dessécher.', 'complement' => 'FS-002'],
         'FS-002' => ['etape' => 2, 'geste' => 'Révéler', 'usage' => 'Huile corporelle', 'photo' => 'glow-oil-florea-skin-huile-corporelle-en-main.webp',
             'accroche' => 'Nourrit, répare et laisse un fini lumineux. Seule ou en booster.', 'complement' => 'FS-001'],
+        'FS-003' => ['etape' => null, 'geste' => '', 'usage' => 'Le rituel complet', 'photo' => 'duo-savon-noir-glow-oil-florea-skin-rituel.webp',
+            'accroche' => 'Les deux gestes du rituel, matin et soir, à prix doux.', 'complement' => null],
     ];
 
     return $rituel[$product?->get_sku()] ?? ['etape' => null, 'geste' => '', 'usage' => '', 'photo' => '', 'accroche' => '', 'complement' => null];

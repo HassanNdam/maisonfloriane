@@ -6,7 +6,7 @@
     <svg class="icone" style="width:24px;height:24px"><use href="#i-menu"/></svg>
   </button>
   <a class="logo" href="{{ home_url('/') }}">
-    <img src="{{ Vite::asset('resources/images/logo-florea-skin-rond-400px.webp') }}" alt="Floréa Skin, accueil" width="80" height="80">
+    <img src="{{ Vite::asset('resources/images/logo-florea-skin-rond-400px.webp') }}" alt="Floréa Skin, accueil" width="150" height="150" fetchpriority="high">
   </a>
   <div class="actions">
     <ul class="txt actions__liens">{!! $menu('secondary_navigation') !!}</ul>

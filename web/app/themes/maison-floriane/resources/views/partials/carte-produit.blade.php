@@ -16,6 +16,9 @@
     </div>
     <p class="petit">{{ implode(' · ', array_filter([$r['usage'], App\contenance($produit)])) }}</p>
     <p>{{ $r['accroche'] ?: wp_strip_all_tags($produit->get_short_description()) }}</p>
+    @if ($ingredients = App\ingredients($produit))
+      <p class="ingredients">{{ implode(' · ', array_map(fn ($i, $k) => $k ? mb_strtolower(mb_substr($i, 0, 1)) . mb_substr($i, 1) : $i, $ingredients, array_keys($ingredients))) }}</p>
+    @endif
     <span class="stock {{ $stockClasse }}">{{ $stockLibelle }}</span>
     @if ($produit->is_purchasable() && $produit->is_in_stock())
       <form method="post" action="{{ $produit->get_permalink() }}">

@@ -220,23 +220,28 @@ foreach (glob("$docs/02-videos-site/florea-skin/*/*") as $file) {
     mf_media($file, str_ends_with($file, '.webp') ? 'Aperçu de la vidéo Floréa Skin' : '');
 }
 
-// Sans prix, un produit n'est pas achetable : publié en local pour l'intégration, brouillon ailleurs.
-$statut = (defined('WP_ENV') && WP_ENV === 'development') ? 'publish' : 'draft';
-WP_CLI::log("Produits (sans prix, statut : $statut)");
+// Prix, promo et publication viennent du catalogue (docs/00-projet/catalogue-produits.json, généré depuis le .xlsx).
+// Un produit sans prix reste en brouillon : aucun prix n'est inventé.
+WP_CLI::log('Produits (catalogue)');
 $catalogue = json_decode(file_get_contents("$docs/00-projet/catalogue-produits.json"), true);
 $galeries = [
-    'FS-001' => ['savon-noir-reparateur-florea-skin-en-main.webp', 'savon-noir-reparateur-florea-skin-visage-corps.webp'],
+    'FS-001' => ['savon-noir-reparateur-florea-skin-en-main.webp'], // comme le prototype : détouré, vidéo, en main
     'FS-002' => ['glow-oil-florea-skin-huile-corporelle-eclat.webp'],
 ];
+// Produits composés : vendre un duo retire un savon et un Glow Oil du stock (voir app/woocommerce.php du thème).
+$composants = ['FS-003' => ['FS-001', 'FS-002']];
 foreach ($catalogue['produits'] as $p) {
     $id = wc_get_product_id_by_sku($p['reference']);
     $product = $id ? wc_get_product($id) : new WC_Product_Simple();
     if (! $id) {
         $product->set_sku($p['reference']);
     }
-    if ($product->get_price() === '') {
-        $product->set_status($statut); // jamais de prix inventé : publication réelle une fois le prix saisi
-    }
+    $prix = $p['prix'] !== null ? wc_format_decimal($p['prix']) : '';
+    $promo = $p['prix_promo'] !== null ? wc_format_decimal($p['prix_promo']) : '';
+    $product->set_regular_price($prix);
+    $product->set_sale_price($promo);
+    $product->set_status($prix !== '' && ! empty($p['publie']) ? 'publish' : 'draft');
+    $product->update_meta_data('_mf_composants', $composants[$p['reference']] ?? []);
     $product->set_name($p['nom']);
     $product->set_slug($p['slug']);
     $product->set_short_description($p['description_courte']);
@@ -254,7 +259,7 @@ foreach ($catalogue['produits'] as $p) {
     if ($image && ! $product->get_image_id()) {
         $product->set_image_id(mf_media("$docs/" . $image['src'], $image['alt'], $productId));
     }
-    if (! $product->get_gallery_image_ids()) {
+    if (isset($galeries[$p['reference']])) { // galerie resynchronisée avec le prototype à chaque lancement
         $ids = [];
         foreach ($galeries[$p['reference']] ?? [] as $file) {
             $ids[] = mf_media("$docs/01-images-site/florea-skin/produits/$file", $p['nom'], $productId);
@@ -274,7 +279,8 @@ foreach ($catalogue['produits'] as $p) {
         update_post_meta($productId, 'rank_math_title', $p['seo']['title']);
         update_post_meta($productId, 'rank_math_description', $p['seo']['description']);
     }
-    mf_log("produit : {$p['nom']} (#$productId, " . get_post_status($productId) . ')');
+    mf_log(sprintf('produit : %s (#%d, %s, %s €%s)', $p['nom'], $productId, get_post_status($productId),
+        $prix ?: '—', $promo ? " → promo $promo €" : ''));
 }
 
 WP_CLI::log('Menus (resynchronisés à chaque lancement)');

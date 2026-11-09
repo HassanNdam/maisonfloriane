@@ -21,6 +21,9 @@
       <p class="lettre__ouverture">J'ai longtemps souffert d'acné hormonale. Une acné qui m'a laissé des taches. Des taches qui m'en laissent encore aujourd'hui d'ailleurs.</p>
       <p>Je ne vais pas te mentir en te disant que tout est parti du jour au lendemain. J'en souffre encore. Mais aujourd'hui, je parviens à maintenir ma peau grâce à ces deux produits.</p>
       <p class="lettre__affirmation">C'est devenu ma routine.<br>Mon entretien.</p>
+      @if ($duo = App\media_id('duo-savon-noir-glow-oil-florea-skin-rituel.webp'))
+        {!! wp_get_attachment_image($duo, 'large', false, ['class' => 'lettre__duo', 'alt' => 'La routine de Flore : savon noir réparateur et Glow Oil Floréa Skin', 'loading' => 'lazy']) !!}
+      @endif
     </div>
   </div></section>
 

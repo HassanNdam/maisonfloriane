@@ -16,7 +16,11 @@
     @if (have_posts())
       <div class="rituel">
         @while (have_posts()) @php(the_post())
-          @include('partials.carte-produit', ['produit' => wc_get_product(get_the_ID())])
+          @php($p = wc_get_product(get_the_ID()))
+          {{-- Le duo a sa propre bannière, sous les deux soins. --}}
+          @unless (App\composants($p))
+            @include('partials.carte-produit', ['produit' => $p])
+          @endunless
         @endwhile
       </div>
       @include('partials.duo')

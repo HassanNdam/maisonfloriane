@@ -1,14 +1,29 @@
-{{-- Le rituel complet : Savon noir + Glow Oil. --}}
-@php($savon = App\produit('FS-001'))
-@php($glow = App\produit('FS-002'))
-@php($total = ($savon && $glow && $savon->get_price() !== '' && $glow->get_price() !== '') ? wp_strip_all_tags(wc_price(wc_get_price_to_display($savon) + wc_get_price_to_display($glow))) : null)
-<div class="duo">
-  <div><span class="surtitre">Le rituel complet</span><p class="h3" style="margin-top:8px">Savon noir + Glow Oil, réunis.</p></div>
-  @if (App\duo_achetable())
-    <a class="btn btn--contour" href="{{ add_query_arg('mf-duo', '1', home_url('/')) }}" rel="nofollow">Ajouter le duo{{ $total ? ' · ' . $total : '' }}</a>
-  @else
-    <a class="btn btn--contour" href="{{ App\whatsapp_url(App\message_commande([['Savon noir réparateur', 1], ['Glow Oil', 1]])) }}" target="_blank" rel="noopener">
-      <svg class="icone"><use href="#i-whatsapp"/></svg>Réserver le duo sur WhatsApp
+{{-- Bannière « Le rituel complet » : produit Le Duo rituel (FS-003), prix promo, prix normal barré, économie. --}}
+@php($duo = App\produit('FS-003'))
+@if ($duo)
+  @php($photo = App\media_id('duo-savon-noir-glow-oil-florea-skin-rituel.webp') ?: $duo->get_image_id())
+  <div class="duo-banniere">
+    <a href="{{ $duo->get_permalink() }}">
+      @if ($photo)
+        {!! wp_get_attachment_image($photo, 'large', false, ['alt' => 'Le rituel Floréa Skin : savon noir réparateur 300 g et Glow Oil 100 ml', 'loading' => 'lazy']) !!}
+      @endif
     </a>
-  @endif
-</div>
+    <div class="duo-banniere__texte">
+      <span class="surtitre">Le rituel complet</span>
+      <p class="h2">Savon noir + Glow Oil, réunis.</p>
+      <p>Le savon noir 300 g et le Glow Oil 100 ml : les deux gestes du rituel, matin et soir.</p>
+      <p class="duo-prix">
+        <span class="prix">{{ App\prix($duo) }}</span>
+        @if ($barre = App\prix_barre($duo))<s>{{ $barre }}</s>@endif
+        @if ($eco = App\economie($duo))<span class="economie">Vous économisez {{ $eco }}</span>@endif
+      </p>
+      @if ($duo->is_purchasable() && $duo->is_in_stock())
+        <form method="post" action="{{ $duo->get_permalink() }}">
+          <button class="btn btn--principal" type="submit" name="add-to-cart" value="{{ $duo->get_id() }}">Ajouter le duo au panier</button>
+        </form>
+      @else
+        <a class="btn btn--principal" href="{{ App\whatsapp_url(App\message_commande([[App\nom_court($duo), 1]])) }}" target="_blank" rel="noopener">Réserver le duo sur WhatsApp</a>
+      @endif
+    </div>
+  </div>
+@endif

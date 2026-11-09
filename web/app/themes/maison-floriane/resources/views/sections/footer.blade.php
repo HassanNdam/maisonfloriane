@@ -1,5 +1,6 @@
 @php($savon = App\produit('FS-001'))
 @php($glow = App\produit('FS-002'))
+@php($duo = App\produit('FS-003'))
 <footer class="pied"><div class="conteneur">
   <div class="pied__grille">
     <div>
@@ -9,7 +10,7 @@
     <div><h4>Boutique</h4><ul>
       @if ($savon)<li><a href="{{ $savon->get_permalink() }}">Savon noir réparateur</a></li>@endif
       @if ($glow)<li><a href="{{ $glow->get_permalink() }}">Glow Oil</a></li>@endif
-      <li><a href="{{ home_url('/#rituel') }}">Le rituel duo</a></li>
+      <li><a href="{{ $duo ? $duo->get_permalink() : home_url('/#rituel') }}">Le rituel duo</a></li>
     </ul></div>
     <div><h4>Aide</h4><ul>
       <li><a href="{{ home_url('/mon-histoire/') }}">Mon histoire</a></li>
@@ -24,13 +25,12 @@
       <li>Réponse sous 24 h ouvrées</li>
     </ul></div>
   </div>
+  {{-- Logos officiels fournis par WooCommerce (Visa, Mastercard, Apple Pay, Google Pay) et WooCommerce PayPal Payments. --}}
   <div class="paiements"><span>Paiement sécurisé</span>
-    <span class="badge" title="Visa"><svg viewBox="0 0 48 16"><text x="24" y="12.5" text-anchor="middle" font-family="Arial" font-weight="700" font-style="italic" font-size="13" fill="#1A1F71">VISA</text></svg></span>
-    <span class="badge" title="Mastercard"><svg viewBox="0 0 48 16"><circle cx="19" cy="8" r="7" fill="#EB001B"/><circle cx="29" cy="8" r="7" fill="#F79E1B" fill-opacity=".9"/></svg></span>
-    <span class="badge" title="Apple Pay"><svg viewBox="0 0 48 16"><text x="24" y="12" text-anchor="middle" font-family="Arial" font-weight="600" font-size="10.5" fill="#000">Apple Pay</text></svg></span>
-    <span class="badge" title="Google Pay"><svg viewBox="0 0 48 16"><text x="24" y="12" text-anchor="middle" font-family="Arial" font-weight="600" font-size="10.5" fill="#3C4043"><tspan fill="#4285F4">G</tspan> Pay</text></svg></span>
-    <span class="badge" title="PayPal"><svg viewBox="0 0 48 16"><text x="24" y="12" text-anchor="middle" font-family="Arial" font-weight="700" font-style="italic" font-size="11"><tspan fill="#003087">Pay</tspan><tspan fill="#009CDE">Pal</tspan></text></svg></span>
-    <span class="badge" title="WhatsApp"><svg viewBox="0 0 48 16"><text x="24" y="12" text-anchor="middle" font-family="Arial" font-weight="600" font-size="10" fill="#1F8A4C">WhatsApp</text></svg></span>
+    @foreach (['visa' => 'Visa', 'mastercard' => 'Mastercard', 'applepay' => 'Apple Pay', 'googlepay' => 'Google Pay', 'paypal' => 'PayPal'] as $fichier => $nom)
+      <span class="badge badge--logo" title="{{ $nom }}"><img src="{{ Vite::asset("resources/images/paiement/{$fichier}.svg") }}" alt="{{ $nom }}" width="56" height="34" loading="lazy"></span>
+    @endforeach
+    <span class="badge" title="WhatsApp"><svg viewBox="0 0 48 16" role="img" aria-label="WhatsApp"><text x="24" y="12" text-anchor="middle" font-family="Arial" font-weight="600" font-size="10" fill="#1F8A4C">WhatsApp</text></svg></span>
   </div>
   <div class="pied__bas">
     <span>© {{ date('Y') }} Maison Floriane · maisonfloriane.com</span>

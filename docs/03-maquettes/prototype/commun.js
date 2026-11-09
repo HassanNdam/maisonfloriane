@@ -50,12 +50,12 @@ document.body.insertAdjacentHTML("beforeend", `
     <button onclick="document.body.classList.remove('panier-ouvert')" aria-label="Fermer"><svg class="icone"><use href="#i-fermer"/></svg></button></div>
   <div class="tiroir__liste">
     <div class="article"><div class="article__img"><img src="${M}florea-skin/produits/savon-noir-reparateur-florea-skin-detoure.webp" alt=""></div>
-      <div><div>Savon noir réparateur</div><div class="petit">250 g</div><div class="quantite"><button>−</button><span>1</span><button>+</button></div></div><span class="prix" style="font-size:20px">00,00 €</span></div>
+      <div><div>Savon noir réparateur</div><div class="petit">300 g</div><div class="quantite"><button>−</button><span>1</span><button>+</button></div></div><span class="prix" style="font-size:20px">45,99 €</span></div>
     <div class="article"><div class="article__img"><img class="couvre" src="${M}florea-skin/produits/glow-oil-florea-skin-huile-corporelle-en-main.webp" alt=""></div>
-      <div><div>Glow Oil</div><div class="petit">100 ml</div><div class="quantite"><button>−</button><span>1</span><button>+</button></div></div><span class="prix" style="font-size:20px">00,00 €</span></div>
+      <div><div>Glow Oil</div><div class="petit">100 ml</div><div class="quantite"><button>−</button><span>1</span><button>+</button></div></div><span class="prix" style="font-size:20px">35,99 €</span></div>
   </div>
   <div class="tiroir__bas">
-    <div class="carte__ligne"><span>Sous-total</span><span class="prix">00,00 €</span></div>
+    <div class="carte__ligne"><span>Sous-total</span><span class="prix">81,98 €</span></div>
     <p class="petit">Livraison calculée selon votre pays à l'étape suivante.</p>
     <button class="btn btn--principal btn--plein">Passer commande</button>
     <a class="btn btn--contour btn--plein" href="https://wa.me/${WHATSAPP}"><svg class="icone"><use href="#i-whatsapp"/></svg>Commander sur WhatsApp</a>
@@ -76,6 +76,19 @@ if (ariane) {
       ...(url ? { item: "https://maisonfloriane.com/" + url.replace("index.html", "") } : {}) })) };
   document.head.insertAdjacentHTML("beforeend", `<script type="application/ld+json">${JSON.stringify(ld)}</` + "script>");
 }
+
+// En-tête : le logo garde sa grande taille pendant le défilement ;
+// quand on revient tout en haut, il joue une petite animation (agrandissement puis ralentissement)
+const logo = document.querySelector(".entete .logo");
+let enHaut = scrollY <= 40;
+addEventListener("scroll", () => {
+  const maintenant = scrollY <= 40;
+  if (maintenant && !enHaut) {
+    logo.classList.remove("logo--retour"); void logo.offsetWidth; logo.classList.add("logo--retour");
+  }
+  enHaut = maintenant;
+}, { passive: true });
+logo.addEventListener("animationend", () => logo.classList.remove("logo--retour"));
 
 // Pour les captures : ?panier ouvre le panier, ?mesure écrit la hauteur de la page dans le titre
 const q = new URLSearchParams(location.search);
