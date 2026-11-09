@@ -322,6 +322,9 @@
   }
   @media (max-width: 1000px) { .panier-btn .txt, .compte-btn .txt { display: none; } }
   .pied__logo-lien { display: inline-block; }
+  /* Logo du pied de page agrandi (72 px dans le prototype, trop petit) */
+  .pied .pied__logo { width: 120px; height: auto; }
+  @media (max-width: 760px) { .pied .pied__logo { width: 100px; } }
   @media (max-width: 760px) { .contact-btn { display: none; } }
 }
 
