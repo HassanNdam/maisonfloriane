@@ -1,6 +1,5 @@
 {
   "_lisez-moi": "Référencement (Yoast SEO). Appliqué par scripts/seo.php à chaque `composer seed`, mais une valeur retouchée dans Yoast ou dans la médiathèque est conservée (MF_SEED_FORCE=1 pour tout réappliquer). Pages repérées par slug, produits par SKU. Titre ≤ 60 caractères, description 120-158. Les versions anglaises sont dans scripts/traductions/en_GB.json (même texte français en clé).",
-
   "pages": {
     "accueil": {
       "titre": "Soins anti-taches visage et corps | Floréa Skin",
@@ -9,70 +8,85 @@
       "image": "partage-florea-skin-savon-noir-glow-oil-rituel.jpg"
     },
     "boutique": {
-      "titre": "Boutique : savon noir, Glow Oil et Duo rituel | Floréa Skin",
-      "description": "Savon noir réparateur 300 g, Glow Oil 100 ml ou le Duo rituel à prix doux : deux soins visage et corps pour toutes les peaux. Paiement sécurisé.",
-      "motcle": "savon noir",
+      "titre": "Savon noir et Glow Oil : la boutique Floréa Skin",
+      "description": "Savon noir et Glow Oil Floréa Skin : deux soins visage et corps pour toutes les peaux, et le Duo rituel à prix doux.",
+      "motcle": "savon noir et Glow Oil",
       "image": "partage-florea-skin-savon-noir-glow-oil-rituel.jpg"
     },
     "FS-001": {
       "titre": "Savon noir visage et corps au curcuma | Floréa Skin",
-      "description": "Savon noir réparateur au curcuma, au miel et au neem : nettoie le visage et le corps en profondeur sans dessécher, pour une peau nette. Toutes carnations.",
-      "motcle": "savon noir visage",
+      "description": "Savon noir réparateur au curcuma, au miel et au neem : nettoie le visage et le corps sans dessécher, pour une peau nette. Toutes carnations.",
+      "motcle": "savon noir",
       "image": "partage-savon-noir-reparateur-florea-skin.jpg"
     },
     "FS-002": {
-      "titre": "Glow Oil, huile éclat vitamine C et glutathion | Floréa Skin",
-      "description": "Huile éclat visage et corps à la vitamine C, au glutathion et au jojoba : nourrit, répare et unifie le teint pour une peau lumineuse. Toutes carnations.",
-      "motcle": "huile éclat",
+      "titre": "Huile corporelle Glow Oil à la vitamine C | Floréa Skin",
+      "description": "Huile corporelle Glow Oil à la vitamine C, au glutathion et au jojoba : nourrit, répare et unifie le teint. Visage et corps, le soir.",
+      "motcle": "huile corporelle",
       "image": "partage-glow-oil-florea-skin-huile-eclat.jpg"
     },
     "FS-003": {
-      "titre": "Duo anti-taches : savon noir et Glow Oil | Floréa Skin",
-      "description": "La routine complète de Flore contre les taches brunes et les marques d'acné : savon noir matin et soir, Glow Oil le soir. Moins cher qu'à l'unité.",
-      "motcle": "routine anti-taches",
+      "titre": "Duo rituel anti-taches : savon noir + Glow Oil | Floréa Skin",
+      "description": "Le Duo rituel de Flore contre les taches brunes et les marques d'acné : savon noir matin et soir, Glow Oil le soir. Moins cher qu'à l'unité.",
+      "motcle": "Duo rituel",
       "image": "partage-florea-skin-savon-noir-glow-oil-rituel.jpg"
     },
     "mon-histoire": {
-      "titre": "Mon histoire : acné hormonale, taches et Floréa Skin",
-      "description": "Acné hormonale, taches qui restent : Flore raconte comment le savon noir et le Glow Oil sont devenus sa routine, et pourquoi elle a créé Floréa Skin.",
+      "titre": "Acné hormonale et taches : mon histoire | Floréa Skin",
+      "description": "Acné hormonale, taches qui restent : Flore raconte comment le savon noir et le Glow Oil sont devenus sa routine au quotidien.",
       "motcle": "acné hormonale",
       "image": "partage-flore-fondatrice-florea-skin.jpg"
     },
     "contact": {
-      "titre": "Contact et conseils peau sur WhatsApp | Floréa Skin",
-      "description": "Une question sur votre peau, un soin ou votre commande ? Flore vous répond personnellement sur WhatsApp, par téléphone ou par e-mail, sous 24 h en semaine.",
-      "motcle": "conseils peau"
+      "titre": "Conseil peau et commandes : contactez Floréa Skin",
+      "description": "Conseil peau, commande ou livraison : Flore vous répond personnellement sur WhatsApp, par téléphone ou par e-mail, sous 24 h en semaine.",
+      "motcle": "conseil peau"
     },
     "livraison-retours": {
       "titre": "Livraison Europe et monde, retours 14 jours | Floréa Skin",
-      "description": "Expédition depuis l'Espagne sous 48 h : livraison dans toute l'Union européenne et partout dans le monde, frais affichés avant paiement, retours sous 14 jours.",
+      "description": "Livraison depuis l'Espagne sous 48 h dans toute l'Union européenne et dans le monde. Frais affichés avant paiement, retours 14 jours.",
       "motcle": "livraison"
     },
     "conditions-generales-de-vente": {
-      "description": "Conditions générales de vente de maisonfloriane.com : prix en euros, commande, paiement sécurisé, livraison Europe et monde, rétractation et garanties."
+      "description": "Conditions générales de vente de maisonfloriane.com : prix en euros, commande, paiement sécurisé, livraison, rétractation et garanties.",
+      "motcle": "conditions générales de vente"
     },
     "mentions-legales": {
-      "description": "Mentions légales de maisonfloriane.com, boutique en ligne Floréa Skin : éditeur, directrice de la publication, hébergeur et propriété intellectuelle."
+      "description": "Mentions légales de maisonfloriane.com, boutique Floréa Skin : éditeur, directrice de la publication, hébergeur et propriété intellectuelle.",
+      "motcle": "mentions légales"
     },
     "politique-de-confidentialite": {
-      "description": "Comment Maison Floriane collecte, utilise et protège vos données personnelles (RGPD) : données collectées, finalités, durée de conservation et vos droits."
+      "description": "Politique de confidentialité de Maison Floriane : données collectées, finalités, durée de conservation et vos droits (RGPD).",
+      "motcle": "politique de confidentialité"
     },
     "politique-de-cookies": {
-      "description": "Les cookies utilisés sur maisonfloriane.com, à quoi ils servent, et comment les accepter, les refuser ou modifier vos choix à tout moment."
+      "description": "Politique de cookies de maisonfloriane.com : les cookies utilisés, à quoi ils servent et comment modifier vos choix à tout moment.",
+      "motcle": "politique de cookies"
     },
     "droit-de-retractation": {
-      "description": "Vous avez changé d'avis ? Pour toute commande passée sur maisonfloriane.com, vous disposez de 14 jours pour vous rétracter, sans avoir à vous justifier."
+      "description": "Droit de rétractation : vous disposez de 14 jours pour vous rétracter de toute commande passée sur maisonfloriane.com, sans justification.",
+      "motcle": "droit de rétractation"
     },
     "moyens-de-paiement": {
-      "description": "Paiement en euros par carte bancaire, Apple Pay ou Google Pay, sécurisé par Stripe : vos coordonnées bancaires ne passent jamais par nos serveurs."
+      "description": "Moyens de paiement acceptés sur maisonfloriane.com : carte bancaire, Apple Pay et Google Pay, en euros, sécurisés par Stripe.",
+      "motcle": "moyens de paiement"
     },
-    "authenticite-des-avis": { "noindex": true },
-    "formulaire-de-retractation": { "noindex": true },
-    "panier": { "noindex": true },
-    "commande": { "noindex": true },
-    "mon-compte": { "noindex": true }
+    "authenticite-des-avis": {
+      "noindex": true
+    },
+    "formulaire-de-retractation": {
+      "noindex": true
+    },
+    "panier": {
+      "noindex": true
+    },
+    "commande": {
+      "noindex": true
+    },
+    "mon-compte": {
+      "noindex": true
+    }
   },
-
   "images": {
     "duo-savon-noir-glow-oil-florea-skin-rituel.webp": "Duo rituel anti-taches Floréa Skin : savon noir réparateur et Glow Oil",
     "savon-noir-reparateur-florea-skin-detoure.webp": "Savon noir réparateur Floréa Skin au curcuma et au miel, pot de 300 g",
@@ -83,7 +97,6 @@
     "glow-oil-florea-skin-huile-corporelle-eclat.webp": "Flacon de Glow Oil Floréa Skin, huile corporelle éclatante",
     "flore-fondatrice-florea-skin-portrait.webp": "Portrait de Flore, fondatrice de Floréa Skin"
   },
-
   "partage": {
     "defaut": "partage-florea-skin-savon-noir-glow-oil-rituel.jpg",
     "alt": "Savon noir réparateur et Glow Oil Floréa Skin"
