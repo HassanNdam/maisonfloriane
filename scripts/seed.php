@@ -295,10 +295,7 @@ foreach ($catalogue['produits'] as $p) {
         'video_apercu' => ! empty($p['video']['poster']) ? mf_media("$docs/" . $p['video']['poster'], 'Aperçu de la vidéo Floréa Skin') : 0,
     ];
 
-    if (! empty($p['seo'])) {
-        update_post_meta($productId, '_yoast_wpseo_title', $p['seo']['title']);
-        update_post_meta($productId, '_yoast_wpseo_metadesc', $p['seo']['description']);
-    }
+    // Titre et description SEO : scripts/seo.php (seo.json), qui garde les retouches faites dans Yoast.
     mf_log(sprintf('produit : %s (#%d, %s, %s €%s)%s', $product->get_name(), $productId, get_post_status($productId),
         $product->get_regular_price() ?: '—', $product->get_sale_price() ? ' → promo ' . $product->get_sale_price() . ' €' : '',
         $catalogueFaitFoi ? ' — catalogue appliqué' : ''));
