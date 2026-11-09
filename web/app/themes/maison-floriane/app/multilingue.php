@@ -112,3 +112,35 @@ add_filter('date_i18n', function ($date, $format, $timestamp, $gmt) {
 // Nom du mode de livraison (« Livraison suivie », scripts/livraison.php) : le panier et la commande l'affichent
 // par l'API du panier, que TranslatePress gratuit ne traduit pas.
 add_filter('woocommerce_shipping_rate_label', fn ($libelle) => traduire((string) $libelle));
+
+// Retrait à Barcelone : lieu et indications sont calculés avec les tarifs de livraison, que WooCommerce garde en
+// session. La langue entre dans la clé du colis pour qu'un passage en /en/ recalcule les tarifs, puis on traduit.
+// Les réglages du retrait y entrent aussi : une retouche de Flore s'affiche même dans un panier déjà ouvert.
+add_filter('woocommerce_cart_shipping_packages', function ($colis) {
+    $cle = (langue_traduite() ?? 'fr') . ':' . md5(serialize([get_option('woocommerce_pickup_location_settings'), get_option('pickup_location_pickup_locations')]));
+
+    return array_map(fn ($c) => $c + ['mf_cle' => $cle], $colis);
+});
+add_filter('woocommerce_package_rates', function ($tarifs) {
+    foreach ($tarifs as $tarif) {
+        if ($tarif->get_method_id() !== 'pickup_location') {
+            continue;
+        }
+        foreach (['pickup_location', 'pickup_details'] as $cle) {
+            $meta = $tarif->get_meta_data()[$cle] ?? '';
+            if (is_string($meta) && $meta !== '') {
+                $tarif->add_meta_data($cle, traduire($meta));
+            }
+        }
+    }
+
+    return $tarifs;
+});
+// Bouton « Retrait à Barcelone » de la commande : lu directement dans les réglages du retrait.
+add_filter('option_woocommerce_pickup_location_settings', function ($reglages) {
+    if (is_array($reglages) && ! is_admin() && ! empty($reglages['title'])) {
+        $reglages['title'] = traduire($reglages['title']);
+    }
+
+    return $reglages;
+});
