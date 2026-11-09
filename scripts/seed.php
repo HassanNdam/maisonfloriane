@@ -128,6 +128,9 @@ $options = [
     'woocommerce_specific_ship_to_countries' => [],
     'woocommerce_calc_taxes' => 'yes',
     'woocommerce_prices_include_tax' => 'yes',
+    // Attribution de commande coupée : ses cookies de suivi (sbjs_*) seraient déposés sans consentement
+    // (voir la politique de cookies : uniquement des cookies indispensables).
+    'woocommerce_feature_order_attribution_enabled' => 'no',
     'woocommerce_tax_display_shop' => 'incl',
     'woocommerce_tax_display_cart' => 'incl',
     'woocommerce_weight_unit' => 'kg',
@@ -186,19 +189,35 @@ if (($ancienne = get_page_by_path('notre-histoire')) && ! get_page_by_path('mon-
 }
 $histoire = mf_page('mon-histoire', 'Mon histoire', mf_prototype("$proto/mon-histoire.html"));
 mf_page('contact', 'Contact', mf_prototype("$proto/contact.html"));
+// Pages légales et livraison : texte définitif dans scripts/pages/<slug>.html (coordonnées de la société par
+// shortcodes, saisies dans Maison Floriane › Société). L'admin fait foi : le seed remplace une page encore « en
+// préparation » (bloc .alerte du prototype) ou inchangée depuis le dernier seed (empreinte _mf_contenu_auto) ;
+// une page retouchée dans l'éditeur est gardée, sauf avec MF_SEED_FORCE=1.
 $legales = [
-    'livraison-retours' => ['Livraison et retours', 'livraison-retours.html'],
-    'conditions-generales-de-vente' => ['Conditions générales de vente', 'cgv.html'],
-    'mentions-legales' => ['Mentions légales', 'mentions-legales.html'],
-    'politique-de-confidentialite' => ['Politique de confidentialité', 'confidentialite.html'],
-    'politique-de-cookies' => ['Politique de cookies', 'cookies.html'],
+    'livraison-retours' => 'Livraison et retours',
+    'conditions-generales-de-vente' => 'Conditions générales de vente',
+    'mentions-legales' => 'Mentions légales',
+    'politique-de-confidentialite' => 'Politique de confidentialité',
+    'politique-de-cookies' => 'Politique de cookies',
+    // Page à part (exigée par Germanized, jointe à la confirmation de commande), avec le formulaire type.
+    'droit-de-retractation' => 'Droit de rétractation',
 ];
 $legalIds = [];
-foreach ($legales as $slug => [$title, $file]) {
-    $legalIds[$slug] = mf_page($slug, $title, mf_prototype("$proto/$file"));
+foreach ($legales as $slug => $title) {
+    $contenu = trim(file_get_contents(__DIR__ . "/pages/$slug.html"));
+    $id = $legalIds[$slug] = mf_page($slug, $title, $contenu);
+    $actuel = (string) get_post_field('post_content', $id);
+    $auto = (string) get_post_meta($id, '_mf_contenu_auto', true);
+    $aRemplacer = getenv('MF_SEED_FORCE') || str_contains($actuel, 'class="alerte"') || md5($actuel) === $auto;
+    if ($aRemplacer && $actuel !== $contenu) {
+        wp_update_post(['ID' => $id, 'post_content' => $contenu]);
+        mf_log("page mise à jour : $title");
+    } elseif (! $aRemplacer) {
+        mf_log("page retouchée dans l'admin, gardée : $title");
+        continue;
+    }
+    update_post_meta($id, '_mf_contenu_auto', md5((string) get_post_field('post_content', $id)));
 }
-// Droit de rétractation : page à part (exigée par Germanized, jointe à la confirmation de commande), avec le formulaire type.
-$legalIds['droit-de-retractation'] = mf_page('droit-de-retractation', 'Droit de rétractation', file_get_contents(__DIR__ . '/pages/droit-de-retractation.html'));
 update_option('show_on_front', 'page');
 update_option('page_on_front', $accueil);
 update_option('wp_page_for_privacy_policy', $legalIds['politique-de-confidentialite']);
