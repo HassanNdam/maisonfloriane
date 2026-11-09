@@ -21,6 +21,7 @@
         "roots/wp-config": "^1.0",
         "vlucas/phpdotenv": "^5.0",
         "wp-plugin/complianz-gdpr": "^7.5",
+        "wp-plugin/forminator": "^1.58",
         "wp-plugin/seo-by-rank-math": "^1.0",
         "wp-plugin/updraftplus": "^1.26",
         "wp-plugin/woocommerce": "^11.2",
@@ -68,7 +69,7 @@
             "Roots\\Acorn\\ComposerScripts::postAutoloadDump"
         ],
         "seed": [
-            "@php vendor/wp-cli/wp-cli/php/boot-fs.php plugin activate woocommerce woocommerce-germanized complianz-gdpr seo-by-rank-math woocommerce-gateway-stripe",
+            "@php vendor/wp-cli/wp-cli/php/boot-fs.php plugin activate woocommerce woocommerce-germanized complianz-gdpr seo-by-rank-math woocommerce-gateway-stripe forminator",
             "@php vendor/wp-cli/wp-cli/php/boot-fs.php language core install fr_FR",
             "@php vendor/wp-cli/wp-cli/php/boot-fs.php language plugin install --all fr_FR",
             "@php vendor/wp-cli/wp-cli/php/boot-fs.php eval-file scripts/seed.php --user=admin",

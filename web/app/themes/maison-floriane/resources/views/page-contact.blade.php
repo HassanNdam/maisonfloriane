@@ -16,24 +16,8 @@
     <div class="contact__canal"><span class="surtitre"><svg class="icone" aria-hidden="true"><use href="#i-retour"/></svg>Délai de réponse</span><span>Sous 24 h ouvrées, du lundi au vendredi</span></div>
   </div>
 
-  <form class="formulaire" id="formulaire" method="post" action="{{ admin_url('admin-post.php') }}">
-    @include('partials.formulaire-statut', ['succes' => 'envoye', 'message' => 'Merci, votre message est bien parti. Nous vous répondons sous 24 h ouvrées.'])
-    <input type="hidden" name="action" value="mf_contact">
-    @php(wp_nonce_field('mf-contact'))
-    @include('partials.anti-robot')
-    <div class="deux">
-      <div class="champ"><label for="prenom">Prénom</label><input id="prenom" name="prenom" autocomplete="given-name"></div>
-      <div class="champ"><label for="nom">Nom</label><input id="nom" name="nom" autocomplete="family-name"></div>
-    </div>
-    <div class="champ"><label for="email">E-mail</label><input id="email" name="email" type="email" required placeholder="vous@exemple.fr" autocomplete="email"></div>
-    <div class="champ"><label for="sujet">Sujet</label>
-      <select id="sujet" name="sujet"><option>Conseil produit</option><option>Ma commande</option><option>Livraison</option><option>Autre</option></select>
-    </div>
-    <div class="champ"><label for="message">Message</label><textarea id="message" name="message" required placeholder="Votre message"></textarea></div>
-    <label class="case">
-      <input type="checkbox" name="consentement" value="1" required>
-      <span class="case__texte">J'accepte que mes données soient utilisées pour répondre à ma demande (<a class="lien" href="{{ get_privacy_policy_url() }}">politique de confidentialité</a>).</span>
-    </label>
-    <button class="btn btn--principal btn--plein" type="submit">Envoyer le message</button>
-  </form>
+  {{-- Formulaire Forminator (créé par composer seed, id dans l'option mf_formulaire_contact) : messages consultables dans Forminator → Envois. --}}
+  <div class="formulaire" id="formulaire">
+    {!! do_shortcode('[forminator_form id="' . (int) get_option('mf_formulaire_contact') . '"]') !!}
+  </div>
 @endsection

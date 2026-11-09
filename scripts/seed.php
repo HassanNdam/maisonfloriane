@@ -338,5 +338,101 @@ foreach ($menus as $location => [$name, $items]) {
 }
 set_theme_mod('nav_menu_locations', $locations);
 
+/*
+ * Formulaire de contact Forminator : les messages sont enregistrés (Forminator → Envois, export CSV)
+ * et envoyés par e-mail à Flore. Repéré par l'option mf_formulaire_contact ; resynchronisé à chaque seed.
+ * Le style Forminator est désactivé (form-style none) : la mise en forme vient du thème (site.css).
+ */
+if (class_exists('Forminator_API')) {
+    $destinataire = function_exists('App\\destinataire') ? App\destinataire() : get_option('admin_email');
+    $champ = fn (string $id, string $type, array $props = []) => $props + ['element_id' => $id, 'type' => $type, 'cols' => '12'];
+    $sujets = array_map(
+        fn ($label) => ['label' => $label, 'value' => $label, 'limit' => '', 'key' => sanitize_title($label)],
+        ['Conseil produit', 'Ma commande', 'Livraison', 'Autre']
+    );
+    $wrappers = [
+        ['wrapper_id' => 'wrapper-mf-nom', 'fields' => [
+            $champ('name-1', 'name', ['cols' => '6', 'field_label' => 'Prénom', 'placeholder' => '', 'required' => '']),
+            $champ('name-2', 'name', ['cols' => '6', 'field_label' => 'Nom', 'placeholder' => '', 'required' => '']),
+        ]],
+        ['wrapper_id' => 'wrapper-mf-email', 'fields' => [
+            $champ('email-1', 'email', [
+                'field_label' => 'E-mail', 'placeholder' => 'vous@exemple.fr', 'required' => 'true',
+                'validation' => true, 'validation_message' => 'Cette adresse e-mail ne semble pas valide.',
+                'required_message' => 'Merci d\'indiquer votre e-mail.',
+            ]),
+        ]],
+        ['wrapper_id' => 'wrapper-mf-sujet', 'fields' => [
+            $champ('select-1', 'select', ['field_label' => 'Sujet', 'value_type' => 'single', 'options' => $sujets, 'required' => '']),
+        ]],
+        ['wrapper_id' => 'wrapper-mf-message', 'fields' => [
+            $champ('textarea-1', 'textarea', [
+                'field_label' => 'Message', 'placeholder' => 'Votre message', 'required' => 'true',
+                'input_type' => 'paragraph', 'limit' => '', 'required_message' => 'Merci d\'écrire votre message.',
+            ]),
+        ]],
+        ['wrapper_id' => 'wrapper-mf-consentement', 'fields' => [
+            $champ('consent-1', 'consent', [
+                'field_label' => 'Consentement', 'required' => 'true',
+                'required_message' => 'Merci d\'accepter l\'utilisation de vos données.',
+                'consent_description' => sprintf(
+                    'J\'accepte que mes données soient utilisées pour répondre à ma demande (<a href="%s">politique de confidentialité</a>).',
+                    esc_url(get_privacy_policy_url())
+                ),
+            ]),
+        ]],
+    ];
+    $settings = [
+        'formName' => 'Contact',
+        'form-type' => 'default',
+        'form-style' => 'none',
+        'enable-ajax' => 'true',
+        'validation-inline' => true,
+        'honeypot' => true,
+        'store_submissions' => true,
+        'submission-behaviour' => 'behaviour-thankyou',
+        'autoclose' => '', // le message de remerciement reste affiché
+        'thankyou-message' => 'Merci, votre message est bien parti. Nous vous répondons sous 24 h ouvrées.',
+        'use-custom-submit' => 'true',
+        'custom-submit-text' => 'Envoyer le message',
+        'submitData' => [
+            'custom-submit-text' => 'Envoyer le message',
+            'custom-invalid-form-message' => 'Merci de vérifier les champs obligatoires.',
+        ],
+        'form-expire' => 'no_expire',
+        'submission-file' => 'delete',
+    ];
+    $notifications = [[
+        'slug' => 'notification-mf-flore',
+        'label' => 'Message à Flore',
+        'email-recipients' => 'default',
+        'recipients' => $destinataire,
+        'email-subject' => '[Maison Floriane] {select-1} — {name-1} {name-2}',
+        'email-editor' => 'Nouveau message depuis le formulaire de contact :<br/><br/>{all_fields}<br/>---<br/>Envoi n° {submission_id}, depuis {site_url}.',
+        'replyto-email' => '{email-1}',
+        'email-attachment' => 'false',
+        'fill-empty-fields' => 'true',
+        'type' => 'default',
+    ]];
+
+    $formId = (int) get_option('mf_formulaire_contact');
+    if (! $formId || get_post_type($formId) !== 'forminator_forms') {
+        $formId = Forminator_API::add_form('Contact', $wrappers, $settings);
+        if (is_wp_error($formId)) {
+            WP_CLI::warning('Forminator : ' . $formId->get_error_message());
+            $formId = 0;
+        } else {
+            update_option('mf_formulaire_contact', $formId);
+            mf_log("formulaire de contact créé (Forminator n° $formId)");
+        }
+    }
+    if ($formId) {
+        Forminator_API::update_form($formId, $wrappers, $settings, 'publish', $notifications);
+        mf_log("formulaire de contact synchronisé → $destinataire");
+    }
+} else {
+    WP_CLI::warning('Forminator inactif : formulaire de contact non créé.');
+}
+
 flush_rewrite_rules();
 WP_CLI::success('Contenus de départ en place.');

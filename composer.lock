@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "efd74c583f070fefb58e09c3c92d77bc",
+    "content-hash": "16fafbabd31ecb9828f89e7244accd68",
     "packages": [
         {
             "name": "brick/math",
@@ -7226,6 +7226,37 @@
                 "source": "https://plugins.svn.wordpress.org/complianz-gdpr"
             },
             "time": "2026-11-04T15:46:39+00:00"
+        },
+        {
+            "name": "wp-plugin/forminator",
+            "version": "1.58.4",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/forminator/",
+                "reference": "tags/1.58.4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/forminator.1.58.4.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0|~2.0"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "WPMU DEV - Your All-in-One WordPress Platform"
+                }
+            ],
+            "description": "Best WordPress form builder plugin. Create contact forms, payment forms & order forms with 1000+ integrations.",
+            "homepage": "https://wpmudev.com/project/forminator/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/forminator/#developers",
+                "issues": "https://wordpress.org/support/plugin/forminator",
+                "source": "https://plugins.svn.wordpress.org/forminator"
+            },
+            "time": "2026-11-02T11:16:54+00:00"
         },
         {
             "name": "wp-plugin/seo-by-rank-math",
