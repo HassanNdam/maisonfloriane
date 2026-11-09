@@ -1,0 +1,72 @@
+{
+    "key": "group_mf_boutique",
+    "title": "Boutique",
+    "fields": [
+        {
+            "key": "field_mf_boutique_surtitre",
+            "label": "Surtitre",
+            "name": "surtitre",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_boutique_titre",
+            "label": "Titre",
+            "name": "titre",
+            "type": "textarea",
+            "rows": 2,
+            "new_lines": "",
+            "instructions": "Mots entre astérisques en doré : *Flore*. Un retour à la ligne est conservé."
+        },
+        {
+            "key": "field_mf_boutique_texte",
+            "label": "Texte",
+            "name": "texte",
+            "type": "textarea",
+            "rows": 2,
+            "new_lines": ""
+        },
+        {
+            "key": "field_mf_boutique_vide_texte",
+            "label": "Message quand aucun produit n’est en vente",
+            "name": "vide_texte",
+            "type": "text",
+            "wrapper": {
+                "width": "60"
+            }
+        },
+        {
+            "key": "field_mf_boutique_vide_lien",
+            "label": "Lien WhatsApp qui suit",
+            "name": "vide_lien",
+            "type": "text",
+            "wrapper": {
+                "width": "40"
+            }
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "mf_page",
+                "operator": "==",
+                "value": "boutique"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "acf_after_title",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [
+        "the_content",
+        "excerpt",
+        "discussion",
+        "comments",
+        "featured_image"
+    ],
+    "active": true,
+    "description": "En-tête de la page Boutique. Les fiches produits se modifient dans Produits.",
+    "show_in_rest": 0,
+    "modified": 1794233020
+}

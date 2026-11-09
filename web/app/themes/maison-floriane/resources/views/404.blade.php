@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
+{{-- Textes : Maison Floriane › Page introuvable (404). --}}
 @section('content')
   <section class="recit-hero" style="padding-bottom:128px"><div class="conteneur">
-    <span class="surtitre">Erreur 404</span>
-    <h1 class="h1">Cette page <em class="or">n'existe pas</em>.</h1>
-    <p class="chapo">Elle a peut-être changé d'adresse.</p>
-    <p style="margin-top:48px"><a class="btn btn--principal" href="{{ home_url('/') }}">Retour à l'accueil</a></p>
+    <span class="surtitre">{!! App\affiche('e404_surtitre') !!}</span>
+    <h1 class="h1">{!! App\titre(App\texte('e404_titre')) !!}</h1>
+    @if ($texte = App\texte('e404_texte'))<p class="chapo">{!! App\echappe($texte) !!}</p>@endif
+    <p style="margin-top:48px"><a class="btn btn--principal" href="{{ home_url('/') }}">{!! App\affiche('e404_bouton') !!}</a></p>
   </div></section>
 @endsection

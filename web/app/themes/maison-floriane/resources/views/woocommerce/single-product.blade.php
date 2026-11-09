@@ -6,8 +6,8 @@
 @php([$stockClasse, $stockLibelle] = App\stock($produit))
 @php($nom = App\nom_court($produit))
 @php($achetable = $produit->is_purchasable() && $produit->is_in_stock())
-@php($video = (int) $produit->get_meta('_mf_video'))
-@php($complement = $r['complement'] ? App\produit($r['complement']) : null)
+@php($video = App\media_ref(App\fiche($produit, 'video')))
+@php($complement = $r['complement'])
 
 @section('main-classe', 'conteneur')
 
@@ -23,7 +23,7 @@
         <div>{!! wp_get_attachment_image($produit->get_image_id(), 'large', false, App\attributs_image($produit->get_image_id(), 0.8, ['alt' => $produit->get_name(), 'fetchpriority' => 'high'])) !!}</div>
       @endif
       @if ($video)
-        @php($poster = App\media(str_replace('.mp4', '-apercu.webp', (string) get_post_meta($video, '_mf_source', true))))
+        @php($poster = App\media_url(App\fiche($produit, 'video_apercu')) ?: App\media(str_replace('.mp4', '-apercu.webp', (string) get_post_meta($video, '_mf_source', true))))
         <button type="button" class="galerie__video" data-video="{{ wp_get_attachment_url($video) }}" data-cadrage="{{ App\cadrage($video) }}" aria-label="Lire la vidéo de présentation">
           <img class="couvre" src="{{ $poster }}" alt="Vidéo de présentation : {{ $nom }}" loading="lazy" style="{{ App\cadrage($video) }}"><span class="lecture"></span>
         </button>
@@ -39,7 +39,7 @@
       <p class="petit">{{ implode(' · ', array_filter([$r['usage'], App\contenance($produit)])) }}</p>
       <span class="prix">{{ App\prix($produit) }}@if ($barre = App\prix_barre($produit)) <s class="prix__barre">{{ $barre }}</s>@endif</span>
       @if ($eco = App\economie($produit))<span class="economie">Vous économisez {{ $eco }}</span>@endif
-      <span class="stock {{ $stockClasse }}">{{ $stockLibelle }}{{ $achetable ? ' · expédié sous 48 h' : '' }}</span>
+      <span class="stock {{ $stockClasse }}">{{ $stockLibelle }}@if ($achetable && App\affiche('produit_expedition')) · {!! App\affiche('produit_expedition') !!}@endif</span>
       <div class="achat__texte">{!! wpautop(wp_kses_post($produit->get_description() ?: $produit->get_short_description())) !!}</div>
       @if ($ingredients = App\ingredients($produit))
         <ul class="actifs" aria-label="Ingrédients clés">@foreach ($ingredients as $ingredient)<li>{{ $ingredient }}</li>@endforeach</ul>
@@ -61,20 +61,21 @@
         <svg class="icone"><use href="#i-whatsapp"/></svg>Commander sur WhatsApp
       </a>
 
+      @if ($atouts = App\atouts())
       <div class="atouts">
-        <div class="atouts__peaux"><svg class="icone"><use href="#i-peaux"/></svg>Toutes peaux, toutes carnations</div>
-        <div><svg class="icone"><use href="#i-camion"/></svg>Livraison Europe et monde</div>
-        <div><svg class="icone"><use href="#i-cadenas"/></svg>Paiement sécurisé</div>
-        <div><svg class="icone"><use href="#i-retour"/></svg>Retour sous 14 jours (produit non ouvert)</div>
+        @foreach ($atouts as $atout)
+        <div{!! $atout['icone'] === 'peaux' ? ' class="atouts__peaux"' : '' !!}><svg class="icone"><use href="#i-{{ $atout['icone'] ?: 'feuille' }}"/></svg>{!! App\echappe((string) $atout['texte']) !!}</div>
+        @endforeach
       </div>
+      @endif
       @include('partials.partage', ['titre' => $produit->get_name(), 'url' => $produit->get_permalink(), 'image' => wp_get_attachment_url($produit->get_image_id())])
       <div class="accordeon">
-        @if ($conseils = $produit->get_meta('_mf_conseils'))
+        @if ($conseils = trim((string) App\fiche($produit, 'conseils')))
           <details open><summary>Conseils d'utilisation</summary><p>{{ $conseils }}</p></details>
         @endif
-        @php($ingr = rtrim((string) $produit->get_meta('_mf_ingredients'), '. '))
-        <details><summary>Ingrédients</summary><p>{{ $ingr ? $ingr . ". La liste INCI complète figure sur l'emballage." : 'Liste INCI complète à venir.' }}</p></details>
-        <details><summary>Livraison & retours</summary><p>Expédié d'Espagne sous 48 h ouvrées. Frais selon le pays, affichés avant paiement. Hors UE, droits de douane à votre charge. <a class="lien" href="{{ home_url('/livraison-retours/') }}">En savoir plus</a></p></details>
+        @php($ingr = rtrim((string) App\fiche($produit, 'ingredients'), '. '))
+        <details><summary>Ingrédients</summary><p>{{ $ingr ? trim($ingr . '. ' . App\texte('produit_inci')) : App\texte('produit_inci_a_venir') }}</p></details>
+        <details><summary>Livraison & retours</summary><p>{!! App\affiche('produit_livraison') !!} <a class="lien" href="{{ home_url('/livraison-retours/') }}">En savoir plus</a></p></details>
       </div>
     </div>
   </div>
@@ -89,7 +90,7 @@
       <div class="duo" style="margin-top:0">
         <div class="duo__produit">
           <a class="article__img" style="width:96px;height:120px" href="{{ $complement->get_permalink() }}">
-            @php($photo = App\media_id($rc['photo']) ?: $complement->get_image_id())
+            @php($photo = $rc['photo'] ?: $complement->get_image_id())
             @if ($photo){!! wp_get_attachment_image($photo, 'medium', false, ['class' => App\detoure($photo) ? '' : 'couvre', 'loading' => 'lazy']) !!}@endif
           </a>
           <div>

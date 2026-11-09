@@ -1,12 +1,12 @@
 @php($menu = fn ($location) => wp_nav_menu(['theme_location' => $location, 'container' => false, 'items_wrap' => '%3$s', 'echo' => false, 'fallback_cb' => false, 'depth' => 1]))
-<div class="annonce">Livraison Europe et monde · Paiement sécurisé@include('partials.langues')</div>
+<div class="annonce">{!! App\affiche('bandeau') !!}@include('partials.langues')</div>
 <header class="entete"><div class="conteneur">
   <nav class="nav" aria-label="Navigation principale"><ul>{!! $menu('primary_navigation') !!}</ul></nav>
   <button class="burger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu-mobile" data-menu-ouvrir>
     <svg class="icone" style="width:24px;height:24px"><use href="#i-menu"/></svg>
   </button>
   <a class="logo" href="{{ home_url('/') }}">
-    <img src="{{ Vite::asset('resources/images/logo-florea-skin-rond-400px.webp') }}" alt="Floréa Skin, accueil" width="150" height="150" fetchpriority="high">
+    <img src="{{ App\logo_url() }}" alt="Floréa Skin, accueil" width="150" height="150" fetchpriority="high">
   </a>
   <div class="actions">
     <ul class="txt actions__liens">{!! $menu('secondary_navigation') !!}</ul>

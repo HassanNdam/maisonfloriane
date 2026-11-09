@@ -46,7 +46,7 @@ add_filter('wc_add_to_cart_message_html', '__return_empty_string');
 |--------------------------------------------------------------------------
 | Le Duo rituel (FS-003) : produit à part, dont le stock est celui de ses composants
 |--------------------------------------------------------------------------
-| Méta `_mf_composants` = ['FS-001', 'FS-002']. Vendre un duo retire un savon et un Glow Oil
+| Composants : champ « Composé de » de la fiche du duo (app/produits.php). Vendre un duo retire un savon et un Glow Oil
 | (si ces produits gèrent leur stock) ; une commande annulée ou remboursée les remet en stock.
 */
 

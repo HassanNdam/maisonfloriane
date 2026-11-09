@@ -1,6 +1,8 @@
+{{-- Arguments de réassurance : Maison Floriane › Réassurance. --}}
+@if ($arguments = App\reassurance())
 <div class="conteneur"><div class="reassurance">
-  <div><svg class="icone"><use href="#i-camion"/></svg><strong>Europe & monde</strong><span class="petit">Expédiée depuis l'Espagne</span></div>
-  <div><svg class="icone"><use href="#i-cadenas"/></svg><strong>Paiement sécurisé</strong><span class="petit">Carte, Apple Pay, Google Pay</span></div>
-  <div><svg class="icone"><use href="#i-retour"/></svg><strong>Retours 14 jours</strong><span class="petit">Produit non ouvert</span></div>
-  <div><svg class="icone"><use href="#i-whatsapp"/></svg><strong>Conseil WhatsApp</strong><span class="petit">Une vraie personne vous répond</span></div>
+  @foreach ($arguments as $argument)
+  <div><svg class="icone"><use href="#i-{{ $argument['icone'] ?: 'feuille' }}"/></svg><strong>{!! App\echappe($argument['titre']) !!}</strong>@if (! empty($argument['texte']))<span class="petit">{!! App\echappe($argument['texte']) !!}</span>@endif</div>
+  @endforeach
 </div></div>
+@endif

@@ -1,0 +1,399 @@
+{
+    "key": "group_mf_reglages",
+    "title": "Réglages du site",
+    "fields": [
+        {
+            "key": "field_mf_tab_d7fe67b8",
+            "label": "Identité",
+            "name": "",
+            "type": "tab",
+            "placement": "left",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_logo",
+            "label": "Logo",
+            "name": "logo",
+            "type": "image",
+            "instructions": "Logo rond affiché dans l’en-tête et le pied de page (format carré, 400 px environ). Vide : logo d’origine du thème.",
+            "return_format": "id",
+            "preview_size": "thumbnail",
+            "library": "all",
+            "mime_types": "webp,png,jpg,jpeg,svg"
+        },
+        {
+            "key": "field_mf_slogan",
+            "label": "Slogan",
+            "name": "slogan",
+            "type": "text",
+            "instructions": "Sous le logo, dans le pied de page."
+        },
+        {
+            "key": "field_mf_tab_70e7a23c",
+            "label": "Coordonnées",
+            "name": "",
+            "type": "tab",
+            "placement": "left",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_email",
+            "label": "Adresse e-mail",
+            "name": "email",
+            "type": "email",
+            "instructions": "Affichée sur le site. Les messages du formulaire de contact y sont aussi envoyés."
+        },
+        {
+            "key": "field_mf_telephone",
+            "label": "Téléphone",
+            "name": "telephone",
+            "type": "text",
+            "instructions": "Tel qu’il s’affiche, ex. +41 79 273 83 53."
+        },
+        {
+            "key": "field_mf_whatsapp",
+            "label": "Numéro WhatsApp",
+            "name": "whatsapp",
+            "type": "text",
+            "instructions": "Indicatif pays compris, sans + ni espaces, ex. 41792738353."
+        },
+        {
+            "key": "field_mf_delai_reponse",
+            "label": "Délai de réponse (page Contact)",
+            "name": "delai_reponse",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_delai_reponse_court",
+            "label": "Délai de réponse (pied de page)",
+            "name": "delai_reponse_court",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_tab_2cb45bb2",
+            "label": "Réseaux sociaux",
+            "name": "",
+            "type": "tab",
+            "placement": "left",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_reseau_tiktok",
+            "label": "TikTok",
+            "name": "reseau_tiktok",
+            "type": "url",
+            "instructions": "Adresse complète de la page (https://…). Vide tant que le compte n’existe pas : l’icône reste visible mais non cliquable."
+        },
+        {
+            "key": "field_mf_reseau_instagram",
+            "label": "Instagram",
+            "name": "reseau_instagram",
+            "type": "url",
+            "instructions": ""
+        },
+        {
+            "key": "field_mf_reseau_facebook",
+            "label": "Facebook",
+            "name": "reseau_facebook",
+            "type": "url",
+            "instructions": ""
+        },
+        {
+            "key": "field_mf_tab_9bb73aae",
+            "label": "Bandeau",
+            "name": "",
+            "type": "tab",
+            "placement": "left",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_bandeau",
+            "label": "Texte du bandeau",
+            "name": "bandeau",
+            "type": "text",
+            "instructions": "Bande en haut de toutes les pages. Vide : seul le choix de langue reste affiché."
+        },
+        {
+            "key": "field_mf_tab_6cef621e",
+            "label": "Réassurance",
+            "name": "",
+            "type": "tab",
+            "placement": "left",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_reassurance",
+            "label": "Arguments de réassurance",
+            "name": "reassurance",
+            "type": "repeater",
+            "instructions": "Les quatre arguments sous les produits (accueil et boutique).",
+            "layout": "table",
+            "min": 0,
+            "max": 4,
+            "button_label": "Ajouter un argument",
+            "sub_fields": [
+                {
+                    "key": "field_mf_reassurance__icone",
+                    "label": "Icône",
+                    "name": "icone",
+                    "type": "select",
+                    "return_format": "value",
+                    "ui": 0,
+                    "choices": {
+                        "camion": "Camion (livraison)",
+                        "cadenas": "Cadenas (paiement)",
+                        "retour": "Flèche retour",
+                        "whatsapp": "WhatsApp",
+                        "peaux": "Peaux",
+                        "feuille": "Feuille",
+                        "sac": "Sac",
+                        "courriel": "Enveloppe",
+                        "telephone": "Téléphone"
+                    },
+                    "wrapper": {
+                        "width": "20"
+                    }
+                },
+                {
+                    "key": "field_mf_reassurance__titre",
+                    "label": "Titre",
+                    "name": "titre",
+                    "type": "text",
+                    "wrapper": {
+                        "width": "35"
+                    }
+                },
+                {
+                    "key": "field_mf_reassurance__texte",
+                    "label": "Texte",
+                    "name": "texte",
+                    "type": "text",
+                    "wrapper": {
+                        "width": "45"
+                    }
+                }
+            ]
+        },
+        {
+            "key": "field_mf_tab_0986299e",
+            "label": "Pied de page",
+            "name": "",
+            "type": "tab",
+            "placement": "left",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_pied_reseaux_titre",
+            "label": "Titre des réseaux sociaux",
+            "name": "pied_reseaux_titre",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_pied_paiement",
+            "label": "Mention devant les logos de paiement",
+            "name": "pied_paiement",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_pied_paiements",
+            "label": "Moyens de paiement affichés",
+            "name": "pied_paiements",
+            "type": "checkbox",
+            "instructions": "Logos officiels, dans cet ordre. Aucun coché : la ligne disparaît.",
+            "choices": {
+                "visa": "Visa",
+                "mastercard": "Mastercard",
+                "applepay": "Apple Pay",
+                "googlepay": "Google Pay",
+                "whatsapp": "WhatsApp"
+            },
+            "layout": "horizontal",
+            "return_format": "value",
+            "toggle": 0,
+            "allow_custom": 0
+        },
+        {
+            "key": "field_mf_pied_copyright",
+            "label": "Ligne de copyright",
+            "name": "pied_copyright",
+            "type": "text",
+            "instructions": "Précédée automatiquement de © et de l’année."
+        },
+        {
+            "key": "field_mf_pied_prix",
+            "label": "Mention de devise",
+            "name": "pied_prix",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_tab_079c2c34",
+            "label": "Messages WhatsApp",
+            "name": "",
+            "type": "tab",
+            "placement": "left",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_wa_conseil",
+            "label": "Message de conseil",
+            "name": "wa_conseil",
+            "type": "textarea",
+            "rows": 2,
+            "new_lines": "",
+            "instructions": "Prérempli quand le panier est vide (bouton flottant, liens WhatsApp)."
+        },
+        {
+            "key": "field_mf_wa_commande",
+            "label": "Début du message de commande",
+            "name": "wa_commande",
+            "type": "text",
+            "instructions": "Suivi de la liste des produits."
+        },
+        {
+            "key": "field_mf_wa_livraison",
+            "label": "Fin du message de commande",
+            "name": "wa_livraison",
+            "type": "text",
+            "instructions": "Le client complète avec son pays."
+        },
+        {
+            "key": "field_mf_tab_a0028309",
+            "label": "Fiches produit",
+            "name": "",
+            "type": "tab",
+            "placement": "left",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_produit_peaux",
+            "label": "Ligne « Peaux » des fiches de l’accueil et de la boutique",
+            "name": "produit_peaux",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_produit_expedition",
+            "label": "Délai d’expédition",
+            "name": "produit_expedition",
+            "type": "text",
+            "instructions": "Après « En stock » sur la fiche produit, quand le soin est disponible."
+        },
+        {
+            "key": "field_mf_produit_atouts",
+            "label": "Atouts",
+            "name": "produit_atouts",
+            "type": "repeater",
+            "instructions": "Liste sous les boutons d’achat de chaque fiche produit.",
+            "layout": "table",
+            "min": 0,
+            "max": 6,
+            "button_label": "Ajouter un atout",
+            "sub_fields": [
+                {
+                    "key": "field_mf_produit_atouts__icone",
+                    "label": "Icône",
+                    "name": "icone",
+                    "type": "select",
+                    "return_format": "value",
+                    "ui": 0,
+                    "choices": {
+                        "peaux": "Peaux",
+                        "camion": "Camion (livraison)",
+                        "cadenas": "Cadenas (paiement)",
+                        "retour": "Flèche retour",
+                        "whatsapp": "WhatsApp",
+                        "feuille": "Feuille",
+                        "sac": "Sac",
+                        "courriel": "Enveloppe",
+                        "telephone": "Téléphone"
+                    },
+                    "wrapper": {
+                        "width": "25"
+                    }
+                },
+                {
+                    "key": "field_mf_produit_atouts__texte",
+                    "label": "Texte",
+                    "name": "texte",
+                    "type": "text",
+                    "wrapper": {
+                        "width": "75"
+                    }
+                }
+            ]
+        },
+        {
+            "key": "field_mf_produit_livraison",
+            "label": "Encadré « Livraison & retours »",
+            "name": "produit_livraison",
+            "type": "textarea",
+            "rows": 3,
+            "new_lines": "",
+            "instructions": "Suivi d’un lien « En savoir plus » vers la page Livraison & retours."
+        },
+        {
+            "key": "field_mf_produit_inci",
+            "label": "Mention après les ingrédients",
+            "name": "produit_inci",
+            "type": "text",
+            "instructions": "Quand les ingrédients du soin sont renseignés."
+        },
+        {
+            "key": "field_mf_produit_inci_a_venir",
+            "label": "Texte quand les ingrédients ne sont pas renseignés",
+            "name": "produit_inci_a_venir",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_tab_3ab05a10",
+            "label": "Page introuvable (404)",
+            "name": "",
+            "type": "tab",
+            "placement": "left",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_e404_surtitre",
+            "label": "Surtitre",
+            "name": "e404_surtitre",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_e404_titre",
+            "label": "Titre",
+            "name": "e404_titre",
+            "type": "text",
+            "instructions": "Entourez un ou plusieurs mots d’astérisques pour les mettre en doré : Cette page *n’existe pas*. Un retour à la ligne est conservé."
+        },
+        {
+            "key": "field_mf_e404_texte",
+            "label": "Texte",
+            "name": "e404_texte",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_e404_bouton",
+            "label": "Bouton",
+            "name": "e404_bouton",
+            "type": "text"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "maison-floriane"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Menu Maison Floriane : coordonnées, logo, textes communs à tout le site.",
+    "show_in_rest": 0,
+    "modified": 1794237099
+}

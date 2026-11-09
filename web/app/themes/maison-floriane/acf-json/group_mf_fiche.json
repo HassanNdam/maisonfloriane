@@ -1,0 +1,218 @@
+{
+    "key": "group_mf_fiche",
+    "title": "Fiche Floréa",
+    "fields": [
+        {
+            "key": "field_mf_fiche_tab_b58468a1",
+            "label": "Le rituel",
+            "name": "",
+            "type": "tab",
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_fiche_etape",
+            "label": "Étape du rituel",
+            "name": "fiche_etape",
+            "type": "number",
+            "wrapper": {
+                "width": "20"
+            },
+            "instructions": "1, 2… Vide pour le duo.",
+            "min": 1,
+            "step": 1
+        },
+        {
+            "key": "field_mf_fiche_geste",
+            "label": "Geste",
+            "name": "fiche_geste",
+            "type": "text",
+            "wrapper": {
+                "width": "30"
+            },
+            "instructions": "Purifier, Révéler…"
+        },
+        {
+            "key": "field_mf_fiche_usage",
+            "label": "Usage",
+            "name": "fiche_usage",
+            "type": "text",
+            "wrapper": {
+                "width": "50"
+            },
+            "instructions": "Sous le nom, sur la fiche : « Visage & corps »."
+        },
+        {
+            "key": "field_mf_fiche_accroche",
+            "label": "Accroche",
+            "name": "fiche_accroche",
+            "type": "text",
+            "instructions": "Une phrase sous le prix, sur l’accueil et la boutique. Vide : description courte du produit."
+        },
+        {
+            "key": "field_mf_fiche_type",
+            "label": "Type de soin",
+            "name": "fiche_type",
+            "type": "text",
+            "wrapper": {
+                "width": "33"
+            },
+            "instructions": "Savon noir, Huile corporelle…"
+        },
+        {
+            "key": "field_mf_fiche_moment",
+            "label": "Quand",
+            "name": "fiche_moment",
+            "type": "text",
+            "wrapper": {
+                "width": "33"
+            }
+        },
+        {
+            "key": "field_mf_fiche_zone",
+            "label": "Où",
+            "name": "fiche_zone",
+            "type": "text",
+            "wrapper": {
+                "width": "34"
+            }
+        },
+        {
+            "key": "field_mf_fiche_photo",
+            "label": "Photo de présentation",
+            "name": "fiche_photo",
+            "type": "image",
+            "wrapper": {
+                "width": "50"
+            },
+            "instructions": "Sur l’accueil et la boutique. Vide : image principale du produit.",
+            "return_format": "id",
+            "preview_size": "thumbnail",
+            "library": "all",
+            "mime_types": "webp,png,jpg,jpeg"
+        },
+        {
+            "key": "field_mf_fiche_complement",
+            "label": "Soin complémentaire",
+            "name": "fiche_complement",
+            "type": "post_object",
+            "wrapper": {
+                "width": "50"
+            },
+            "post_type": [
+                "product"
+            ],
+            "filters": [
+                "search"
+            ],
+            "return_format": "id",
+            "instructions": "Proposé en bas de la fiche (« Complétez le rituel »).",
+            "allow_null": 1,
+            "multiple": 0,
+            "ui": 1
+        },
+        {
+            "key": "field_mf_fiche_tab_34f6818c",
+            "label": "Détails",
+            "name": "",
+            "type": "tab",
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_fiche_contenance",
+            "label": "Contenance",
+            "name": "fiche_contenance",
+            "type": "text",
+            "wrapper": {
+                "width": "30"
+            },
+            "instructions": "300 g, 100 ml…"
+        },
+        {
+            "key": "field_mf_fiche_composants",
+            "label": "Composé de",
+            "name": "fiche_composants",
+            "type": "relationship",
+            "wrapper": {
+                "width": "70"
+            },
+            "post_type": [
+                "product"
+            ],
+            "filters": [
+                "search"
+            ],
+            "return_format": "id",
+            "instructions": "Pour un coffret (le duo) : vendre un coffret retire aussi ces soins du stock, et le coffret est en rupture dès qu’un soin l’est. Vide pour un soin seul.",
+            "min": 0,
+            "max": 0,
+            "elements": [
+                "featured_image"
+            ]
+        },
+        {
+            "key": "field_mf_fiche_ingredients",
+            "label": "Ingrédients clés",
+            "name": "fiche_ingredients",
+            "type": "textarea",
+            "rows": 2,
+            "new_lines": "",
+            "instructions": "Séparés par des virgules. Pour un coffret : « Savon noir : … . Glow Oil : … »."
+        },
+        {
+            "key": "field_mf_fiche_conseils",
+            "label": "Conseils d’utilisation",
+            "name": "fiche_conseils",
+            "type": "textarea",
+            "rows": 4,
+            "new_lines": ""
+        },
+        {
+            "key": "field_mf_fiche_video",
+            "label": "Vidéo de présentation",
+            "name": "fiche_video",
+            "type": "file",
+            "wrapper": {
+                "width": "50"
+            },
+            "instructions": "MP4 courte, dans la galerie de la fiche.",
+            "return_format": "id",
+            "library": "all",
+            "mime_types": "mp4"
+        },
+        {
+            "key": "field_mf_fiche_video_apercu",
+            "label": "Image d’aperçu de la vidéo",
+            "name": "fiche_video_apercu",
+            "type": "image",
+            "wrapper": {
+                "width": "50"
+            },
+            "instructions": "Vide : aperçu importé avec la vidéo d’origine.",
+            "return_format": "id",
+            "preview_size": "thumbnail",
+            "library": "all",
+            "mime_types": "webp,png,jpg,jpeg"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "product"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Rituel, contenance, ingrédients, conseils, vidéo et composition des soins. Prix et stock : onglets WooCommerce.",
+    "show_in_rest": 0,
+    "modified": 1794233495
+}

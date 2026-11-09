@@ -6,6 +6,10 @@ Chaque version correspond à un tag `vX.Y.Z` sur `main` (voir `CONTRIBUTING.md`)
 ## [Non publié]
 
 ### Ajouté
+- Menu **Maison Floriane** dans le back-office (Secure Custom Fields) : logo, slogan, coordonnées (e-mail, téléphone, WhatsApp), délais de réponse, réseaux sociaux, bandeau du haut, arguments de réassurance, pied de page, messages WhatsApp préremplis et page 404 se modifient sans toucher au code.
+- Accueil modifiable dans Pages › Accueil : textes, vidéos de l'en-tête, produits présentés, résultats avant/après, étapes, extrait « Mon histoire », questions fréquentes et Lettre Floréa.
+- Pages Mon histoire, Contact et Boutique modifiables dans le back-office : textes et photos, en-tête de la boutique (descriptions des images : dans Médias).
+- Fiches produit : onglet « Fiche Floréa » (étape du rituel, accroche, quand/où, photo, soin complémentaire, contenance, ingrédients, conseils, vidéo, composition du duo) et textes communs dans Maison Floriane › Fiches produit (atouts, délai d'expédition, livraison, mention INCI).
 - Référencement de toutes les pages en français et en anglais : titres et descriptions travaillés sur les mots-clés (soins anti-taches, savon noir visage, huile éclat, routine anti-taches…), images de partage 1200 × 630 pour les réseaux, textes alternatifs des photos, schéma Organization (marque Floréa Skin, réseaux, contact), panier, commande et compte hors des résultats et du sitemap.
 - Toutes les pages au vert dans Yoast (73 à 92) : expression clé par page choisie dans le texte existant (boutique « savon noir et Glow Oil », Glow Oil « huile corporelle », duo « Duo rituel », contact « conseil peau », pages légales), titres commençant par l'expression clé, descriptions de 140 caractères au plus, FR et EN.
 - Analyse Yoast dans l'admin : elle lit la page publiée (contenu principal et pied de page) au lieu de l'éditeur vide. Accueil : titre et description recentrés sur « soins anti-taches », score SEO de 11 à 92.
@@ -18,12 +22,17 @@ Chaque version correspond à un tag `vX.Y.Z` sur `main` (voir `CONTRIBUTING.md`)
 - Lien « Compte » dans l'en-tête et le menu mobile.
 
 - Page « Droit de rétractation » avec le formulaire type, liée dans le pied de page et jointe à la confirmation de commande.
+- Logos de paiement du pied de page au choix dans Maison Floriane › Pied de page ; icône du site modifiable dans Réglages › Général.
+- Notice du back-office pour Flore : `docs/guide-back-office.md`.
 
 ### Modifié
+- `composer seed` n'écrase plus les produits modifiés dans l'admin (nom, prix, promo, descriptions, catégorie, statut, photos) : le catalogue ne complète que ce qui est vide, sauf avec `MF_SEED_FORCE=1`.
 - Référencement : Yoast SEO (gratuit) remplace Rank Math. Titres et descriptions des produits, titres et descriptions de partage traduits sur /en/.
 - Fiches produits : données structurées « Product » (prix, disponibilité) rétablies ; un seul fil d'Ariane déclaré (celui du thème).
 
 ### Corrigé
+- Données structurées de la FAQ (accueil) illisibles par Google : Blade cassait « @context ». Questions et réponses désormais traduites sur /en/.
+- Traductions anglaises enregistrées sous les deux formes d'apostrophe (`'` et `&#039;`) : bouton « S'inscrire » de la Lettre Floréa traduit, textes du back-office reconnus.
 - Germanized pointait vers des pages légales anglaises par défaut (confidentialité, mentions légales) dans les e-mails.
 - Textes anglais de Germanized traduits : case légale et bouton « Commander et payer » de la commande, e-mails de confirmation et de paiement, salutation « Bonjour {prénom} ».
 - Pages anglaises de Germanized traduites (moyens de paiement, authenticité des avis, formulaire de rétractation) ou remplacées par les nôtres (livraison, mentions légales).

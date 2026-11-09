@@ -222,34 +222,50 @@ foreach (glob("$docs/02-videos-site/florea-skin/*/*") as $file) {
     mf_media($file, str_ends_with($file, '.webp') ? 'Aperçu de la vidéo Floréa Skin' : '');
 }
 
-// Prix, promo et publication viennent du catalogue (docs/00-projet/catalogue-produits.json, généré depuis le .xlsx).
+// Produits créés depuis le catalogue (docs/00-projet/catalogue-produits.json, généré depuis le .xlsx).
 // Un produit sans prix reste en brouillon : aucun prix n'est inventé.
+// Ensuite, c'est l'admin qui fait foi : nom, prix, promo, descriptions, catégorie, statut et photos modifiés par Flore
+// ne sont plus écrasés. Le catalogue ne complète que ce qui est vide (un prix « à venir » enfin fixé publie le produit).
+// MF_SEED_FORCE=1 réapplique tout le catalogue.
 WP_CLI::log('Produits (catalogue)');
 $catalogue = json_decode(file_get_contents("$docs/00-projet/catalogue-produits.json"), true);
 $galeries = [
     'FS-001' => ['savon-noir-reparateur-florea-skin-en-main.webp'], // comme le prototype : détouré, vidéo, en main
     'FS-002' => ['glow-oil-florea-skin-huile-corporelle-detoure.webp'], // à côté de la vidéo, sans fond (demande du 09/11)
 ];
-// Produits composés : vendre un duo retire un savon et un Glow Oil du stock (voir app/woocommerce.php du thème).
-$composants = ['FS-003' => ['FS-001', 'FS-002']];
+// Fiches Floréa (champs SCF du thème, app/produits.php) : contenance, conseils, ingrédients, vidéo, composition et place
+// dans le rituel. Recopiées depuis le catalogue en fin de script, sans écraser ce que Flore a saisi dans l'admin.
+$fiches = [];
 foreach ($catalogue['produits'] as $p) {
     $id = wc_get_product_id_by_sku($p['reference']);
     $product = $id ? wc_get_product($id) : new WC_Product_Simple();
     if (! $id) {
         $product->set_sku($p['reference']);
     }
+    $catalogueFaitFoi = ! $id || getenv('MF_SEED_FORCE');
     $prix = $p['prix'] !== null ? wc_format_decimal($p['prix']) : '';
     $promo = $p['prix_promo'] !== null ? wc_format_decimal($p['prix_promo']) : '';
-    $product->set_regular_price($prix);
-    $product->set_sale_price($promo);
-    $product->set_status($prix !== '' && ! empty($p['publie']) ? 'publish' : 'draft');
-    $product->update_meta_data('_mf_composants', $composants[$p['reference']] ?? []);
-    $product->set_name($p['nom']);
-    $product->set_slug($p['slug']);
-    $product->set_short_description($p['description_courte']);
-    $product->set_description('<p>' . esc_html($p['description']) . '</p>');
-    $term = term_exists($p['categorie'], 'product_cat') ?: wp_insert_term($p['categorie'], 'product_cat');
-    $product->set_category_ids([(int) ($term['term_id'] ?? 0)]);
+    $prixFixe = $prix !== '' && $product->get_regular_price() === ''; // prix « à venir » enfin connu
+    if ($catalogueFaitFoi || $prixFixe) {
+        $product->set_regular_price($prix);
+        $product->set_sale_price($promo);
+        $product->set_status($prix !== '' && ! empty($p['publie']) ? 'publish' : 'draft');
+    }
+    if ($catalogueFaitFoi || $product->get_name() === '') {
+        $product->set_name($p['nom']);
+        $product->set_slug($p['slug']);
+    }
+    if ($catalogueFaitFoi || $product->get_short_description() === '') {
+        $product->set_short_description($p['description_courte']);
+    }
+    if ($catalogueFaitFoi || $product->get_description() === '') {
+        $product->set_description('<p>' . esc_html($p['description']) . '</p>');
+    }
+    $categorieDefaut = (int) get_option('default_product_cat');
+    if ($catalogueFaitFoi || ! array_diff($product->get_category_ids(), [$categorieDefaut])) {
+        $term = term_exists($p['categorie'], 'product_cat') ?: wp_insert_term($p['categorie'], 'product_cat');
+        $product->set_category_ids([(int) ($term['term_id'] ?? 0)]);
+    }
     if (! $id) { // stock initial à la création seulement : ensuite il évolue avec les ventes
         $product->set_manage_stock(true);
         $product->set_stock_quantity($p['stock'] ?? 200);
@@ -258,31 +274,34 @@ foreach ($catalogue['produits'] as $p) {
     $productId = $product->save();
 
     $image = $p['images'][0] ?? null;
-    if ($image) { // image principale resynchronisée avec le catalogue à chaque lancement
+    if ($image && ($catalogueFaitFoi || ! $product->get_image_id())) { // image principale : celle du catalogue si aucune
         $product->set_image_id(mf_media("$docs/" . $image['src'], $image['alt'], $productId));
     }
-    if (isset($galeries[$p['reference']])) { // galerie resynchronisée avec le prototype à chaque lancement
+    if (isset($galeries[$p['reference']]) && ($catalogueFaitFoi || ! $product->get_gallery_image_ids())) { // galerie du prototype si vide
         $ids = [];
         foreach ($galeries[$p['reference']] ?? [] as $file) {
             $ids[] = mf_media("$docs/01-images-site/florea-skin/produits/$file", $p['nom'], $productId);
         }
         $product->set_gallery_image_ids(array_filter($ids));
     }
-    $product->update_meta_data('_mf_contenance', $p['contenance']);
-    $product->update_meta_data('_mf_conseils', $p['conseils_utilisation']);
-    $product->update_meta_data('_mf_ingredients', str_starts_with($p['ingredients'], 'À renseigner') ? '' : $p['ingredients']);
     $product->update_meta_data('_mf_a_confirmer', $p['a_confirmer']);
-    if (! empty($p['video']['src'])) {
-        $product->update_meta_data('_mf_video', mf_media("$docs/" . $p['video']['src'], $p['nom'], $productId));
-    }
     $product->save();
+
+    $fiches[$productId] = [
+        'contenance' => $p['contenance'],
+        'conseils' => $p['conseils_utilisation'],
+        'ingredients' => str_starts_with($p['ingredients'], 'À renseigner') ? '' : $p['ingredients'],
+        'video' => ! empty($p['video']['src']) ? mf_media("$docs/" . $p['video']['src'], $p['nom'], $productId) : 0,
+        'video_apercu' => ! empty($p['video']['poster']) ? mf_media("$docs/" . $p['video']['poster'], 'Aperçu de la vidéo Floréa Skin') : 0,
+    ];
 
     if (! empty($p['seo'])) {
         update_post_meta($productId, '_yoast_wpseo_title', $p['seo']['title']);
         update_post_meta($productId, '_yoast_wpseo_metadesc', $p['seo']['description']);
     }
-    mf_log(sprintf('produit : %s (#%d, %s, %s €%s)', $p['nom'], $productId, get_post_status($productId),
-        $prix ?: '—', $promo ? " → promo $promo €" : ''));
+    mf_log(sprintf('produit : %s (#%d, %s, %s €%s)%s', $product->get_name(), $productId, get_post_status($productId),
+        $product->get_regular_price() ?: '—', $product->get_sale_price() ? ' → promo ' . $product->get_sale_price() . ' €' : '',
+        $catalogueFaitFoi ? ' — catalogue appliqué' : ''));
 }
 
 WP_CLI::log('Cadrage des photos et vidéos (object-position)');
@@ -673,6 +692,14 @@ if (class_exists('TRP_Translate_Press')) {
     $trpQuery = TRP_Translate_Press::get_trp_instance()->get_component('query');
     $table = $trpQuery->get_table_name('en_GB');
     $traductions = json_decode(file_get_contents(__DIR__ . '/traductions/en_GB.json'), true);
+    // Chaque texte aussi sous son autre forme HTML (« l'Espagne » / « l&#039;Espagne », « & » / « &amp; ») :
+    // TranslatePress compare le HTML tel quel, et les textes ne sortent pas tous échappés pareil (gabarits, champs SCF).
+    foreach ($traductions as $fr => $en) {
+        $brut = html_entity_decode($fr, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        foreach ([$brut, esc_html($brut)] as $forme) {
+            $traductions[$forme] ??= $en;
+        }
+    }
     $nouveaux = array_diff(array_keys($traductions), $wpdb->get_col("SELECT original FROM `$table`"));
     if ($nouveaux) {
         $trpQuery->insert_strings(array_values($nouveaux), 'en_GB');
@@ -686,6 +713,88 @@ if (class_exists('TRP_Translate_Press')) {
         ));
     }
     mf_log(sprintf('traductions anglaises : %d textes (%d mis à jour)', count($traductions), $faites));
+}
+
+/*
+ * Champs SCF (réglages du site, accueil) : les valeurs d'origine du thème sont recopiées dans le back-office
+ * pour que Flore les voie et les modifie. Un champ déjà enregistré n'est pas écrasé, sauf avec MF_SEED_FORCE=1.
+ * Clés des champs : field_mf_<préfixe><nom>, sous-champs d'un répéteur field_mf_<préfixe><répéteur>__<sous-champ>.
+ * Les médias sont donnés par leur nom de fichier d'origine (médiathèque) ou « resources/… » (image du thème, importée).
+ */
+function mf_media_champ(mixed $valeur): mixed
+{
+    if (! is_string($valeur) || ! preg_match('/\.(webp|png|jpe?g|mp4)$/i', $valeur)) {
+        return $valeur;
+    }
+    if (str_starts_with($valeur, 'resources/')) {
+        return mf_media(get_theme_file_path($valeur));
+    }
+
+    return App\media_id($valeur);
+}
+
+/** Recopie $valeurs dans les champs de $objet ('option' ou id de page). Renvoie le nombre de champs écrits. */
+function mf_champs(array $valeurs, int|string $objet, string $prefixe = ''): int
+{
+    $faits = 0;
+    foreach ($valeurs as $cle => $valeur) {
+        $existe = $objet === 'option' ? get_option("options_$cle", null) !== null : metadata_exists('post', $objet, $cle);
+        if ($existe && ! getenv('MF_SEED_FORCE')) {
+            continue;
+        }
+        if (is_array($valeur) && is_array(reset($valeur))) {
+            $valeur = array_map(fn ($ligne) => array_combine(
+                array_map(fn ($sous) => "field_mf_{$prefixe}{$cle}__{$sous}", array_keys($ligne)),
+                array_map('mf_media_champ', array_values($ligne))
+            ), $valeur);
+        } else {
+            $valeur = mf_media_champ($valeur);
+        }
+        update_field("field_mf_{$prefixe}{$cle}", $valeur, $objet);
+        $faits++;
+    }
+
+    return $faits;
+}
+
+if (function_exists('update_field') && defined('App\REGLAGES')) {
+    WP_CLI::log('Champs du back-office');
+    $reglages = App\REGLAGES;
+    $reglages['logo'] = 'resources/images/logo-florea-skin-rond-400px.webp';
+    // Liens des réseaux saisis auparavant dans Apparence › Personnaliser.
+    foreach (['tiktok', 'instagram', 'facebook'] as $reseau) {
+        if ($ancien = get_theme_mod("mf_reseau_$reseau")) {
+            $reglages["reseau_$reseau"] = $ancien;
+        }
+    }
+    mf_log(sprintf('Maison Floriane (réglages du site) : %d champs recopiés', mf_champs($reglages, 'option')));
+
+    if (defined('App\ACCUEIL') && ($accueilId = App\accueil_id())) {
+        $champsAccueil = App\ACCUEIL;
+        $champsAccueil['rituel_produits'] = array_values(array_filter(array_map('wc_get_product_id_by_sku', App\ACCUEIL['rituel_produits'])));
+        mf_log(sprintf('Pages › Accueil : %d champs recopiés', mf_champs($champsAccueil, $accueilId, 'accueil_')));
+    }
+
+    // Fiches Floréa des produits (app/produits.php) : catalogue + place dans le rituel (App\FICHES). Références → ids.
+    foreach ($fiches as $productId => $fiche) {
+        $sku = get_post_meta($productId, '_sku', true);
+        $fiche += App\FICHES[$sku] ?? [];
+        $fiche['complement'] = ! empty($fiche['complement']) ? wc_get_product_id_by_sku($fiche['complement']) : null;
+        $fiche['composants'] = array_values(array_filter(array_map('wc_get_product_id_by_sku', $fiche['composants'] ?? [])));
+        $champsFiche = array_combine(array_map(fn ($cle) => "fiche_$cle", array_keys($fiche)), array_values($fiche));
+        mf_log(sprintf('Produits › %s : %d champs recopiés', get_the_title($productId), mf_champs($champsFiche, $productId)));
+        // Anciennes métas remplacées par les champs (lues par le thème tant que le champ manquait).
+        foreach (App\FICHES_METAS as $ancienne) {
+            delete_post_meta($productId, $ancienne);
+        }
+    }
+
+    // Mon histoire, Contact, Boutique (app/pages.php).
+    foreach (defined('App\PAGES') ? App\PAGES : [] as $page => $valeurs) {
+        if ($pageId = App\page_id($page)) {
+            mf_log(sprintf('Pages › %s : %d champs recopiés', App\PAGES_NOMS[$page], mf_champs($valeurs, $pageId, "{$page}_")));
+        }
+    }
 }
 
 // Référencement (Yoast SEO) : réglages, titres et descriptions, images de partage, textes alternatifs.

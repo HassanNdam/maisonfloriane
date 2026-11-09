@@ -6,7 +6,7 @@
 @php($r = App\rituel($produit))
 @php($duo = (bool) App\composants($produit))
 @php([$stockClasse, $stockLibelle] = App\stock($produit))
-@php($photo = App\media_id($r['photo']) ?: $produit->get_image_id())
+@php($photo = $r['photo'] ?: $produit->get_image_id())
 @php($lien = $produit->get_permalink())
 <article class="soin {{ $duo ? 'soin--vedette' : '' }}">
   <a class="soin__visuel" href="{{ $lien }}" tabindex="-1" aria-hidden="true">
@@ -31,7 +31,7 @@
   <dl class="soin__infos">
     @if ($r['moment'])<div><dt>Quand</dt><dd>{{ $r['moment'] }}</dd></div>@endif
     @if ($r['zone'])<div><dt>Où</dt><dd>{{ $r['zone'] }}</dd></div>@endif
-    <div><dt>Peaux</dt><dd>Tous types, toutes carnations</dd></div>
+    @if (App\affiche('produit_peaux'))<div><dt>Peaux</dt><dd>{!! App\affiche('produit_peaux') !!}</dd></div>@endif
     @if ($duo)
       <div class="soin__liste"><dt>Contient</dt><dd><ul class="puces">
         @foreach (App\composants($produit) as $composant)

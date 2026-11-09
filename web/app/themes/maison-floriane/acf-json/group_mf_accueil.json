@@ -1,0 +1,477 @@
+{
+    "key": "group_mf_accueil",
+    "title": "Accueil",
+    "fields": [
+        {
+            "key": "field_mf_accueil_tab_362a4cf9",
+            "label": "En-tête",
+            "name": "",
+            "type": "tab",
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_accueil_hero_surtitre",
+            "label": "Surtitre",
+            "name": "hero_surtitre",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_accueil_hero_titre",
+            "label": "Titre",
+            "name": "hero_titre",
+            "type": "textarea",
+            "instructions": "Mots entre astérisques en doré : *révélée*. Un retour à la ligne est conservé.",
+            "rows": 2,
+            "new_lines": ""
+        },
+        {
+            "key": "field_mf_accueil_hero_texte",
+            "label": "Texte",
+            "name": "hero_texte",
+            "type": "textarea",
+            "rows": 2,
+            "new_lines": ""
+        },
+        {
+            "key": "field_mf_accueil_hero_bouton",
+            "label": "Bouton (vers « Le rituel »)",
+            "name": "hero_bouton",
+            "type": "text",
+            "wrapper": {
+                "width": "50"
+            }
+        },
+        {
+            "key": "field_mf_accueil_hero_lien",
+            "label": "Lien (vers « Résultats »)",
+            "name": "hero_lien",
+            "type": "text",
+            "wrapper": {
+                "width": "50"
+            }
+        },
+        {
+            "key": "field_mf_accueil_hero_videos",
+            "label": "Vidéos",
+            "name": "hero_videos",
+            "type": "repeater",
+            "layout": "table",
+            "min": 0,
+            "max": 3,
+            "button_label": "Ajouter une vidéo",
+            "sub_fields": [
+                {
+                    "key": "field_mf_accueil_hero_videos__video",
+                    "label": "Vidéo (MP4)",
+                    "name": "video",
+                    "type": "file",
+                    "return_format": "id",
+                    "library": "all",
+                    "mime_types": "mp4",
+                    "wrapper": {
+                        "width": "30"
+                    }
+                },
+                {
+                    "key": "field_mf_accueil_hero_videos__apercu",
+                    "label": "Image d’aperçu",
+                    "name": "apercu",
+                    "type": "image",
+                    "return_format": "id",
+                    "preview_size": "medium",
+                    "library": "all",
+                    "mime_types": "webp,png,jpg,jpeg",
+                    "instructions": "Affichée pendant le chargement.",
+                    "wrapper": {
+                        "width": "30"
+                    }
+                },
+                {
+                    "key": "field_mf_accueil_hero_videos__legende",
+                    "label": "Légende",
+                    "name": "legende",
+                    "type": "text",
+                    "wrapper": {
+                        "width": "25"
+                    }
+                },
+                {
+                    "key": "field_mf_accueil_hero_videos__grand",
+                    "label": "Grande",
+                    "name": "grand",
+                    "type": "true_false",
+                    "ui": 1,
+                    "wrapper": {
+                        "width": "15"
+                    }
+                }
+            ],
+            "instructions": "Trois vidéos courtes, sans son. Une seule « Grande »."
+        },
+        {
+            "key": "field_mf_accueil_tab_b58468a1",
+            "label": "Le rituel",
+            "name": "",
+            "type": "tab",
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_accueil_rituel_surtitre",
+            "label": "Surtitre",
+            "name": "rituel_surtitre",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_accueil_rituel_titre",
+            "label": "Titre",
+            "name": "rituel_titre",
+            "type": "textarea",
+            "instructions": "Mots entre astérisques en doré : *révélée*. Un retour à la ligne est conservé.",
+            "rows": 2,
+            "new_lines": ""
+        },
+        {
+            "key": "field_mf_accueil_rituel_texte",
+            "label": "Texte",
+            "name": "rituel_texte",
+            "type": "textarea",
+            "rows": 2,
+            "new_lines": ""
+        },
+        {
+            "key": "field_mf_accueil_rituel_produits",
+            "label": "Produits présentés",
+            "name": "rituel_produits",
+            "type": "relationship",
+            "instructions": "Fiches affichées, dans cet ordre. Prix, stock et descriptions se modifient dans Produits.",
+            "post_type": [
+                "product"
+            ],
+            "filters": [
+                "search"
+            ],
+            "return_format": "id",
+            "min": 0,
+            "max": 3,
+            "elements": [
+                "featured_image"
+            ]
+        },
+        {
+            "key": "field_mf_accueil_tab_f21a7fd5",
+            "label": "Résultats",
+            "name": "",
+            "type": "tab",
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_accueil_resultats_surtitre",
+            "label": "Surtitre",
+            "name": "resultats_surtitre",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_accueil_resultats_titre",
+            "label": "Titre",
+            "name": "resultats_titre",
+            "type": "textarea",
+            "instructions": "Mots entre astérisques en doré : *révélée*. Un retour à la ligne est conservé.",
+            "rows": 2,
+            "new_lines": ""
+        },
+        {
+            "key": "field_mf_accueil_resultats_texte",
+            "label": "Texte",
+            "name": "resultats_texte",
+            "type": "textarea",
+            "rows": 2,
+            "new_lines": ""
+        },
+        {
+            "key": "field_mf_accueil_resultats",
+            "label": "Photos et vidéos",
+            "name": "resultats",
+            "type": "repeater",
+            "layout": "table",
+            "min": 0,
+            "max": 0,
+            "button_label": "Ajouter une photo ou vidéo",
+            "sub_fields": [
+                {
+                    "key": "field_mf_accueil_resultats__image",
+                    "label": "Photo (ou aperçu de la vidéo)",
+                    "name": "image",
+                    "type": "image",
+                    "return_format": "id",
+                    "preview_size": "medium",
+                    "library": "all",
+                    "mime_types": "webp,png,jpg,jpeg",
+                    "wrapper": {
+                        "width": "25"
+                    }
+                },
+                {
+                    "key": "field_mf_accueil_resultats__video",
+                    "label": "Vidéo (facultatif)",
+                    "name": "video",
+                    "type": "file",
+                    "return_format": "id",
+                    "library": "all",
+                    "mime_types": "mp4",
+                    "instructions": "Avec une vidéo, la photo devient un bouton de lecture.",
+                    "wrapper": {
+                        "width": "25"
+                    }
+                },
+                {
+                    "key": "field_mf_accueil_resultats__etiquette",
+                    "label": "Étiquette",
+                    "name": "etiquette",
+                    "type": "text",
+                    "instructions": "Avant, Après…",
+                    "wrapper": {
+                        "width": "15"
+                    }
+                },
+                {
+                    "key": "field_mf_accueil_resultats__description",
+                    "label": "Description de l’image",
+                    "name": "description",
+                    "type": "text",
+                    "instructions": "Lue par les malvoyants et Google.",
+                    "wrapper": {
+                        "width": "35"
+                    }
+                }
+            ]
+        },
+        {
+            "key": "field_mf_accueil_resultats_mention",
+            "label": "Mention sous les résultats",
+            "name": "resultats_mention",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_accueil_tab_b4e579d9",
+            "label": "Mode d’emploi",
+            "name": "",
+            "type": "tab",
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_accueil_etapes_surtitre",
+            "label": "Surtitre",
+            "name": "etapes_surtitre",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_accueil_etapes_titre",
+            "label": "Titre",
+            "name": "etapes_titre",
+            "type": "textarea",
+            "instructions": "Mots entre astérisques en doré : *révélée*. Un retour à la ligne est conservé.",
+            "rows": 2,
+            "new_lines": ""
+        },
+        {
+            "key": "field_mf_accueil_etapes",
+            "label": "Étapes",
+            "name": "etapes",
+            "type": "repeater",
+            "layout": "table",
+            "min": 0,
+            "max": 0,
+            "button_label": "Ajouter une étape",
+            "sub_fields": [
+                {
+                    "key": "field_mf_accueil_etapes__titre",
+                    "label": "Titre",
+                    "name": "titre",
+                    "type": "text",
+                    "wrapper": {
+                        "width": "30"
+                    }
+                },
+                {
+                    "key": "field_mf_accueil_etapes__texte",
+                    "label": "Texte",
+                    "name": "texte",
+                    "type": "textarea",
+                    "rows": 2,
+                    "new_lines": "",
+                    "wrapper": {
+                        "width": "70"
+                    }
+                }
+            ],
+            "instructions": "Numérotées automatiquement (01, 02…)."
+        },
+        {
+            "key": "field_mf_accueil_tab_5e53bf0d",
+            "label": "Mon histoire",
+            "name": "",
+            "type": "tab",
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_accueil_histoire_image",
+            "label": "Image",
+            "name": "histoire_image",
+            "type": "image",
+            "return_format": "id",
+            "preview_size": "medium",
+            "library": "all",
+            "mime_types": "webp,png,jpg,jpeg",
+            "instructions": "Vide : logo rond du thème."
+        },
+        {
+            "key": "field_mf_accueil_histoire_surtitre",
+            "label": "Surtitre",
+            "name": "histoire_surtitre",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_accueil_histoire_titre",
+            "label": "Titre",
+            "name": "histoire_titre",
+            "type": "textarea",
+            "instructions": "Mots entre astérisques en doré : *révélée*. Un retour à la ligne est conservé.",
+            "rows": 2,
+            "new_lines": ""
+        },
+        {
+            "key": "field_mf_accueil_histoire_citation",
+            "label": "Citation",
+            "name": "histoire_citation",
+            "type": "textarea",
+            "rows": 4,
+            "new_lines": ""
+        },
+        {
+            "key": "field_mf_accueil_histoire_signature",
+            "label": "Signature",
+            "name": "histoire_signature",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_accueil_histoire_lien",
+            "label": "Lien vers la page Mon histoire",
+            "name": "histoire_lien",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_accueil_tab_5b6a9abe",
+            "label": "Questions fréquentes",
+            "name": "",
+            "type": "tab",
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_accueil_faq_surtitre",
+            "label": "Surtitre",
+            "name": "faq_surtitre",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_accueil_faq_titre",
+            "label": "Titre",
+            "name": "faq_titre",
+            "type": "textarea",
+            "instructions": "Mots entre astérisques en doré : *révélée*. Un retour à la ligne est conservé.",
+            "rows": 2,
+            "new_lines": ""
+        },
+        {
+            "key": "field_mf_accueil_faq",
+            "label": "Questions",
+            "name": "faq",
+            "type": "repeater",
+            "layout": "block",
+            "min": 0,
+            "max": 0,
+            "button_label": "Ajouter une question",
+            "sub_fields": [
+                {
+                    "key": "field_mf_accueil_faq__question",
+                    "label": "Question",
+                    "name": "question",
+                    "type": "text"
+                },
+                {
+                    "key": "field_mf_accueil_faq__reponse",
+                    "label": "Réponse",
+                    "name": "reponse",
+                    "type": "textarea",
+                    "rows": 3,
+                    "new_lines": ""
+                }
+            ],
+            "instructions": "La première question s’affiche ouverte. Les questions sont aussi transmises à Google (FAQ enrichie)."
+        },
+        {
+            "key": "field_mf_accueil_tab_26919451",
+            "label": "Lettre Floréa",
+            "name": "",
+            "type": "tab",
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_accueil_lettre_surtitre",
+            "label": "Surtitre",
+            "name": "lettre_surtitre",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_accueil_lettre_titre",
+            "label": "Titre",
+            "name": "lettre_titre",
+            "type": "textarea",
+            "instructions": "Mots entre astérisques en doré : *révélée*. Un retour à la ligne est conservé.",
+            "rows": 2,
+            "new_lines": ""
+        },
+        {
+            "key": "field_mf_accueil_lettre_mention",
+            "label": "Mention sous le formulaire",
+            "name": "lettre_mention",
+            "type": "text",
+            "instructions": "Le formulaire lui-même se règle dans Forminator."
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_type",
+                "operator": "==",
+                "value": "front_page"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "acf_after_title",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [
+        "the_content",
+        "excerpt",
+        "discussion",
+        "comments",
+        "featured_image",
+        "format",
+        "categories",
+        "tags",
+        "send-trackbacks"
+    ],
+    "active": true,
+    "description": "Textes, médias, étapes et FAQ de la page d’accueil.",
+    "show_in_rest": 0,
+    "modified": 1794232596
+}
