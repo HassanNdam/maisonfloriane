@@ -84,3 +84,27 @@ add_filter('option_woocommerce_gzd_legal_checkboxes_settings', function ($cases)
     }
     return $cases;
 });
+
+// Textes réglables de Germanized (salutation et introduction des e-mails, mentions prix) : réglés en français par
+// le seed, traduits quand l'e-mail ou la page part dans une autre langue (TranslatePress change alors de langue).
+foreach (['email_title_text', 'email_order_confirmation_text', 'shipping_costs_text', 'delivery_time_text', 'product_units_text'] as $reglage) {
+    add_filter("option_woocommerce_gzd_$reglage", fn ($texte) => is_string($texte) ? traduire($texte) : $texte);
+}
+
+// Dates (« 9 novembre 2026 ») : TranslatePress change la langue des e-mails sans recharger les noms de mois de
+// WordPress ; en anglais, la date est reformatée avec les noms anglais.
+add_filter('wp_date', function ($date, $format, $timestamp, $fuseau) {
+    $langue = langue_traduite();
+    if (! $langue || ! str_starts_with($langue, 'en')) {
+        return $date;
+    }
+    return (new \DateTimeImmutable('@' . $timestamp))->setTimezone($fuseau ?: wp_timezone())->format($format);
+}, 10, 4);
+// date_i18n() (utilisée par WooCommerce) reçoit un horodatage déjà décalé à l'heure locale : formaté tel quel.
+add_filter('date_i18n', function ($date, $format, $timestamp, $gmt) {
+    $langue = langue_traduite();
+    if (! $langue || ! str_starts_with($langue, 'en') || preg_match('/(?<!\\\\)[eTOPpZ]/', $format)) {
+        return $date;
+    }
+    return (new \DateTimeImmutable('@' . $timestamp))->format($format);
+}, 10, 4);
