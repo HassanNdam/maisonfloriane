@@ -596,5 +596,28 @@ if (class_exists('WooCommerce_Germanized')) {
 }
 mf_log('compte client : inscription ouverte, adresses en français, e-mails aux couleurs de la charte');
 
+// Bouton de validation de commande : Germanized enregistre « Buy Now » à l'installation (pas de traduction française).
+update_option('woocommerce_gzd_order_submit_btn_text', 'Commander maintenant');
+mf_log('bouton de commande : « Commander maintenant »');
+
+// Multilingue (TranslatePress, gratuit avec une langue en plus) : français par défaut sans préfixe,
+// anglais sous /en/. Pas de bouton flottant : le sélecteur FR · EN est dans l'en-tête du thème.
+// Les traductions anglaises se saisissent dans l'éditeur visuel (« Traduire le site » dans la barre d'admin).
+if (class_exists('TRP_Translate_Press')) {
+    $trp = (array) get_option('trp_settings', []);
+    update_option('trp_settings', array_merge($trp, [
+        'default-language' => 'fr_FR',
+        'translation-languages' => ['fr_FR', 'en_GB'],
+        'publish-languages' => ['fr_FR', 'en_GB'],
+        'url-slugs' => ['fr_FR' => 'fr', 'en_GB' => 'en'],
+        'add-subdirectory-to-default-language' => 'no',
+        'force-language-to-custom-links' => 'yes',
+        'native_or_english_name' => 'native_name',
+        'trp-ls-floater' => 'no',
+        'trp-ls-show-poweredby' => 'no',
+    ]));
+    mf_log('multilingue : français (par défaut) + anglais sous /en/');
+}
+
 flush_rewrite_rules();
 WP_CLI::success('Contenus de départ en place.');
