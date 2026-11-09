@@ -29,10 +29,10 @@ const REGLAGES = [
     'societe_registre' => '',
     'societe_tva' => '',
     'societe_directrice' => 'Flore, fondatrice de Floréa Skin',
-    // Hébergeur choisi le 09/11/2026 : IONOS, entité espagnole (ionos.es, conditions générales et confidentialité)
-    'hebergeur_nom' => 'IONOS Cloud S.L.U.',
-    'hebergeur_adresse' => 'Calle Madre de Dios 21, 26004 Logroño (La Rioja), Espagne',
-    'hebergeur_site' => 'https://www.ionos.es',
+    // Hébergeur choisi le 09/11/2026 : IONOS France (ionos.fr, conditions générales, article 1)
+    'hebergeur_nom' => 'IONOS SARL (RCS Sarreguemines 431 303 775)',
+    'hebergeur_adresse' => '7, place de la Gare, BP 70109, 57200 Sarreguemines Cedex, France',
+    'hebergeur_site' => 'https://www.ionos.fr',
     'delai_reponse_court' => 'Réponse sous 24 h ouvrées',
     // Réseaux sociaux (vide : icône affichée, non cliquable)
     'reseau_tiktok' => '',

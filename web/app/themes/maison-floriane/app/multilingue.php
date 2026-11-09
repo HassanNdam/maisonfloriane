@@ -108,3 +108,7 @@ add_filter('date_i18n', function ($date, $format, $timestamp, $gmt) {
     }
     return (new \DateTimeImmutable('@' . $timestamp))->format($format);
 }, 10, 4);
+
+// Nom du mode de livraison (« Livraison suivie », scripts/livraison.php) : le panier et la commande l'affichent
+// par l'API du panier, que TranslatePress gratuit ne traduit pas.
+add_filter('woocommerce_shipping_rate_label', fn ($libelle) => traduire((string) $libelle));

@@ -819,5 +819,17 @@ require __DIR__ . '/seo.php';
 // Bandeau de consentement (Complianz) : assistant de base, textes et style à la charte.
 require __DIR__ . '/complianz.php';
 
+// Zones et frais de livraison, TVA.
+require __DIR__ . '/livraison.php';
+
+// Hébergeur : IONOS France (et non l'entité espagnole saisie d'abord, 09/11/2026) ; une valeur retouchée est gardée.
+$ancienHebergeur = ['hebergeur_nom' => 'IONOS Cloud S.L.U.', 'hebergeur_adresse' => 'Calle Madre de Dios 21, 26004 Logroño (La Rioja), Espagne', 'hebergeur_site' => 'https://www.ionos.es'];
+foreach ($ancienHebergeur as $cle => $ancien) {
+    if (function_exists('update_field') && get_option("options_$cle") === $ancien) {
+        update_field("field_mf_$cle", App\REGLAGES[$cle], 'option');
+        mf_log("hébergeur mis à jour : $cle");
+    }
+}
+
 flush_rewrite_rules();
 WP_CLI::success('Contenus de départ en place.');
