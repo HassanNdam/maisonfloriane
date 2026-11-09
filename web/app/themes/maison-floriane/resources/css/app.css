@@ -3,6 +3,7 @@
 @import "./prototype.css";
 @import "./site.css";
 @import "./compte.css";
+@import "./maintenance.css";
 @source "../../app/**/*.php";
 @source "../**/*.blade.php";
 @source "../**/*.js";

@@ -1,0 +1,45 @@
+/* Page d'attente « bientôt en ligne » (resources/views/maintenance.blade.php, app/maintenance.php). */
+@layer components {
+  .attente { position: relative; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; align-items: center;
+    padding: 0 var(--s5); text-align: center;
+    background: radial-gradient(ellipse 70% 55% at 50% 0%, var(--ivoire), transparent 70%), var(--lin); }
+
+  .attente__haut { position: relative; align-self: stretch; height: 56px; font: 400 15px/56px var(--sans); }
+  .attente__haut .langues { right: 0; }
+
+  .attente__coeur { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    width: 100%; max-width: 760px; padding: var(--s4) 0 var(--s6); }
+  .attente__logo { width: 180px; height: 180px; object-fit: contain; margin-bottom: var(--s4); animation: attente-apparition 1.2s cubic-bezier(.22, 1, .36, 1) both; }
+  .attente__coeur .h1 { margin: var(--s3) 0; text-wrap: balance; }
+  .attente__coeur .chapo { text-wrap: pretty; }
+
+  /* Filet doré entre l'annonce et l'inscription */
+  .attente__lettre { width: 100%; margin-top: var(--s5); }
+  .attente__lettre::before { content: ""; display: block; width: 56px; height: 1px; margin: 0 auto var(--s5); background: var(--or); }
+  .attente__invite { font: 400 italic 25px/1.3 var(--serif); }
+  .attente .formulaire--lettre { margin-top: var(--s3); padding: 0; background: none; }
+
+  .attente__contact { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--s2) var(--s4); margin-top: var(--s5); }
+  .attente__contact .lien { display: inline-flex; align-items: center; gap: 10px; line-height: 1.4; }
+  .attente__contact .lien:hover { color: var(--or-fonce); }
+  .attente__contact .icone { width: 20px; height: 20px; }
+
+  .attente__pied { align-self: stretch; padding: var(--s3) 0; border-top: 1px solid var(--ligne); }
+  .attente__pied a:hover { color: var(--encre); border-bottom: 1px solid currentColor; }
+  .attente__reseaux { display: flex; justify-content: center; gap: 10px; list-style: none; margin: 0 0 var(--s2); padding: 0; }
+  .attente__reseaux a { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid var(--ligne); border-radius: 50%; transition: border-color .2s, color .2s; }
+  .attente__reseaux a:hover { border-color: var(--or); color: var(--or-fonce); }
+  .attente__reseaux .icone { width: 20px; height: 20px; }
+
+  @keyframes attente-apparition { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .attente__logo { animation: none; } }
+
+  @media (max-width: 760px) {
+    .attente { padding: 0 var(--s3); }
+    .attente__logo { width: 132px; height: 132px; margin-bottom: var(--s3); }
+    .attente__coeur { padding-bottom: var(--s5); }
+    .attente__coeur .chapo { font-size: 19px; }
+    .attente__invite { font-size: 22px; }
+    .attente__contact { flex-direction: column; }
+  }
+}

@@ -154,6 +154,12 @@ if (env('WC_GZD_ENCRYPTION_KEY')) {
     Config::define('WC_GZD_ENCRYPTION_KEY', env('WC_GZD_ENCRYPTION_KEY'));
 }
 
+/**
+ * Page d'attente : tant que le site n'est pas en production, les visiteurs non connectés ne voient que la page
+ * « bientôt en ligne » du thème (app/maintenance.php). MF_MAINTENANCE=true ou false dans le .env pour forcer.
+ */
+Config::define('MF_MAINTENANCE', env('MF_MAINTENANCE') ?? WP_ENV !== 'production');
+
 // Disable plugin and theme updates and installation from the admin
 Config::define('DISALLOW_FILE_MODS', true);
 

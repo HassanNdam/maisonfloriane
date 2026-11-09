@@ -1,0 +1,65 @@
+{{-- Page d'attente affichée aux visiteurs non connectés tant que le site n'est pas en production (app/maintenance.php).
+     Page autonome : ni en-tête, ni menu, ni pied de page du site. Traductions anglaises : scripts/traductions/en_GB.json. --}}
+@php($lettre = (int) get_option('mf_formulaire_lettre'))
+@php($reseaux = array_filter(App\reseaux(), fn ($reseau) => $reseau['url']))
+<!doctype html>
+<html @php(language_attributes())>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @php(wp_head())
+
+    @vite(['resources/css/app.css'])
+  </head>
+
+  <body @php(body_class())>
+    @php(wp_body_open())
+    @include('partials.icones')
+
+    <div class="attente">
+      <header class="attente__haut">@include('partials.langues')</header>
+
+      <main class="attente__coeur" id="main">
+        <img class="attente__logo" src="{{ App\logo_url() }}" alt="Floréa Skin" width="180" height="180" fetchpriority="high">
+        <span class="surtitre">Maison Floriane</span>
+        <h1 class="h1">Notre boutique ouvre <em class="or">très bientôt</em></h1>
+        <p class="chapo">Le savon noir réparateur et la Glow Oil Floréa Skin arrivent : un rituel simple, pour tous les types de peau et toutes les carnations.</p>
+
+        @if ($lettre)
+          <div class="attente__lettre">
+            <p class="attente__invite">Laissez-nous votre e-mail, nous vous écrirons le jour de l’ouverture.</p>
+            <div class="formulaire formulaire--lettre">{!! do_shortcode('[forminator_form id="' . $lettre . '"]') !!}</div>
+          </div>
+        @endif
+
+        <div class="attente__contact">
+          <span class="petit">Une question ?</span>
+          @if (App\whatsapp_numero())
+            <a class="lien" href="{{ App\whatsapp_url() }}" target="_blank" rel="noopener"><svg class="icone" aria-hidden="true"><use href="#i-whatsapp"/></svg>Nous écrire sur WhatsApp</a>
+          @endif
+          @if ($email = App\email())
+            <a class="lien" href="mailto:{{ $email }}"><svg class="icone" aria-hidden="true"><use href="#i-courriel"/></svg>{{ $email }}</a>
+          @endif
+        </div>
+      </main>
+
+      <footer class="attente__pied">
+        @if ($reseaux)
+          <ul class="attente__reseaux">
+            @foreach ($reseaux as $reseau)
+              <li><a href="{{ $reseau['url'] }}" target="_blank" rel="noopener" aria-label="{{ $reseau['nom'] }} de Floréa Skin"><svg class="icone" aria-hidden="true"><use href="#i-{{ $reseau['icone'] }}"/></svg></a></li>
+            @endforeach
+          </ul>
+        @endif
+        <p class="petit">
+          <span data-no-translation>© {{ date('Y') }} Maison Floriane</span>
+          <span aria-hidden="true">·</span> <a href="{{ home_url('/mentions-legales/') }}">Mentions légales</a>
+          <span aria-hidden="true">·</span> <a href="{{ home_url('/politique-de-confidentialite/') }}">Confidentialité</a>
+          <span aria-hidden="true">·</span> <a href="{{ wp_login_url(home_url('/')) }}" rel="nofollow">Connexion</a>
+        </p>
+      </footer>
+    </div>
+
+    @php(wp_footer())
+  </body>
+</html>
