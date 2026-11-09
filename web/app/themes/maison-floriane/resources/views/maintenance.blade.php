@@ -1,5 +1,6 @@
 {{-- Page d'attente affichée aux visiteurs non connectés tant que le site n'est pas en production (app/maintenance.php).
-     Page autonome : ni en-tête, ni menu, ni pied de page du site. Traductions anglaises : scripts/traductions/en_GB.json. --}}
+     Page autonome : ni en-tête, ni menu, ni pied de page du site. Traductions anglaises : scripts/traductions/en_GB.json.
+     $legale : vrai sur une page légale, dont on affiche alors le texte seul dans le même habillage. --}}
 @php($lettre = (int) get_option('mf_formulaire_lettre'))
 @php($reseaux = array_filter(App\reseaux(), fn ($reseau) => $reseau['url']))
 <!doctype html>
@@ -16,9 +17,21 @@
     @php(wp_body_open())
     @include('partials.icones')
 
-    <div class="attente">
+    <div class="attente {{ $legale ? 'attente--legale' : '' }}">
       <header class="attente__haut">@include('partials.langues')</header>
 
+      @if ($legale)
+      <a class="attente__retour" href="{{ home_url('/') }}">
+        <img src="{{ App\logo_url() }}" alt="Floréa Skin, accueil" width="96" height="96">
+      </a>
+      <main class="attente__texte legal" id="main">
+        @while (have_posts()) @php(the_post())
+          <span class="surtitre">Informations</span>
+          <h1 class="h1">{!! get_the_title() !!}</h1>
+          <div class="contenu">@php(the_content())</div>
+        @endwhile
+      </main>
+      @else
       <main class="attente__coeur" id="main">
         <img class="attente__logo" src="{{ App\logo_url() }}" alt="Floréa Skin" width="180" height="180" fetchpriority="high">
         <span class="surtitre">Maison Floriane</span>
@@ -42,6 +55,7 @@
           @endif
         </div>
       </main>
+      @endif
 
       <footer class="attente__pied">
         @if ($reseaux)

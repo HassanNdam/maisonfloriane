@@ -7,13 +7,14 @@
  * Interrupteur : constante MF_MAINTENANCE (config/application.php) = vraie dès que WP_ENV n'est pas « production ».
  * Pour forcer : MF_MAINTENANCE=true ou MF_MAINTENANCE=false dans le .env.
  *
- * Restent ouverts : la connexion (/wp/wp-login.php), l'administration, l'API et admin-ajax (formulaires),
- * les retours de paiement (wc-api, wc-ajax) et les pages légales citées par la page d'attente.
+ * Restent ouverts : la connexion (/wp/wp-login.php), l'administration, l'API et admin-ajax (formulaires)
+ * et les retours de paiement (wc-api, wc-ajax). Les pages légales citées par la page d'attente restent lisibles,
+ * mais dans le même habillage dépouillé : ni en-tête, ni menu, ni pied de page du site.
  */
 
 namespace App;
 
-/** Pages lisibles pendant l'attente (liées depuis la page : consentement du formulaire, bandeau cookies). */
+/** Pages lisibles pendant l'attente, sans le reste du site (liées depuis la page d'attente et le bandeau cookies). */
 const MAINTENANCE_PAGES_OUVERTES = ['mentions-legales', 'politique-de-confidentialite', 'politique-de-cookies'];
 
 /** Titre de l'onglet de la page d'attente. */
@@ -35,7 +36,7 @@ function maintenance_affichee(): bool
         return isset($_GET['maintenance']);
     }
 
-    return ! (is_page(MAINTENANCE_PAGES_OUVERTES) || is_robots() || is_favicon());
+    return ! (is_robots() || is_favicon());
 }
 
 // Priorité 1 : après les appels wc-ajax de WooCommerce (priorité 0), avant tout le reste.
@@ -44,20 +45,25 @@ add_action('template_redirect', function () {
         return;
     }
 
-    $titre = fn () => traduire(MAINTENANCE_TITRE) . ' - ' . get_bloginfo('name');
-    add_filter('pre_get_document_title', $titre, 99);
-    add_filter('wpseo_title', $titre, 99);
-    add_filter('wpseo_robots', fn () => 'noindex, nofollow', 99);
-    add_filter('wpseo_metadesc', '__return_empty_string', 99);
-    add_filter('wpseo_canonical', '__return_false', 99);
     add_filter('body_class', fn () => ['maintenance']);
-
-    // 503 + Retry-After : les moteurs comprennent que c'est provisoire et ne retiennent pas cette page.
-    status_header(503);
-    header('Retry-After: 3600');
     nocache_headers();
 
-    echo \Roots\view('maintenance')->render();
+    // Page légale : son texte seul (réponse 200, titre et description d'origine).
+    $legale = is_page(MAINTENANCE_PAGES_OUVERTES);
+    if (! $legale) {
+        $titre = fn () => traduire(MAINTENANCE_TITRE) . ' - ' . get_bloginfo('name');
+        add_filter('pre_get_document_title', $titre, 99);
+        add_filter('wpseo_title', $titre, 99);
+        add_filter('wpseo_robots', fn () => 'noindex, nofollow', 99);
+        add_filter('wpseo_metadesc', '__return_empty_string', 99);
+        add_filter('wpseo_canonical', '__return_false', 99);
+
+        // 503 + Retry-After : les moteurs comprennent que c'est provisoire et ne retiennent pas cette page.
+        status_header(503);
+        header('Retry-After: 3600');
+    }
+
+    echo \Roots\view('maintenance', ['legale' => $legale])->render();
     exit;
 }, 1);
 
