@@ -44,6 +44,18 @@ const REGLAGES = [
     'wa_conseil' => "Bonjour Flore, j'aimerais un conseil sur les soins Floréa Skin.",
     'wa_commande' => 'Bonjour Flore, je souhaite commander :',
     'wa_livraison' => 'Livraison vers : ',
+    // Fiches produit (textes communs aux trois soins)
+    'produit_peaux' => 'Tous types, toutes carnations',
+    'produit_expedition' => 'expédié sous 48 h',
+    'produit_atouts' => [
+        ['icone' => 'peaux', 'texte' => 'Toutes peaux, toutes carnations'],
+        ['icone' => 'camion', 'texte' => 'Livraison Europe et monde'],
+        ['icone' => 'cadenas', 'texte' => 'Paiement sécurisé'],
+        ['icone' => 'retour', 'texte' => 'Retour sous 14 jours (produit non ouvert)'],
+    ],
+    'produit_livraison' => "Expédié d'Espagne sous 48 h ouvrées. Frais selon le pays, affichés avant paiement. Hors UE, droits de douane à votre charge.",
+    'produit_inci' => "La liste INCI complète figure sur l'emballage.",
+    'produit_inci_a_venir' => 'Liste INCI complète à venir.',
     // Page introuvable (404)
     'e404_surtitre' => 'Erreur 404',
     'e404_titre' => "Cette page *n'existe pas*.",

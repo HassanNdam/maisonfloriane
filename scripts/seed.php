@@ -230,8 +230,9 @@ $galeries = [
     'FS-001' => ['savon-noir-reparateur-florea-skin-en-main.webp'], // comme le prototype : détouré, vidéo, en main
     'FS-002' => ['glow-oil-florea-skin-huile-corporelle-detoure.webp'], // à côté de la vidéo, sans fond (demande du 09/11)
 ];
-// Produits composés : vendre un duo retire un savon et un Glow Oil du stock (voir app/woocommerce.php du thème).
-$composants = ['FS-003' => ['FS-001', 'FS-002']];
+// Fiches Floréa (champs SCF du thème, app/produits.php) : contenance, conseils, ingrédients, vidéo, composition et place
+// dans le rituel. Recopiées depuis le catalogue en fin de script, sans écraser ce que Flore a saisi dans l'admin.
+$fiches = [];
 foreach ($catalogue['produits'] as $p) {
     $id = wc_get_product_id_by_sku($p['reference']);
     $product = $id ? wc_get_product($id) : new WC_Product_Simple();
@@ -243,7 +244,6 @@ foreach ($catalogue['produits'] as $p) {
     $product->set_regular_price($prix);
     $product->set_sale_price($promo);
     $product->set_status($prix !== '' && ! empty($p['publie']) ? 'publish' : 'draft');
-    $product->update_meta_data('_mf_composants', $composants[$p['reference']] ?? []);
     $product->set_name($p['nom']);
     $product->set_slug($p['slug']);
     $product->set_short_description($p['description_courte']);
@@ -268,14 +268,16 @@ foreach ($catalogue['produits'] as $p) {
         }
         $product->set_gallery_image_ids(array_filter($ids));
     }
-    $product->update_meta_data('_mf_contenance', $p['contenance']);
-    $product->update_meta_data('_mf_conseils', $p['conseils_utilisation']);
-    $product->update_meta_data('_mf_ingredients', str_starts_with($p['ingredients'], 'À renseigner') ? '' : $p['ingredients']);
     $product->update_meta_data('_mf_a_confirmer', $p['a_confirmer']);
-    if (! empty($p['video']['src'])) {
-        $product->update_meta_data('_mf_video', mf_media("$docs/" . $p['video']['src'], $p['nom'], $productId));
-    }
     $product->save();
+
+    $fiches[$productId] = [
+        'contenance' => $p['contenance'],
+        'conseils' => $p['conseils_utilisation'],
+        'ingredients' => str_starts_with($p['ingredients'], 'À renseigner') ? '' : $p['ingredients'],
+        'video' => ! empty($p['video']['src']) ? mf_media("$docs/" . $p['video']['src'], $p['nom'], $productId) : 0,
+        'video_apercu' => ! empty($p['video']['poster']) ? mf_media("$docs/" . $p['video']['poster'], 'Aperçu de la vidéo Floréa Skin') : 0,
+    ];
 
     if (! empty($p['seo'])) {
         update_post_meta($productId, 'rank_math_title', $p['seo']['title']);
@@ -754,6 +756,20 @@ if (function_exists('update_field') && defined('App\REGLAGES')) {
         $champsAccueil = App\ACCUEIL;
         $champsAccueil['rituel_produits'] = array_values(array_filter(array_map('wc_get_product_id_by_sku', App\ACCUEIL['rituel_produits'])));
         mf_log(sprintf('Pages › Accueil : %d champs recopiés', mf_champs($champsAccueil, $accueilId, 'accueil_')));
+    }
+
+    // Fiches Floréa des produits (app/produits.php) : catalogue + place dans le rituel (App\FICHES). Références → ids.
+    foreach ($fiches as $productId => $fiche) {
+        $sku = get_post_meta($productId, '_sku', true);
+        $fiche += App\FICHES[$sku] ?? [];
+        $fiche['complement'] = ! empty($fiche['complement']) ? wc_get_product_id_by_sku($fiche['complement']) : null;
+        $fiche['composants'] = array_values(array_filter(array_map('wc_get_product_id_by_sku', $fiche['composants'] ?? [])));
+        $champsFiche = array_combine(array_map(fn ($cle) => "fiche_$cle", array_keys($fiche)), array_values($fiche));
+        mf_log(sprintf('Produits › %s : %d champs recopiés', get_the_title($productId), mf_champs($champsFiche, $productId)));
+        // Anciennes métas remplacées par les champs (lues par le thème tant que le champ manquait).
+        foreach (App\FICHES_METAS as $ancienne) {
+            delete_post_meta($productId, $ancienne);
+        }
     }
 
     // Mon histoire, Contact, Boutique (app/pages.php).

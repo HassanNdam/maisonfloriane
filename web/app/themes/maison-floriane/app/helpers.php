@@ -87,38 +87,6 @@ function economie(?\WC_Product $product): string
     return $ecart > 0 ? montant($ecart) : '';
 }
 
-/**
- * Ingrédients clés (méta `_mf_ingredients`) en liste, sans doublon.
- * Le duo (« Savon noir : … . Glow Oil : … ») est aplati.
- */
-function ingredients(?\WC_Product $product): array
-{
-    $texte = $product ? (string) $product->get_meta('_mf_ingredients') : '';
-    if ($texte === '') {
-        return [];
-    }
-    $liste = [];
-    foreach (preg_split('/\.\s+/', $texte) as $groupe) {
-        $groupe = preg_replace('/^[^:]{1,30}:\s*/u', '', $groupe);
-        foreach (explode(',', $groupe) as $ingredient) {
-            $ingredient = trim($ingredient, " .\t\n");
-            if ($ingredient !== '') {
-                $liste[mb_strtolower($ingredient)] = mb_strtoupper(mb_substr($ingredient, 0, 1)) . mb_substr($ingredient, 1);
-            }
-        }
-    }
-
-    return array_values($liste);
-}
-
-/** Composants d'un produit composé (le duo) : méta `_mf_composants` = références. */
-function composants(?\WC_Product $product): array
-{
-    $skus = $product ? (array) $product->get_meta('_mf_composants') : [];
-
-    return array_values(array_filter(array_map(fn ($sku) => produit((string) $sku), array_filter($skus))));
-}
-
 /** Badge de stock : [classe CSS, libellé]. Seuil « stock limité » = option WooCommerce (3). Le duo suit ses composants. */
 function stock(?\WC_Product $product): array
 {
@@ -133,14 +101,6 @@ function stock(?\WC_Product $product): array
     }
 
     return ['stock--ok', __('En stock', 'sage')];
-}
-
-/** Contenance saisie dans le catalogue (méta `_mf_contenance`), sans la mention « à confirmer ». */
-function contenance(?\WC_Product $product): string
-{
-    $value = $product ? (string) $product->get_meta('_mf_contenance') : '';
-
-    return trim(preg_replace('/\(.*?\)/', '', $value));
 }
 
 /** Nom court affiché sur le site (« Savon noir réparateur », « Glow Oil »). */
@@ -182,27 +142,6 @@ function ajustement(int $attachment, float $ratio): string
 function attributs_image(int $attachment, float $ratio, array $attributs = []): array
 {
     return array_filter($attributs + ['class' => ajustement($attachment, $ratio), 'style' => cadrage($attachment)]);
-}
-
-/**
- * Place de chaque produit dans le rituel en deux gestes.
- * type, moment, zone : lignes « Quand » et « Où » de la présentation des soins sur l'accueil.
- */
-function rituel(?\WC_Product $product): array
-{
-    $rituel = [
-        'FS-001' => ['etape' => 1, 'geste' => 'Purifier', 'usage' => 'Visage & corps', 'photo' => 'savon-noir-reparateur-florea-skin-en-main.webp',
-            'accroche' => 'Nettoie en profondeur, sans dessécher.', 'complement' => 'FS-002',
-            'type' => 'Savon noir', 'moment' => 'Matin et soir', 'zone' => 'Visage et corps'],
-        'FS-002' => ['etape' => 2, 'geste' => 'Révéler', 'usage' => 'Huile corporelle', 'photo' => 'glow-oil-florea-skin-huile-corporelle-en-main.webp',
-            'accroche' => 'Nourrit, répare, illumine.', 'complement' => 'FS-001',
-            'type' => 'Huile corporelle', 'moment' => 'Le soir uniquement', 'zone' => 'Visage et corps'],
-        'FS-003' => ['etape' => null, 'geste' => '', 'usage' => 'Le rituel complet', 'photo' => 'duo-savon-noir-glow-oil-florea-skin-rituel.webp',
-            'accroche' => 'La routine complète, à prix doux.', 'complement' => null,
-            'type' => 'Savon noir + Glow Oil', 'moment' => 'Savon matin et soir, Glow Oil le soir', 'zone' => 'Visage et corps'],
-    ];
-
-    return $rituel[$product?->get_sku()] ?? ['etape' => null, 'geste' => '', 'usage' => '', 'photo' => '', 'accroche' => '', 'complement' => null, 'type' => '', 'moment' => '', 'zone' => ''];
 }
 
 /** Message WhatsApp pour une liste de lignes [nom, quantité]. */

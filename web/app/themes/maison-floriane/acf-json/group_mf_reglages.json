@@ -239,6 +239,93 @@
             "instructions": "Le client complète avec son pays."
         },
         {
+            "key": "field_mf_tab_a0028309",
+            "label": "Fiches produit",
+            "name": "",
+            "type": "tab",
+            "placement": "left",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_produit_peaux",
+            "label": "Ligne « Peaux » des fiches de l’accueil et de la boutique",
+            "name": "produit_peaux",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_produit_expedition",
+            "label": "Délai d’expédition",
+            "name": "produit_expedition",
+            "type": "text",
+            "instructions": "Après « En stock » sur la fiche produit, quand le soin est disponible."
+        },
+        {
+            "key": "field_mf_produit_atouts",
+            "label": "Atouts",
+            "name": "produit_atouts",
+            "type": "repeater",
+            "instructions": "Liste sous les boutons d’achat de chaque fiche produit.",
+            "layout": "table",
+            "min": 0,
+            "max": 6,
+            "button_label": "Ajouter un atout",
+            "sub_fields": [
+                {
+                    "key": "field_mf_produit_atouts__icone",
+                    "label": "Icône",
+                    "name": "icone",
+                    "type": "select",
+                    "return_format": "value",
+                    "ui": 0,
+                    "choices": {
+                        "peaux": "Peaux",
+                        "camion": "Camion (livraison)",
+                        "cadenas": "Cadenas (paiement)",
+                        "retour": "Flèche retour",
+                        "whatsapp": "WhatsApp",
+                        "feuille": "Feuille",
+                        "sac": "Sac",
+                        "courriel": "Enveloppe",
+                        "telephone": "Téléphone"
+                    },
+                    "wrapper": {
+                        "width": "25"
+                    }
+                },
+                {
+                    "key": "field_mf_produit_atouts__texte",
+                    "label": "Texte",
+                    "name": "texte",
+                    "type": "text",
+                    "wrapper": {
+                        "width": "75"
+                    }
+                }
+            ]
+        },
+        {
+            "key": "field_mf_produit_livraison",
+            "label": "Encadré « Livraison & retours »",
+            "name": "produit_livraison",
+            "type": "textarea",
+            "rows": 3,
+            "new_lines": "",
+            "instructions": "Suivi d’un lien « En savoir plus » vers la page Livraison & retours."
+        },
+        {
+            "key": "field_mf_produit_inci",
+            "label": "Mention après les ingrédients",
+            "name": "produit_inci",
+            "type": "text",
+            "instructions": "Quand les ingrédients du soin sont renseignés."
+        },
+        {
+            "key": "field_mf_produit_inci_a_venir",
+            "label": "Texte quand les ingrédients ne sont pas renseignés",
+            "name": "produit_inci_a_venir",
+            "type": "text"
+        },
+        {
             "key": "field_mf_tab_3ab05a10",
             "label": "Page introuvable (404)",
             "name": "",
@@ -290,5 +377,5 @@
     "active": true,
     "description": "Menu Maison Floriane : coordonnées, logo, textes communs à tout le site.",
     "show_in_rest": 0,
-    "modified": 1794230729
+    "modified": 1794233405
 }

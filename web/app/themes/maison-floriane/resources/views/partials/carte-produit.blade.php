@@ -1,7 +1,7 @@
 {{-- Carte produit du rituel. $produit : WC_Product --}}
 @php($r = App\rituel($produit))
 @php([$stockClasse, $stockLibelle] = App\stock($produit))
-@php($photo = App\media_id($r['photo']) ?: $produit->get_image_id())
+@php($photo = $r['photo'] ?: $produit->get_image_id())
 <article class="carte">
   <a class="carte__visuel {{ $photo && ! App\detoure($photo) ? 'carte__visuel--photo' : '' }}" href="{{ $produit->get_permalink() }}">
     @if ($r['etape'])<span class="etiquette">Étape {{ $r['etape'] }}</span>@endif
