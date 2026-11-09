@@ -94,6 +94,7 @@
   /* Pages éditoriales (contenu saisi dans WordPress) */
   .legal .contenu > .chapo { margin-bottom: var(--s4); }
   .legal .contenu a { border-bottom: 1px solid currentColor; }
+  .legal .contenu blockquote { margin: var(--s3) 0; padding: var(--s3) var(--s4); background: var(--ivoire); border-left: 2px solid var(--or); display: grid; gap: var(--s2); }
 
   /* Pages WooCommerce (panier, commande, compte) : blocs aux couleurs de la charte */
   .page-boutique { padding-top: var(--s4); padding-bottom: var(--s8); }

@@ -13,8 +13,13 @@ Chaque version correspond à un tag `vX.Y.Z` sur `main` (voir `CONTRIBUTING.md`)
 - E-mails WooCommerce aux couleurs de la charte avec le logo, réponses envoyées à Flore ; e-mail de bienvenue sans textes légaux.
 - Lien « Compte » dans l'en-tête et le menu mobile.
 
+- Page « Droit de rétractation » avec le formulaire type, liée dans le pied de page et jointe à la confirmation de commande.
+
 ### Corrigé
 - Germanized pointait vers des pages légales anglaises par défaut (confidentialité, mentions légales) dans les e-mails.
+- Textes anglais de Germanized traduits : case légale et bouton « Commander et payer » de la commande, e-mails de confirmation et de paiement, salutation « Bonjour {prénom} ».
+- Pages anglaises de Germanized traduites (moyens de paiement, authenticité des avis, formulaire de rétractation) ou remplacées par les nôtres (livraison, mentions légales).
+- E-mails de commande : « répondez à cet e-mail » au lieu de l'adresse no-reply ; dates au format « 9 novembre 2026 » ; adresses `commande-recue` et `paiement`.
 
 ## [0.1.0] - 2026-11-09
 
