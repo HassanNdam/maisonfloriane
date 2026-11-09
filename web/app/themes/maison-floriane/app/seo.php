@@ -101,3 +101,56 @@ add_filter('wpseo_exclude_from_sitemap_by_post_ids', function ($ids) {
     ]);
     return array_values(array_unique(array_merge((array) $ids, $noindex)));
 });
+
+/**
+ * Analyse Yoast dans l'admin : les pages du thème (accueil, produits, Mon histoire…) sont construites par les gabarits
+ * Blade et les champs du back-office, pas par l'éditeur. Yoast ne voyait donc qu'un contenu vide (« 0 mot »,
+ * « aucune image », « aucun lien »). On lui donne la page publiée telle que Google la lit : le contenu principal
+ * (<main>) et le pied de page, sans l'en-tête ni le menu. Une modification non enregistrée n'est vue qu'après « Mettre à jour ».
+ */
+add_action('admin_enqueue_scripts', function ($ecran) {
+    $post = get_post();
+    if ($ecran !== 'post.php' || ! $post || $post->post_status !== 'publish'
+        || ! in_array($post->post_type, ['page', 'product'], true) || ! defined('WPSEO_VERSION')) {
+        return;
+    }
+    wp_register_script('mf-analyse-yoast', false, [], null, true);
+    wp_enqueue_script('mf-analyse-yoast');
+    wp_add_inline_script('mf-analyse-yoast', 'window.mfAnalyseYoast = ' . wp_json_encode([
+        'url' => add_query_arg('mf-analyse', time(), get_permalink($post)),
+    ]) . ';' . <<<'JS'
+(function () {
+    var contenu = null;
+    function lire() {
+        fetch(window.mfAnalyseYoast.url, { credentials: 'omit' })
+            .then(function (r) { return r.text(); })
+            .then(function (texte) {
+                var page = new DOMParser().parseFromString(texte, 'text/html');
+                // <main> + pied de page du site (pas les <footer> des cartes produits, qui sont dans <main>)
+                var morceaux = [page.querySelector('main')].concat(Array.prototype.filter.call(
+                    page.querySelectorAll('footer'), function (f) { return ! f.closest('main'); }
+                )).filter(Boolean);
+                morceaux.forEach(function (m) {
+                    m.querySelectorAll('script, style, noscript, template, form, svg').forEach(function (e) { e.remove(); });
+                });
+                contenu = morceaux.map(function (m) { return m.innerHTML; }).join('\n');
+            })
+            .catch(function () { contenu = null; })
+            .finally(function () {
+                // Ordre imposé par Yoast : « prêt » d'abord, sinon la modification est refusée.
+                YoastSEO.app.pluginReady('mfPage');
+                YoastSEO.app.registerModification('content', function (actuel) { return contenu || actuel; }, 'mfPage', 5);
+                YoastSEO.app.pluginReloaded('mfPage');
+            });
+    }
+    (function attendre(essais) {
+        if (window.YoastSEO && YoastSEO.app && YoastSEO.app.registerPlugin) {
+            YoastSEO.app.registerPlugin('mfPage', { status: 'loading' });
+            lire();
+        } else if (essais > 0) {
+            setTimeout(function () { attendre(essais - 1); }, 300);
+        }
+    })(60);
+})();
+JS);
+});

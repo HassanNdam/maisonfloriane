@@ -7,6 +7,7 @@ Chaque version correspond à un tag `vX.Y.Z` sur `main` (voir `CONTRIBUTING.md`)
 
 ### Ajouté
 - Référencement de toutes les pages en français et en anglais : titres et descriptions travaillés sur les mots-clés (soins anti-taches, savon noir visage, huile éclat, routine anti-taches…), images de partage 1200 × 630 pour les réseaux, textes alternatifs des photos, schéma Organization (marque Floréa Skin, réseaux, contact), panier, commande et compte hors des résultats et du sitemap.
+- Analyse Yoast dans l'admin : elle lit la page publiée (contenu principal et pied de page) au lieu de l'éditeur vide. Accueil : titre et description recentrés sur « soins anti-taches », score SEO de 11 à 92.
 - Les titres, descriptions et textes alternatifs retouchés dans Yoast ou la médiathèque ne sont plus écrasés par `composer seed` (sauf `MF_SEED_FORCE=1`).
 - Compte client : connexion et création de compte côte à côte (onglets sur mobile), prénom et nom à l'inscription, Lettre Floréa en option, anti-robot.
 - Espace client en français (`/mon-compte/mes-commandes/`, `mes-adresses`, `mes-informations`…) : tableau de bord avec dernière commande et raccourcis, menu latéral, fil d'Ariane.
