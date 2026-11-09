@@ -24,6 +24,7 @@
 <div class="menu-mobile" id="menu-mobile">
   <div class="menu-mobile__haut">
     <span class="surtitre">Menu</span>
+    @include('partials.langues')
     <button type="button" aria-label="Fermer le menu" data-menu-fermer><svg class="icone"><use href="#i-fermer"/></svg></button>
   </div>
   <nav aria-label="Menu mobile"><ul>{!! $menu('primary_navigation') !!}{!! $menu('secondary_navigation') !!}

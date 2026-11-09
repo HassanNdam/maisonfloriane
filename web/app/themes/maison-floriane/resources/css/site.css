@@ -171,7 +171,8 @@
 .langues a { color: inherit; opacity: .65; text-decoration: none; }
 .langues a:hover, .langues a:focus-visible { opacity: 1; color: var(--or, #C9A96E); }
 .langues__active { font-weight: 500; }
+.menu-mobile .langues { position: static; margin-left: auto; margin-right: var(--s3); font: 400 15px/1 var(--sans); }
+.menu-mobile .langues a { display: inline; padding: 0; border: 0; font: inherit; }
 @media (max-width: 760px) {
-  .annonce { padding-right: 64px; }
-  .langues { right: 12px; }
+  .annonce .langues { display: none; } /* sur mobile, le sélecteur est dans le menu */
 }
