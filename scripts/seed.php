@@ -308,9 +308,9 @@ $menus = [
         $produitMenu('Savon noir', 'FS-001'),
         $produitMenu('Glow Oil', 'FS-002'),
         $lien('Résultats', '/#resultats'),
+        $page('Mon histoire', $histoire),
     ]],
     'secondary_navigation' => ['En-tête, à droite', [
-        $page('Mon histoire', $histoire),
         $page('Boutique', wc_get_page_id('shop')), // Contact : bouton à droite de l'en-tête (header.blade.php)
     ]],
     'footer_navigation' => ['Pied de page', [
