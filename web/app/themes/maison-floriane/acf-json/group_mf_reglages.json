@@ -70,6 +70,90 @@
             "type": "text"
         },
         {
+            "key": "field_mf_tab_societe",
+            "label": "Société (pages légales)",
+            "name": "",
+            "type": "tab",
+            "placement": "left",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_societe_message",
+            "label": "",
+            "name": "",
+            "type": "message",
+            "message": "Ces informations s’affichent dans les Mentions légales, les CGV, la Politique de confidentialité et le formulaire de rétractation. Une ligne laissée vide n’est pas affichée."
+        },
+        {
+            "key": "field_mf_societe_nom",
+            "label": "Raison sociale",
+            "name": "societe_nom",
+            "type": "text",
+            "instructions": "Nom de l’entreprise, ex. Maison Floriane."
+        },
+        {
+            "key": "field_mf_societe_forme",
+            "label": "Forme juridique",
+            "name": "societe_forme",
+            "type": "text",
+            "instructions": "Ex. entrepreneuse individuelle (autónoma), S.L. au capital de 3 000 €…"
+        },
+        {
+            "key": "field_mf_societe_adresse",
+            "label": "Adresse du siège",
+            "name": "societe_adresse",
+            "type": "textarea",
+            "instructions": "Une ligne par élément : rue et numéro, code postal et ville, pays. Sert aussi d’adresse de retour.",
+            "rows": 3,
+            "new_lines": ""
+        },
+        {
+            "key": "field_mf_societe_nif",
+            "label": "NIF / NIE",
+            "name": "societe_nif",
+            "type": "text",
+            "instructions": "Numéro d’identification fiscale espagnol."
+        },
+        {
+            "key": "field_mf_societe_registre",
+            "label": "Immatriculation",
+            "name": "societe_registre",
+            "type": "text",
+            "instructions": "Pour une société : Registro Mercantil de Barcelona, tome, folio, feuille. Vide pour une autónoma."
+        },
+        {
+            "key": "field_mf_societe_tva",
+            "label": "N° de TVA intracommunautaire",
+            "name": "societe_tva",
+            "type": "text",
+            "instructions": "Ex. ESX1234567X (numéro inscrit au ROI / VIES)."
+        },
+        {
+            "key": "field_mf_societe_directrice",
+            "label": "Directrice de la publication",
+            "name": "societe_directrice",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_hebergeur_nom",
+            "label": "Hébergeur du site",
+            "name": "hebergeur_nom",
+            "type": "text",
+            "instructions": "Nom de la société qui héberge le site. Tant qu’il est vide, la rubrique Hébergement n’apparaît pas."
+        },
+        {
+            "key": "field_mf_hebergeur_adresse",
+            "label": "Adresse de l’hébergeur",
+            "name": "hebergeur_adresse",
+            "type": "text"
+        },
+        {
+            "key": "field_mf_hebergeur_site",
+            "label": "Site de l’hébergeur",
+            "name": "hebergeur_site",
+            "type": "url"
+        },
+        {
             "key": "field_mf_tab_2cb45bb2",
             "label": "Réseaux sociaux",
             "name": "",
