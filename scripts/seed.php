@@ -619,6 +619,26 @@ if (class_exists('TRP_Translate_Press')) {
     $switcher['floater'] = array_merge((array) ($switcher['floater'] ?? []), ['enabled' => false, 'showPoweredBy' => false]);
     update_option('trp_language_switcher_settings', $switcher);
     mf_log('multilingue : français (par défaut) + anglais sous /en/');
+
+    // Traductions anglaises (scripts/traductions/en_GB.json, texte français → anglais, tel qu'il sort du HTML).
+    // Une traduction déjà saisie dans l'éditeur de TranslatePress n'est pas écrasée, sauf avec MF_SEED_FORCE=1.
+    global $wpdb;
+    $trpQuery = TRP_Translate_Press::get_trp_instance()->get_component('query');
+    $table = $trpQuery->get_table_name('en_GB');
+    $traductions = json_decode(file_get_contents(__DIR__ . '/traductions/en_GB.json'), true);
+    $nouveaux = array_diff(array_keys($traductions), $wpdb->get_col("SELECT original FROM `$table`"));
+    if ($nouveaux) {
+        $trpQuery->insert_strings(array_values($nouveaux), 'en_GB');
+    }
+    $faites = 0;
+    foreach ($traductions as $fr => $en) {
+        $condition = getenv('MF_SEED_FORCE') ? '' : ' AND (translated IS NULL OR translated = "" OR status = 0)';
+        $faites += (int) $wpdb->query($wpdb->prepare(
+            "UPDATE `$table` SET translated = %s, status = %d WHERE original = %s$condition",
+            $en, TRP_Query::HUMAN_REVIEWED, $fr
+        ));
+    }
+    mf_log(sprintf('traductions anglaises : %d textes (%d mis à jour)', count($traductions), $faites));
 }
 
 flush_rewrite_rules();
