@@ -105,11 +105,10 @@
   .formulaire--lettre .forminator-button-submit { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
   .formulaire--lettre .forminator-button-submit:hover { background: none; color: var(--or-fonce); }
 
-  /* Pages éditoriales (contenu saisi dans WordPress) : colonne de lecture calée à gauche, sur le fil d'Ariane
-     (le prototype la centrait). */
+  /* Pages éditoriales (contenu saisi dans WordPress) : pleine largeur du conteneur, comme les autres pages
+     (le prototype les réduisait à une colonne centrée de 760 px). */
   .legal { max-width: var(--page); }
-  .legal > * { max-width: 760px; }
-  .legal .contenu > .chapo { margin-bottom: var(--s4); }
+  .legal .contenu > .chapo { max-width: none; margin-bottom: var(--s4); }
   .legal .contenu h3 { font: 500 22px/1.3 var(--serif); margin: var(--s4) 0 var(--s1); }
   .legal .contenu .maj { margin-top: var(--s6); font-size: 15px; letter-spacing: .04em; }
   /* Fiche société / hébergeur (shortcodes [mf_editeur], [mf_hebergeur]) */
