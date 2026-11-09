@@ -688,5 +688,8 @@ if (class_exists('TRP_Translate_Press')) {
     mf_log(sprintf('traductions anglaises : %d textes (%d mis à jour)', count($traductions), $faites));
 }
 
+// Référencement (Yoast SEO) : réglages, titres et descriptions, images de partage, textes alternatifs.
+require __DIR__ . '/seo.php';
+
 flush_rewrite_rules();
 WP_CLI::success('Contenus de départ en place.');
