@@ -62,10 +62,10 @@
       </a>
 
       <div class="atouts">
-        <div class="atouts__peaux"><svg class="icone"><use href="#i-peaux"/></svg>Pour tous les types de peau et toutes les carnations</div>
-        <div><svg class="icone"><use href="#i-camion"/></svg>Livraison en Europe et dans le monde</div>
+        <div class="atouts__peaux"><svg class="icone"><use href="#i-peaux"/></svg>Toutes peaux, toutes carnations</div>
+        <div><svg class="icone"><use href="#i-camion"/></svg>Livraison Europe et monde</div>
         <div><svg class="icone"><use href="#i-cadenas"/></svg>Paiement sécurisé</div>
-        <div><svg class="icone"><use href="#i-retour"/></svg>Retour sous 14 jours si le produit n'est pas ouvert</div>
+        <div><svg class="icone"><use href="#i-retour"/></svg>Retour sous 14 jours (produit non ouvert)</div>
       </div>
       @include('partials.partage', ['titre' => $produit->get_name(), 'url' => $produit->get_permalink(), 'image' => wp_get_attachment_url($produit->get_image_id())])
       <div class="accordeon">
@@ -74,7 +74,7 @@
         @endif
         @php($ingr = rtrim((string) $produit->get_meta('_mf_ingredients'), '. '))
         <details><summary>Ingrédients</summary><p>{{ $ingr ? $ingr . ". La liste INCI complète figure sur l'emballage." : 'Liste INCI complète à venir.' }}</p></details>
-        <details><summary>Livraison & retours</summary><p>Expédition depuis l'Espagne sous 48 h ouvrées, en Europe et dans le monde. Frais et délais selon le pays, affichés avant paiement ; prix toujours en euros. Hors Union européenne, les droits de douane sont à la charge du client. <a class="lien" href="{{ home_url('/livraison-retours/') }}">En savoir plus</a></p></details>
+        <details><summary>Livraison & retours</summary><p>Expédié d'Espagne sous 48 h ouvrées. Frais selon le pays, affichés avant paiement. Hors UE, droits de douane à votre charge. <a class="lien" href="{{ home_url('/livraison-retours/') }}">En savoir plus</a></p></details>
       </div>
     </div>
   </div>

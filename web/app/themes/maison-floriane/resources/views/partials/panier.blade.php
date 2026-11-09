@@ -36,7 +36,7 @@
     </div>
     <div class="tiroir__bas">
       <div class="carte__ligne"><span>Sous-total</span><span class="prix">{!! $panier->get_cart_subtotal() !!}</span></div>
-      <p class="petit">Livraison en Europe et dans le monde, calculée selon votre pays à l'étape suivante. Hors UE, droits de douane à la charge du client.</p>
+      <p class="petit">Livraison calculée à l'étape suivante. Hors UE, droits de douane à votre charge.</p>
       <a class="btn btn--principal btn--plein" href="{{ wc_get_checkout_url() }}">Passer commande</a>
       <a class="btn btn--contour btn--plein" href="{{ App\whatsapp_url(App\message_panier()) }}" target="_blank" rel="noopener">
         <svg class="icone"><use href="#i-whatsapp"/></svg>Commander sur WhatsApp

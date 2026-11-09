@@ -133,7 +133,7 @@
   .achat .economie { display: inline-block; margin-bottom: var(--s2); }
   .achat__texte { margin-top: var(--s3); }
 
-  /* « Tous types de peau, toutes carnations » */
+  /* « Toutes peaux, toutes carnations » */
   .peaux { display: flex; align-items: center; gap: 8px; font-size: 15px; color: var(--taupe); }
   .peaux .icone { width: 20px; height: 20px; color: var(--or-fonce); flex: none; }
   .atouts .atouts__peaux { color: var(--encre); font-weight: 400; }

@@ -395,7 +395,7 @@ if (class_exists('Forminator_API')) {
         'store_submissions' => true,
         'submission-behaviour' => 'behaviour-thankyou',
         'autoclose' => '', // le message de remerciement reste affiché
-        'thankyou-message' => 'Merci, votre message est bien parti. Nous vous répondons sous 24 h ouvrées.',
+        'thankyou-message' => 'Merci, message envoyé. Réponse sous 24 h.',
         'use-custom-submit' => 'true',
         'custom-submit-text' => 'Envoyer le message',
         'submitData' => [
@@ -450,7 +450,7 @@ if (class_exists('Forminator_API')) {
     ];
     $settingsLettre = [
         'formName' => 'Lettre Floréa',
-        'thankyou-message' => 'Merci, votre inscription est bien prise en compte.',
+        'thankyou-message' => 'Merci, inscription confirmée.',
         'custom-submit-text' => 'S\'inscrire',
         'submitData' => ['custom-submit-text' => 'S\'inscrire', 'custom-invalid-form-message' => 'Merci d\'indiquer une adresse e-mail valide.'],
     ] + $settings;

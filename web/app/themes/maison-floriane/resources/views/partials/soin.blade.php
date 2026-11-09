@@ -54,6 +54,6 @@
     @elseif ($duo)
       <a class="btn btn--plein btn--clair" href="{{ App\whatsapp_url(App\message_commande([[App\nom_court($produit), 1]])) }}" target="_blank" rel="noopener">Réserver le duo sur WhatsApp</a>
     @endif
-    <a class="lien" href="{{ $lien }}">Voir le soin en détail</a>
+    <a class="lien" href="{{ $lien }}">Voir le soin</a>
   </footer>
 </article>

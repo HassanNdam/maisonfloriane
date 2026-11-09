@@ -197,13 +197,13 @@ function rituel(?\WC_Product $product): array
 {
     $rituel = [
         'FS-001' => ['etape' => 1, 'geste' => 'Purifier', 'usage' => 'Visage & corps', 'photo' => 'savon-noir-reparateur-florea-skin-en-main.webp',
-            'accroche' => 'Nettoie en profondeur et prépare la peau, sans la dessécher.', 'complement' => 'FS-002',
+            'accroche' => 'Nettoie en profondeur, sans dessécher.', 'complement' => 'FS-002',
             'type' => 'Savon noir', 'moment' => 'Matin et soir', 'zone' => 'Visage et corps'],
         'FS-002' => ['etape' => 2, 'geste' => 'Révéler', 'usage' => 'Huile corporelle', 'photo' => 'glow-oil-florea-skin-huile-corporelle-en-main.webp',
-            'accroche' => 'Nourrit, répare et laisse un fini lumineux. Le soir, seule ou en booster.', 'complement' => 'FS-001',
+            'accroche' => 'Nourrit, répare, illumine.', 'complement' => 'FS-001',
             'type' => 'Huile corporelle', 'moment' => 'Le soir uniquement', 'zone' => 'Visage et corps'],
         'FS-003' => ['etape' => null, 'geste' => '', 'usage' => 'Le rituel complet', 'photo' => 'duo-savon-noir-glow-oil-florea-skin-rituel.webp',
-            'accroche' => 'Le savon noir matin et soir, le Glow Oil le soir : la routine complète, à prix doux.', 'complement' => null,
+            'accroche' => 'La routine complète, à prix doux.', 'complement' => null,
             'type' => 'Savon noir + Glow Oil', 'moment' => 'Savon matin et soir, Glow Oil le soir', 'zone' => 'Visage et corps'],
     ];
 

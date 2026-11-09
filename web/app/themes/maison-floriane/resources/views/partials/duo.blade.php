@@ -10,9 +10,9 @@
     </a>
     <div class="duo-banniere__texte">
       <span class="surtitre">Le rituel complet</span>
-      <p class="h2">Savon noir + Glow Oil, réunis.</p>
-      <p>Le savon noir 300 g et le Glow Oil 100 ml : le savon noir matin et soir, le Glow Oil le soir.</p>
-      <p class="peaux"><svg class="icone" aria-hidden="true"><use href="#i-peaux"/></svg>Pour tous les types de peau et toutes les carnations</p>
+      <p class="h2">Savon noir + Glow Oil</p>
+      <p>Savon noir 300 g et Glow Oil 100 ml, à prix doux.</p>
+      <p class="peaux"><svg class="icone" aria-hidden="true"><use href="#i-peaux"/></svg>Toutes peaux, toutes carnations</p>
       <p class="duo-prix">
         <span class="prix">{{ App\prix($duo) }}</span>
         @if ($barre = App\prix_barre($duo))<s>{{ $barre }}</s>@endif

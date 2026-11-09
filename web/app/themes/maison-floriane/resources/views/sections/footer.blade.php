@@ -5,7 +5,7 @@
   <div class="pied__grille">
     <div>
       <img class="pied__logo" src="{{ Vite::asset('resources/images/logo-florea-skin-rond-400px.webp') }}" alt="Floréa Skin" width="72" height="72" loading="lazy">
-      <p>La beauté révélée par la nature.<br>Deux soins, un rituel, des résultats montrés sans filtre.</p>
+      <p>La beauté révélée par la nature.</p>
     </div>
     <div><h4>Boutique</h4><ul>
       @if ($savon)<li><a href="{{ $savon->get_permalink() }}">Savon noir réparateur</a></li>@endif

@@ -7,16 +7,16 @@
 @section('content')
   <section class="hero">
     <div class="hero__texte">
-      <span class="surtitre">Floréa Skin · Le rituel en deux gestes</span>
+      <span class="surtitre">Floréa Skin · Le rituel</span>
       <h1 class="h1">Une peau nette,<br><em class="or">révélée</em> par la nature.</h1>
-      <p class="chapo">Le savon noir purifie, le Glow Oil illumine. Une routine courte, des résultats que nous montrons sans filtre.</p>
+      <p class="chapo">Le savon noir purifie. Le Glow Oil illumine.</p>
       <div class="hero__ctas">
         <a class="btn btn--principal" href="#rituel">Découvrir le rituel</a>
         <a class="lien" href="#resultats">Voir les résultats</a>
       </div>
     </div>
     <div class="hero__media hero__galerie">
-      @foreach ([['resultat-peau-sans-filtre-voiture', 'Résultat réel · sans filtre', 'clip--grand'], ['resultat-peau-sans-filtre-cape-noire', 'Résultat réel · sans filtre', ''], ['glow-oil', 'Le Glow Oil', '']] as [$nom, $legende, $classe])
+      @foreach ([['resultat-peau-sans-filtre-voiture', 'Sans filtre', 'clip--grand'], ['resultat-peau-sans-filtre-cape-noire', 'Sans filtre', ''], ['glow-oil', 'Le Glow Oil', '']] as [$nom, $legende, $classe])
         @php($src = $nom === 'glow-oil' ? App\media('video-glow-oil-florea-skin-presentation.mp4') : $v($nom))
         @php($poster = $nom === 'glow-oil' ? App\media('video-glow-oil-florea-skin-presentation-apercu.webp') : $p($nom))
         @php($fichier = $nom === 'glow-oil' ? 'video-glow-oil-florea-skin-presentation.mp4' : "video-florea-skin-{$nom}.mp4")
@@ -32,7 +32,7 @@
     <div class="entete-section">
       <span class="surtitre">Le rituel</span>
       <h2 class="h2">Nettoyer. Révéler.</h2>
-      <p class="chapo" style="margin:0 auto">Deux soins pensés pour fonctionner ensemble, pour tous les types de peau et toutes les carnations : le savon noir matin et soir, le Glow Oil le soir.</p>
+      <p class="chapo" style="margin:0 auto">Deux soins pour toutes les peaux et toutes les carnations.</p>
     </div>
     <div class="soins">
       @foreach ($produits as $produit)
@@ -45,7 +45,7 @@
     <div class="entete-section">
       <span class="surtitre">Résultats</span>
       <h2 class="h2">Sans filtre. Sans retouche.</h2>
-      <p class="chapo" style="margin:0 auto">Des photos et des vidéos réelles, prises au téléphone, à la lumière du jour.</p>
+      <p class="chapo" style="margin:0 auto">Photos et vidéos réelles, à la lumière du jour.</p>
     </div>
     <div class="resultats">
       <div class="resultat">
@@ -61,15 +61,15 @@
         <img src="{{ $p('resultat-peau-sans-filtre-voiture') }}" alt="Vidéo résultat sans filtre" loading="lazy"><span class="etiquette">Après</span><span class="lecture"></span>
       </button>
     </div>
-    <p class="mention petit">Résultats individuels, variables selon les peaux. Durée d'utilisation indiquée sous chaque témoignage.</p>
+    <p class="mention petit">Résultats variables selon les peaux.</p>
   </div></section>
 
   <section class="section"><div class="conteneur">
-    <div class="entete-section"><span class="surtitre">Mode d'emploi</span><h2 class="h2">Purifier matin et soir, révéler le soir.</h2></div>
+    <div class="entete-section"><span class="surtitre">Mode d'emploi</span><h2 class="h2">Trois gestes simples.</h2></div>
     <div class="etapes">
-      <div class="etape"><span class="etape__num">01</span><h3 class="h3">Purifier</h3><p class="petit">Matin et soir, faites mousser le savon noir sur peau mouillée, massez, rincez.</p></div>
-      <div class="etape"><span class="etape__num">02</span><h3 class="h3">Révéler, le soir</h3><p class="petit">Le soir uniquement, massez quelques gouttes de Glow Oil sur le visage et le corps, sur peau légèrement humide.</p></div>
-      <div class="etape"><span class="etape__num">03</span><h3 class="h3">Protéger, le jour</h3><p class="petit">En journée, appliquez une crème hydratante sur le visage et le corps, puis une crème solaire.</p></div>
+      <div class="etape"><span class="etape__num">01</span><h3 class="h3">Purifier</h3><p class="petit">Matin et soir : faites mousser le savon noir, massez, rincez.</p></div>
+      <div class="etape"><span class="etape__num">02</span><h3 class="h3">Révéler</h3><p class="petit">Le soir : quelques gouttes de Glow Oil sur peau humide.</p></div>
+      <div class="etape"><span class="etape__num">03</span><h3 class="h3">Protéger</h3><p class="petit">Le jour : crème hydratante, puis crème solaire.</p></div>
     </div>
   </div></section>
 
@@ -89,10 +89,10 @@
   <section class="section" id="faq"><div class="conteneur faq">
     <div class="entete-section"><span class="surtitre">Questions fréquentes</span><h2 class="h2">Avant de commander</h2></div>
     @php($faq = [
-      ['Le savon noir convient-il au visage ?', "Oui, il s'utilise sur le visage et le corps. Évitez le contour des yeux et faites un test sur une petite zone la première fois."],
-      ['Quand voir les premiers résultats ?', "Chaque peau est différente. Comptez plusieurs semaines d'utilisation régulière : le savon noir matin et soir, le Glow Oil le soir."],
-      ['Dans quels pays livrez-vous ?', "Partout dans le monde, avec des délais courts dans l'Union européenne. Les prix restent en euros ; hors UE, des droits de douane peuvent s'appliquer à l'arrivée."],
-      ['Puis-je commander sur WhatsApp ?', 'Oui. Le bouton WhatsApp prépare un message avec votre panier, nous confirmons la commande avec vous.'],
+      ['Le savon noir convient-il au visage ?', "Oui, visage et corps. Évitez le contour des yeux et testez d'abord sur une petite zone."],
+      ['Quand voir les premiers résultats ?', "Comptez quelques semaines d'usage régulier. Chaque peau est différente."],
+      ['Dans quels pays livrez-vous ?', "Partout dans le monde, plus vite dans l'UE. Prix en euros ; hors UE, des droits de douane peuvent s'appliquer."],
+      ['Puis-je commander sur WhatsApp ?', 'Oui. Le bouton WhatsApp envoie votre panier, nous confirmons avec vous.'],
     ])
     <div class="accordeon">
       @foreach ($faq as $i => [$question, $reponse])

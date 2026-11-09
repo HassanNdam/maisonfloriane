@@ -8,7 +8,7 @@
   <section class="recit-hero"><div class="conteneur">
     <span class="surtitre">Boutique</span>
     <h1 class="h1">Le rituel <em class="or">Floréa</em></h1>
-    <p class="chapo">Deux soins, deux gestes : le savon noir pour purifier, le Glow Oil pour révéler.</p>
+    <p class="chapo">Deux soins. Deux gestes.</p>
     <span class="filet-or"></span>
   </div></section>
 
