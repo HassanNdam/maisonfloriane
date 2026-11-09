@@ -10,6 +10,11 @@
   </a>
   <div class="actions">
     <ul class="txt actions__liens">{!! $menu('secondary_navigation') !!}</ul>
+    @if (function_exists('wc_get_page_permalink'))
+      <a class="compte-btn" href="{{ wc_get_page_permalink('myaccount') }}" aria-label="{{ is_user_logged_in() ? 'Mon compte' : 'Se connecter ou créer un compte' }}">
+        <svg class="icone"><use href="#i-compte"/></svg><span class="txt">{{ is_user_logged_in() ? 'Compte' : 'Connexion' }}</span>
+      </a>
+    @endif
     <button class="panier-btn" type="button" data-panier-ouvrir aria-label="Ouvrir le panier">
       <svg class="icone"><use href="#i-sac"/></svg><span class="txt">Panier</span>@include('partials.panier-compte')
     </button>
@@ -21,5 +26,7 @@
     <span class="surtitre">Menu</span>
     <button type="button" aria-label="Fermer le menu" data-menu-fermer><svg class="icone"><use href="#i-fermer"/></svg></button>
   </div>
-  <nav aria-label="Menu mobile"><ul>{!! $menu('primary_navigation') !!}{!! $menu('secondary_navigation') !!}</ul></nav>
+  <nav aria-label="Menu mobile"><ul>{!! $menu('primary_navigation') !!}{!! $menu('secondary_navigation') !!}
+    @if (function_exists('wc_get_page_permalink'))<li><a href="{{ wc_get_page_permalink('myaccount') }}">{{ is_user_logged_in() ? 'Mon compte' : 'Connexion' }}</a></li>@endif
+  </ul></nav>
 </div>

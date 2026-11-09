@@ -16,4 +16,5 @@
   <symbol id="i-pinterest" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M10.6 20.2 12.4 13"/><path d="M11 14.5c.5.6 1.3.9 2.1.9 2.4 0 3.9-2.2 3.9-4.6 0-2.7-2.2-4.6-5-4.6-3 0-5 2.1-5 4.6 0 1.2.5 2.2 1.3 2.6"/></symbol>
   <symbol id="i-telephone" viewBox="0 0 24 24"><path d="M5 4h3.5l1.7 4.3-2.2 1.4a11 11 0 0 0 6.3 6.3l1.4-2.2L20 15.5V19a1.5 1.5 0 0 1-1.6 1.5A16.5 16.5 0 0 1 3.5 5.6 1.5 1.5 0 0 1 5 4Z"/></symbol>
   <symbol id="i-peaux" viewBox="0 0 24 24"><circle cx="8" cy="9" r="3.2"/><circle cx="16" cy="9" r="3.2"/><path d="M2.8 19.5c.6-3.2 2.7-5 5.2-5s4.6 1.8 5.2 5"/><path d="M10.8 19.5c.6-3.2 2.7-5 5.2-5s4.6 1.8 5.2 5"/></symbol>
+  <symbol id="i-compte" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.9-3.8 3.9-6 7.5-6s6.6 2.2 7.5 6"/></symbol>
 </svg>

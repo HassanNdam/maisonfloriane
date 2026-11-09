@@ -161,3 +161,11 @@ document.querySelectorAll('[data-partage]').forEach((bloc) => {
   document.addEventListener('click', (e) => { if (!bloc.contains(e.target)) basculer(false); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') basculer(false); });
 });
+
+/* Compte client (mobile) : onglets « Se connecter » / « Créer un compte » */
+document.querySelectorAll('[data-onglet-vers]').forEach((bouton) => {
+  const acces = bouton.closest('.acces');
+  const maj = () => acces.querySelectorAll('[data-onglet-vers]').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.ongletVers === acces.dataset.onglet)));
+  bouton.addEventListener('click', () => { acces.dataset.onglet = bouton.dataset.ongletVers; maj(); });
+  maj();
+});
