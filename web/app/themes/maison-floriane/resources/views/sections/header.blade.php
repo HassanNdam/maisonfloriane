@@ -18,6 +18,7 @@
     <button class="panier-btn" type="button" data-panier-ouvrir aria-label="Ouvrir le panier">
       <svg class="icone"><use href="#i-sac"/></svg><span class="txt">Panier</span>@include('partials.panier-compte')
     </button>
+    <a class="btn btn--principal contact-btn" href="{{ home_url('/contact/') }}">Contact</a>
   </div>
 </div></header>
 
@@ -29,5 +30,6 @@
   </div>
   <nav aria-label="Menu mobile"><ul>{!! $menu('primary_navigation') !!}{!! $menu('secondary_navigation') !!}
     @if (function_exists('wc_get_page_permalink'))<li><a href="{{ wc_get_page_permalink('myaccount') }}">{{ is_user_logged_in() ? 'Mon compte' : 'Connexion' }}</a></li>@endif
+    <li><a href="{{ home_url('/contact/') }}">Contact</a></li>
   </ul></nav>
 </div>

@@ -311,7 +311,7 @@ $menus = [
     ]],
     'secondary_navigation' => ['En-tête, à droite', [
         $page('Mon histoire', $histoire),
-        $page('Contact', get_page_by_path('contact')->ID),
+        $page('Boutique', wc_get_page_id('shop')), // Contact : bouton à droite de l'en-tête (header.blade.php)
     ]],
     'footer_navigation' => ['Pied de page', [
         $page('Mentions légales', $legalIds['mentions-legales']),

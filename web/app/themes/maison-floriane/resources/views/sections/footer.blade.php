@@ -4,7 +4,7 @@
 <footer class="pied"><div class="conteneur">
   <div class="pied__grille">
     <div>
-      <img class="pied__logo" src="{{ Vite::asset('resources/images/logo-florea-skin-rond-400px.webp') }}" alt="Floréa Skin" width="72" height="72" loading="lazy">
+      <a class="pied__logo-lien" href="{{ home_url('/') }}"><img class="pied__logo" src="{{ Vite::asset('resources/images/logo-florea-skin-rond-400px.webp') }}" alt="Floréa Skin, accueil" width="72" height="72" loading="lazy"></a>
       <p>La beauté révélée par la nature.</p>
     </div>
     <div><h4>Boutique</h4><ul>
