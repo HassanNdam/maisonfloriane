@@ -12,9 +12,9 @@ namespace App;
 
 const ACCUEIL = [
     // En-tête (hero)
-    'hero_surtitre' => 'Floréa Skin · Le rituel',
+    'hero_surtitre' => 'Floréa Skin · Soins anti-taches',
     'hero_titre' => "Une peau nette,\n*révélée* par la nature.",
-    'hero_texte' => 'Le savon noir purifie. Le Glow Oil illumine.',
+    'hero_texte' => 'Des soins anti-taches pour le visage et le corps : le savon noir purifie, le Glow Oil illumine.',
     'hero_bouton' => 'Découvrir le rituel',
     'hero_lien' => 'Voir les résultats',
     'hero_videos' => [
@@ -25,22 +25,22 @@ const ACCUEIL = [
     // Le rituel (fiches produits)
     'rituel_surtitre' => 'Le rituel',
     'rituel_titre' => 'Nettoyer. Révéler.',
-    'rituel_texte' => 'Deux soins pour toutes les peaux et toutes les carnations.',
+    'rituel_texte' => 'Deux soins anti-taches pour toutes les peaux et toutes les carnations.',
     'rituel_produits' => ['FS-001', 'FS-002', 'FS-003'],
     // Résultats (avant / après)
     'resultats_surtitre' => 'Résultats',
     'resultats_titre' => 'Sans filtre. Sans retouche.',
     'resultats_texte' => 'Photos et vidéos réelles, à la lumière du jour.',
     'resultats' => [
-        ['image' => 'florea-skin-avant-taches-brunes-joue-profil.webp', 'video' => '', 'etiquette' => 'Avant', 'description' => 'Avant : taches brunes sur la joue'],
+        ['image' => 'florea-skin-avant-taches-brunes-joue-profil.webp', 'video' => '', 'etiquette' => 'Avant', 'description' => 'Avant les soins anti-taches Floréa Skin : taches brunes sur la joue'],
         ['image' => 'video-florea-skin-resultat-peau-sans-filtre-cape-noire-apercu.webp', 'video' => 'video-florea-skin-resultat-peau-sans-filtre-cape-noire.mp4', 'etiquette' => 'Après', 'description' => 'Vidéo résultat sans filtre'],
-        ['image' => 'florea-skin-avant-taches-brunes-front.webp', 'video' => '', 'etiquette' => 'Avant', 'description' => 'Avant : taches brunes sur le front'],
+        ['image' => 'florea-skin-avant-taches-brunes-front.webp', 'video' => '', 'etiquette' => 'Avant', 'description' => 'Avant les soins anti-taches Floréa Skin : taches brunes sur le front'],
         ['image' => 'video-florea-skin-resultat-peau-sans-filtre-voiture-apercu.webp', 'video' => 'video-florea-skin-resultat-peau-sans-filtre-voiture.mp4', 'etiquette' => 'Après', 'description' => 'Vidéo résultat sans filtre'],
     ],
     'resultats_mention' => 'Résultats variables selon les peaux.',
     // Mode d'emploi
     'etapes_surtitre' => "Mode d'emploi",
-    'etapes_titre' => 'Trois gestes simples.',
+    'etapes_titre' => 'Vos soins anti-taches en trois gestes.',
     'etapes' => [
         ['titre' => 'Purifier', 'texte' => 'Matin et soir : faites mousser le savon noir, massez, rincez.'],
         ['titre' => 'Révéler', 'texte' => 'Le soir : quelques gouttes de Glow Oil sur peau humide.'],
@@ -55,7 +55,7 @@ const ACCUEIL = [
     'histoire_lien' => 'Lire mon histoire',
     // Questions fréquentes
     'faq_surtitre' => 'Questions fréquentes',
-    'faq_titre' => 'Avant de commander',
+    'faq_titre' => 'Tout savoir sur nos soins anti-taches',
     'faq' => [
         ['question' => 'Le savon noir convient-il au visage ?', 'reponse' => "Oui, visage et corps. Évitez le contour des yeux et testez d'abord sur une petite zone."],
         ['question' => 'Quand voir les premiers résultats ?', 'reponse' => "Comptez quelques semaines d'usage régulier. Chaque peau est différente."],
