@@ -21,6 +21,18 @@ const REGLAGES = [
     'telephone' => '+41 79 273 83 53',
     'whatsapp' => '41792738353',
     'delai_reponse' => 'Sous 24 h, du lundi au vendredi',
+    // Société (pages légales, voir app/societe.php) : vide = ligne non affichée
+    'societe_nom' => 'Maison Floriane',
+    'societe_forme' => '',
+    'societe_adresse' => "Barcelone\nEspagne",
+    'societe_nif' => '',
+    'societe_registre' => '',
+    'societe_tva' => '',
+    'societe_directrice' => 'Flore, fondatrice de Floréa Skin',
+    // Hébergeur choisi le 09/11/2026 : IONOS, entité espagnole (ionos.es, conditions générales et confidentialité)
+    'hebergeur_nom' => 'IONOS Cloud S.L.U.',
+    'hebergeur_adresse' => 'Calle Madre de Dios 21, 26004 Logroño (La Rioja), Espagne',
+    'hebergeur_site' => 'https://www.ionos.es',
     'delai_reponse_court' => 'Réponse sous 24 h ouvrées',
     // Réseaux sociaux (vide : icône affichée, non cliquable)
     'reseau_tiktok' => '',
