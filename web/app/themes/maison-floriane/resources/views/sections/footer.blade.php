@@ -4,7 +4,7 @@
 <footer class="pied"><div class="conteneur">
   <div class="pied__grille">
     <div>
-      <a class="pied__logo-lien" href="{{ home_url('/') }}"><img class="pied__logo" src="{{ App\logo_url() }}" alt="Floréa Skin, accueil" width="72" height="72" loading="lazy"></a>
+      <a class="pied__logo-lien" href="{{ home_url('/') }}"><img class="pied__logo" src="{{ App\logo_url() }}" alt="Floréa Skin, accueil" width="120" height="120" loading="lazy"></a>
       @if ($slogan = App\texte('slogan'))<p>{!! App\echappe($slogan) !!}</p>@endif
     </div>
     <div><h4>Boutique</h4><ul>
