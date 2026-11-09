@@ -434,5 +434,80 @@ if (class_exists('Forminator_API')) {
     WP_CLI::warning('Forminator inactif : formulaire de contact non créé.');
 }
 
+WP_CLI::log('Compte client et e-mails');
+// Inscription depuis « Mon compte » et à la commande ; le client choisit son mot de passe, l'identifiant vient de l'e-mail.
+// Adresses du compte en français (/mon-compte/mes-commandes/…). Pas de téléchargements (aucun produit numérique).
+$compte = [
+    'woocommerce_enable_myaccount_registration' => 'yes',
+    'woocommerce_enable_signup_and_login_from_checkout' => 'yes',
+    'woocommerce_enable_checkout_login_reminder' => 'yes',
+    'woocommerce_enable_guest_checkout' => 'yes',
+    'woocommerce_registration_generate_username' => 'yes',
+    'woocommerce_registration_generate_password' => 'no',
+    'woocommerce_myaccount_orders_endpoint' => 'mes-commandes',
+    'woocommerce_myaccount_view_order_endpoint' => 'commande',
+    'woocommerce_myaccount_edit_address_endpoint' => 'mes-adresses',
+    'woocommerce_myaccount_edit_account_endpoint' => 'mes-informations',
+    'woocommerce_myaccount_payment_methods_endpoint' => 'moyens-de-paiement',
+    'woocommerce_myaccount_add_payment_method_endpoint' => 'ajouter-moyen-de-paiement',
+    'woocommerce_myaccount_delete_payment_method_endpoint' => 'supprimer-moyen-de-paiement',
+    'woocommerce_myaccount_set_default_payment_method_endpoint' => 'moyen-de-paiement-par-defaut',
+    'woocommerce_myaccount_lost_password_endpoint' => 'mot-de-passe-oublie',
+    'woocommerce_logout_endpoint' => 'deconnexion',
+    'woocommerce_myaccount_downloads_endpoint' => '',
+    'woocommerce_registration_privacy_policy_text' => 'Vos données servent uniquement à gérer votre compte et vos commandes ; elles ne sont jamais revendues. En savoir plus : [privacy_policy].',
+    'woocommerce_checkout_privacy_policy_text' => 'Vos données servent à traiter votre commande et à gérer votre compte, comme décrit dans notre [privacy_policy].',
+    // E-mails WooCommerce aux couleurs de la charte (lin, encre, or) ; les réponses des clients arrivent chez Flore.
+    'woocommerce_email_auto_sync_with_theme' => 'no',
+    'woocommerce_email_base_color' => '#2E2A26',
+    'woocommerce_email_background_color' => '#F8F4EE',
+    'woocommerce_email_body_background_color' => '#FFFDFA',
+    'woocommerce_email_text_color' => '#2E2A26',
+    'woocommerce_email_footer_text_color' => '#6F665E',
+    'woocommerce_email_font_family' => 'Georgia',
+    'woocommerce_email_header_alignment' => 'center',
+    'woocommerce_email_header_image_width' => '120',
+    'woocommerce_email_footer_text' => 'Maison Floriane · Floréa Skin, la beauté révélée par la nature<br />{site_url}',
+    'woocommerce_email_reply_to_enabled' => 'yes',
+    'woocommerce_email_reply_to_name' => 'Flore · Maison Floriane',
+    'woocommerce_email_reply_to_address' => function_exists('App\\destinataire') ? App\destinataire() : get_option('admin_email'),
+];
+if ($expediteur = Env\env('MAIL_FROM_ADDRESS')) {
+    $compte['woocommerce_email_from_address'] = $expediteur; // sinon WooCommerce garde l'adresse de l'admin
+}
+if ($logo) {
+    $compte['woocommerce_email_header_image'] = wp_get_attachment_image_url($logo, 'medium');
+}
+foreach ($compte as $key => $value) {
+    update_option($key, $value);
+}
+// E-mails de bienvenue et de mot de passe oublié : objet, titre et texte d'accompagnement.
+$emails = [
+    'woocommerce_customer_new_account_settings' => [
+        'subject' => 'Bienvenue chez Maison Floriane',
+        'heading' => 'Bienvenue, votre compte est prêt',
+        'additional_content' => "Depuis votre compte, suivez vos commandes, enregistrez vos adresses et commandez plus vite.\n\nUne question sur votre routine ? Répondez simplement à cet e-mail : c'est Flore qui vous lira.",
+    ],
+    'woocommerce_customer_reset_password_settings' => [
+        'subject' => 'Votre nouveau mot de passe Maison Floriane',
+        'heading' => 'Choisissez un nouveau mot de passe',
+        'additional_content' => "Si vous n'êtes pas à l'origine de cette demande, ignorez cet e-mail : votre mot de passe reste inchangé.",
+    ],
+];
+foreach ($emails as $key => $reglages) {
+    update_option($key, array_merge((array) get_option($key, []), ['enabled' => 'yes'], $reglages));
+}
+// Germanized : ses pages légales (anglaises, créées à l'installation) remplacées par les nôtres, et pas de textes
+// légaux recopiés dans l'e-mail de bienvenue (ils restent dans la confirmation de commande).
+if (class_exists('WooCommerce_Germanized')) {
+    update_option('woocommerce_data_security_page_id', $legalIds['politique-de-confidentialite']);
+    update_option('woocommerce_imprint_page_id', $legalIds['mentions-legales']);
+    foreach (['terms', 'data_security'] as $texte) {
+        $mails = array_values(array_diff((array) get_option("woocommerce_gzd_mail_attach_$texte", []), ['customer_new_account', 'customer_new_account_activation']));
+        update_option("woocommerce_gzd_mail_attach_$texte", $mails);
+    }
+}
+mf_log('compte client : inscription ouverte, adresses en français, e-mails aux couleurs de la charte');
+
 flush_rewrite_rules();
 WP_CLI::success('Contenus de départ en place.');

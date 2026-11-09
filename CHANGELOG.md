@@ -3,6 +3,19 @@
 Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), versions [SemVer](https://semver.org/lang/fr/).
 Chaque version correspond à un tag `vX.Y.Z` sur `main` (voir `CONTRIBUTING.md`).
 
+## [Non publié]
+
+### Ajouté
+- Compte client : connexion et création de compte côte à côte (onglets sur mobile), prénom et nom à l'inscription, Lettre Floréa en option, anti-robot.
+- Espace client en français (`/mon-compte/mes-commandes/`, `mes-adresses`, `mes-informations`…) : tableau de bord avec dernière commande et raccourcis, menu latéral, fil d'Ariane.
+- Mot de passe oublié et réinitialisation aux couleurs de la charte ; 5 essais de connexion ratés bloquent 15 minutes ; message d'erreur neutre.
+- « Mes données » : copie ou suppression du compte (RGPD), confirmées par e-mail.
+- E-mails WooCommerce aux couleurs de la charte avec le logo, réponses envoyées à Flore ; e-mail de bienvenue sans textes légaux.
+- Lien « Compte » dans l'en-tête et le menu mobile.
+
+### Corrigé
+- Germanized pointait vers des pages légales anglaises par défaut (confidentialité, mentions légales) dans les e-mails.
+
 ## [0.1.0] - 2026-11-09
 
 Première version complète en local, avant la mise en ligne.
