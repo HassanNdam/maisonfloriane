@@ -197,6 +197,8 @@ $legalIds = [];
 foreach ($legales as $slug => [$title, $file]) {
     $legalIds[$slug] = mf_page($slug, $title, mf_prototype("$proto/$file"));
 }
+// Droit de rétractation : page à part (exigée par Germanized, jointe à la confirmation de commande), avec le formulaire type.
+$legalIds['droit-de-retractation'] = mf_page('droit-de-retractation', 'Droit de rétractation', file_get_contents(__DIR__ . '/pages/droit-de-retractation.html'));
 update_option('show_on_front', 'page');
 update_option('page_on_front', $accueil);
 update_option('wp_page_for_privacy_policy', $legalIds['politique-de-confidentialite']);
@@ -317,6 +319,7 @@ $menus = [
         $page('Confidentialité', $legalIds['politique-de-confidentialite']),
         $page('Cookies', $legalIds['politique-de-cookies']),
         $page('Livraison & retours', $legalIds['livraison-retours']),
+        $page('Rétractation', $legalIds['droit-de-retractation']),
     ]],
 ];
 $locations = get_theme_mod('nav_menu_locations', []);
@@ -455,6 +458,9 @@ $compte = [
     'woocommerce_myaccount_lost_password_endpoint' => 'mot-de-passe-oublie',
     'woocommerce_logout_endpoint' => 'deconnexion',
     'woocommerce_myaccount_downloads_endpoint' => '',
+    'woocommerce_checkout_order_received_endpoint' => 'commande-recue',
+    'woocommerce_checkout_pay_endpoint' => 'paiement',
+    'date_format' => 'j F Y', // « 9 novembre 2026 » (sites, e-mails)
     'woocommerce_registration_privacy_policy_text' => 'Vos données servent uniquement à gérer votre compte et vos commandes ; elles ne sont jamais revendues. En savoir plus : [privacy_policy].',
     'woocommerce_checkout_privacy_policy_text' => 'Vos données servent à traiter votre commande et à gérer votre compte, comme décrit dans notre [privacy_policy].',
     // E-mails WooCommerce aux couleurs de la charte (lin, encre, or) ; les réponses des clients arrivent chez Flore.
@@ -494,14 +500,95 @@ $emails = [
         'additional_content' => "Si vous n'êtes pas à l'origine de cette demande, ignorez cet e-mail : votre mot de passe reste inchangé.",
     ],
 ];
+// E-mails de commande : WooCommerce invite à écrire à l'expéditeur (adresse no-reply) ; on invite à répondre (→ Flore).
+foreach (['on_hold_order', 'processing_order', 'completed_order', 'refunded_order', 'invoice', 'cancelled_order', 'failed_order', 'note', 'paid_for_order'] as $type) {
+    $emails["woocommerce_customer_{$type}_settings"] = [
+        'additional_content' => 'Une question sur votre commande ? Répondez simplement à cet e-mail : c\'est Flore qui vous lira.',
+    ];
+}
 foreach ($emails as $key => $reglages) {
-    update_option($key, array_merge((array) get_option($key, []), ['enabled' => 'yes'], $reglages));
+    update_option($key, array_merge((array) get_option($key, []), $reglages)); // n'active ni ne désactive aucun e-mail
 }
 // Germanized : ses pages légales (anglaises, créées à l'installation) remplacées par les nôtres, et pas de textes
 // légaux recopiés dans l'e-mail de bienvenue (ils restent dans la confirmation de commande).
 if (class_exists('WooCommerce_Germanized')) {
     update_option('woocommerce_data_security_page_id', $legalIds['politique-de-confidentialite']);
     update_option('woocommerce_imprint_page_id', $legalIds['mentions-legales']);
+    update_option('woocommerce_revocation_page_id', $legalIds['droit-de-retractation']);
+    update_option('woocommerce_shipping_costs_page_id', $legalIds['livraison-retours']);
+
+    // Pages créées en anglais par Germanized : traduites une fois (repérées par leur ancien slug), ou mises à la corbeille
+    // quand une de nos pages fait déjà le travail.
+    $traductions = [
+        'payment-methods' => ['moyens-de-paiement', 'Moyens de paiement', 'woocommerce_payment_methods_page_id'],
+        'review-authenticity' => ['authenticite-des-avis', 'Authenticité des avis', 'woocommerce_review_authenticity_page_id'],
+        'withdraw-from-contract' => ['formulaire-de-retractation', 'Formulaire de rétractation en ligne', 'woocommerce_withdraw_from_contract_page_id'],
+    ];
+    foreach ($traductions as $ancien => [$slug, $title, $option]) {
+        $id = (int) get_option($option);
+        $post = $id ? get_post($id) : null;
+        if (! $post || $post->post_type !== 'page') {
+            continue;
+        }
+        $contenu = file_get_contents(__DIR__ . "/pages/$slug.html");
+        if ($post->post_name === $ancien || getenv('MF_SEED_FORCE')) {
+            wp_update_post(['ID' => $id, 'post_name' => $slug, 'post_title' => $title, 'post_content' => $contenu]);
+            mf_log("page Germanized traduite : $title");
+        }
+    }
+    // Textes réglables de Germanized (pas de traduction française officielle). Ceux écrits en dur dans ses gabarits
+    // sont traduits dans le thème (app/germanized.php).
+    $gzd = [
+        'woocommerce_gzd_email_title_text' => 'Bonjour {first_name},',
+        'woocommerce_gzd_email_order_confirmation_text' => 'Nous avons bien reçu votre commande et nous la préparons avec soin. Vous en trouverez le détail ci-dessous.',
+        'woocommerce_gzd_order_submit_btn_text' => 'Commander et payer', // bouton « avec obligation de paiement »
+        'woocommerce_gzd_shipping_costs_text' => 'hors {link}frais de livraison{/link}',
+        'woocommerce_gzd_delivery_time_text' => 'Délai de livraison : {delivery_time}',
+        'woocommerce_gzd_product_units_text' => 'Contenu : {product_units} {unit}',
+        'woocommerce_gzd_display_listings_link_details_text' => 'Détails',
+        'woocommerce_gzd_product_rating_verified_text' => '{link}Notes vérifiées{/link}',
+        'woocommerce_gzd_product_rating_unverified_text' => '{link}Notes non vérifiées{/link}',
+        'woocommerce_gzd_product_review_verified_text' => 'Achat vérifié. {link}En savoir plus{/link}',
+        'woocommerce_gzd_product_review_unverified_text' => 'Achat non vérifié. {link}En savoir plus{/link}',
+        'woocommerce_gzd_alternative_complaints_text_none' => 'Nous ne sommes ni tenus ni disposés à participer à une procédure de règlement des litiges devant une instance de médiation de la consommation.',
+        'woocommerce_gzd_alternative_complaints_text_willing' => 'Nous sommes en principe disposés à participer à une procédure de médiation de la consommation.',
+        'woocommerce_gzd_alternative_complaints_text_obliged' => 'Vous pouvez saisir [nom, adresse et site du médiateur] pour régler un litige. Nous sommes tenus de participer à cette procédure de médiation.',
+    ];
+    foreach ($gzd as $key => $value) {
+        update_option($key, $value);
+    }
+    // Cases à cocher de la commande : libellés en français (seule « terms » est visible pour nos soins ;
+    // les autres ne s'affichent que pour des produits numériques, des services, etc.).
+    $cases = [
+        'terms' => [
+            'label' => 'En passant commande, vous confirmez avoir lu et accepté nos {term_link}conditions générales de vente{/term_link} et notre {revocation_link}politique de rétractation{/revocation_link}.',
+            'error_message' => 'Merci d\'accepter les conditions générales de vente pour passer commande.',
+        ],
+        'download' => ['label' => 'Pour les produits numériques : je demande expressément que l\'exécution du contrat commence avant la fin du délai de rétractation et je reconnais perdre mon {link}droit de rétractation{/link} dès le début de l\'exécution.'],
+        'service' => ['label' => 'Pour les services : je demande l\'exécution immédiate du service avant la fin du délai de rétractation et je reconnais perdre mon {link}droit de rétractation{/link} une fois le service entièrement exécuté.'],
+        'parcel_delivery' => ['label' => 'Oui, je souhaite être prévenu(e) par e-mail de la livraison de mon colis ({shipping_method_title}). Mon adresse e-mail sera transmise au transporteur uniquement dans ce but.'],
+        'age_verification' => ['label' => 'Je confirme avoir au moins {age} ans.'],
+        'privacy' => ['label' => 'Oui, je souhaite créer un compte et j\'ai lu la {data_security_link}politique de confidentialité{/data_security_link}.'],
+        'used_goods_warranty' => ['label' => 'Pour les produits d\'occasion : j\'ai bien noté que la garantie est réduite à 12 mois.'],
+        'defective_copy' => ['label' => 'J\'ai bien noté les défauts suivants : {defect_descriptions}.'],
+        'review_reminder' => ['label' => 'Je souhaite recevoir un unique e-mail de rappel pour donner mon avis sur cet achat. Je peux retirer mon accord à tout moment.'],
+    ];
+    $reglages = (array) get_option('woocommerce_gzd_legal_checkboxes_settings', []);
+    foreach ($cases as $id => $textes) {
+        if (isset($reglages[$id])) {
+            $reglages[$id] = array_merge($reglages[$id], $textes);
+        }
+    }
+    update_option('woocommerce_gzd_legal_checkboxes_settings', $reglages);
+    mf_log('Germanized : textes de la commande et des e-mails en français');
+
+    foreach (['imprint', 'revocation', 'shipping-methods'] as $slug) {
+        $post = get_page_by_path($slug);
+        if ($post && $post->post_status !== 'trash') {
+            wp_trash_post($post->ID);
+            mf_log("page Germanized en anglais mise à la corbeille : $slug");
+        }
+    }
     foreach (['terms', 'data_security'] as $texte) {
         $mails = array_values(array_diff((array) get_option("woocommerce_gzd_mail_attach_$texte", []), ['customer_new_account', 'customer_new_account_activation']));
         update_option("woocommerce_gzd_mail_attach_$texte", $mails);
