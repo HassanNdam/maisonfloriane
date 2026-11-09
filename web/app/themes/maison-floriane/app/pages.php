@@ -14,7 +14,7 @@ namespace App;
 const PAGES = [
     'histoire' => [
         'portrait' => 'flore-fondatrice-florea-skin-portrait.webp',
-        'legende' => 'Flore, fondatrice de Floréa Skin',
+        'legende' => "Flore, fondatrice de Floréa Skin, après des années d'acné hormonale",
         'surtitre' => 'Mon histoire',
         'titre' => "Moi, c'est *Flore*.",
         'ouverture' => "J'ai longtemps souffert d'acné hormonale. Une acné qui m'a laissé des taches. Des taches qui m'en laissent encore aujourd'hui d'ailleurs.",
@@ -31,18 +31,18 @@ const PAGES = [
         'bouton' => 'Découvrir ma routine',
     ],
     'contact' => [
-        'surtitre' => 'Contact',
+        'surtitre' => 'Contact · Conseil peau et commandes',
         'titre' => "Une question ?\nÉcrivez-nous.",
-        'texte' => 'Conseil, commande ou demande pro : nous vous répondons.',
+        'texte' => 'Conseil peau, commande ou demande pro : écrivez-nous sur WhatsApp ou par e-mail, nous vous répondons.',
         'whatsapp_titre' => 'WhatsApp et téléphone',
         'whatsapp_lien' => 'Ouvrir la conversation',
         'email_titre' => 'E-mail',
         'delai_titre' => 'Délai de réponse',
     ],
     'boutique' => [
-        'surtitre' => 'Boutique',
+        'surtitre' => 'Boutique · Savon noir et Glow Oil',
         'titre' => 'Le rituel *Floréa*',
-        'texte' => 'Deux soins, un duo.',
+        'texte' => 'Deux soins pour toutes les peaux et toutes les carnations, réunis dans un duo à prix doux.',
         'vide_texte' => 'Les soins arrivent très bientôt. En attendant,',
         'vide_lien' => 'écrivez-nous sur WhatsApp',
     ],
