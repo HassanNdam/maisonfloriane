@@ -691,5 +691,8 @@ if (class_exists('TRP_Translate_Press')) {
 // Référencement (Yoast SEO) : réglages, titres et descriptions, images de partage, textes alternatifs.
 require __DIR__ . '/seo.php';
 
+// Bandeau de consentement (Complianz) : assistant de base, textes et style à la charte.
+require __DIR__ . '/complianz.php';
+
 flush_rewrite_rules();
 WP_CLI::success('Contenus de départ en place.');
