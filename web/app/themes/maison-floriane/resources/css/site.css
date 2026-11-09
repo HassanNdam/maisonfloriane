@@ -196,3 +196,68 @@
 @media (max-width: 760px) {
   .annonce .langues { display: none; } /* sur mobile, le sélecteur est dans le menu */
 }
+
+/*
+ * Présentation des soins sur l'accueil (savon noir, Glow Oil, duo) : trois fiches complètes côte à côte.
+ * Les cinq rangées (visuel, nom et prix, accroche, infos, achat) restent alignées d'une fiche à l'autre (subgrid).
+ * Le duo est mis en avant sur fond encre. Sous 1100 px : carrousel horizontal (une fiche et demie, puis une seule sur mobile).
+ */
+@layer components {
+  .soins { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s3); }
+  .soin { --soin-ligne: var(--ligne); --soin-doux: var(--taupe); --soin-accent: var(--or-fonce);
+    display: grid; grid-template-rows: subgrid; grid-row: span 5; row-gap: 0; grid-template-columns: minmax(0, 1fr); min-width: 0; background: var(--ivoire); }
+  .soin > :not(.soin__visuel) { margin-inline: var(--s4); }
+
+  .soin__visuel { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; background: #EFE6D9; }
+  .soin__visuel img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; transition: transform 1s cubic-bezier(.2, .7, .2, 1); }
+  .soin:hover .soin__visuel img { transform: scale(1.04); }
+  .soin__visuel .etiquette { position: absolute; top: var(--s2); left: var(--s2); }
+  .soin__pastille { position: absolute; top: var(--s2); right: var(--s2); padding: 6px 12px; border-radius: 40px;
+    background: var(--or); color: var(--encre); font: 500 14px/1 var(--sans); letter-spacing: .04em; }
+
+  .soin__tete { display: flex; flex-direction: column; gap: 6px; padding-top: var(--s4); }
+  .soin__tete .h3 a { transition: color .25s; }
+  .soin__tete .h3 a:hover { color: var(--soin-accent); }
+  .soin__type { font-size: 16px; color: var(--soin-doux); }
+  .soin__prix { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; margin-top: 6px; }
+  .soin__prix .prix { font-size: 30px; }
+  .soin__prix s { font-size: 17px; color: var(--soin-doux); }
+
+  .soin__accroche { padding-top: var(--s2); font-size: 18px; line-height: 1.55; }
+
+  .soin__infos { margin-block: var(--s3) 0; border-top: 1px solid var(--soin-ligne); }
+  .soin__infos > div { display: grid; grid-template-columns: 7.5em minmax(0, 1fr); gap: var(--s2); padding: 12px 0;
+    border-bottom: 1px solid var(--soin-ligne); font-size: 16px; line-height: 1.45; }
+  .soin__infos dt { padding-top: 2px; font: 500 12px/1.5 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--soin-accent); }
+  .soin__infos dd { margin: 0; }
+  .soin__infos > .soin__liste { grid-template-columns: minmax(0, 1fr); gap: 8px; border-bottom: 0; }
+  .puces { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+  .puces li { padding: 5px 11px; border: 1px solid var(--soin-ligne); border-radius: 40px; font-size: 14px; line-height: 1.2; }
+
+  .soin__achat { display: flex; flex-direction: column; gap: var(--s2); align-self: end; padding: var(--s3) 0 var(--s4); }
+  .soin__achat form { margin: 0; }
+  .soin__achat .lien { align-self: center; font-size: 15px; }
+  .soin__achat .btn { height: auto; min-height: 52px; padding: 14px var(--s2); white-space: normal; text-align: center; line-height: 1.3; }
+
+  /* Le duo, mis en avant */
+  .soin--vedette { --soin-ligne: rgba(248, 244, 238, .16); --soin-doux: rgba(248, 244, 238, .68); --soin-accent: var(--or);
+    background: var(--encre); color: var(--ivoire); }
+  .soin--vedette .stock--ok { color: #A9C4A3; }
+  .soin--vedette .stock--limite { color: #E2B66B; }
+  .btn--clair { background: var(--ivoire); color: var(--encre); }
+  .btn--clair:hover { background: var(--or); color: var(--encre); }
+
+  @media (max-width: 1100px) {
+    .soins { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(320px, 46%);
+      overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: thin;
+      margin-inline: calc(-1 * var(--s5)); padding: 0 var(--s5) var(--s2); scroll-padding-inline: var(--s5); }
+    .soin { scroll-snap-align: start; }
+  }
+  @media (max-width: 760px) {
+    .soins { grid-auto-columns: 86%; gap: var(--s2); margin-inline: calc(-1 * var(--s3)); padding-inline: var(--s3); scroll-padding-inline: var(--s3); }
+    .soin > :not(.soin__visuel) { margin-inline: var(--s3); }
+    .soin__visuel { aspect-ratio: 1 / 1; }
+    .soin__infos > div { grid-template-columns: 6.5em minmax(0, 1fr); }
+  }
+  @media (prefers-reduced-motion: reduce) { .soin__visuel img { transition: none; } .soin:hover .soin__visuel img { transform: none; } }
+}

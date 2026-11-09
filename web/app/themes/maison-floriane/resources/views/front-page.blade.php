@@ -2,7 +2,7 @@
 
 @php($v = fn ($nom) => App\media("video-florea-skin-{$nom}.mp4"))
 @php($p = fn ($nom) => App\media("video-florea-skin-{$nom}-apercu.webp"))
-@php($produits = array_filter([App\produit('FS-001'), App\produit('FS-002')]))
+@php($produits = array_filter([App\produit('FS-001'), App\produit('FS-002'), App\produit('FS-003')]))
 
 @section('content')
   <section class="hero">
@@ -34,12 +34,11 @@
       <h2 class="h2">Nettoyer. Révéler.</h2>
       <p class="chapo" style="margin:0 auto">Deux soins pensés pour fonctionner ensemble, pour tous les types de peau et toutes les carnations : le savon noir matin et soir, le Glow Oil le soir.</p>
     </div>
-    <div class="rituel">
+    <div class="soins">
       @foreach ($produits as $produit)
-        @include('partials.carte-produit', ['produit' => $produit])
+        @include('partials.soin', ['produit' => $produit])
       @endforeach
     </div>
-    @include('partials.duo')
   </div></section>
 
   <section class="section section--creme" id="resultats"><div class="conteneur">
