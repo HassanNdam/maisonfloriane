@@ -1,5 +1,5 @@
 @php($menu = fn ($location) => wp_nav_menu(['theme_location' => $location, 'container' => false, 'items_wrap' => '%3$s', 'echo' => false, 'fallback_cb' => false, 'depth' => 1]))
-<div class="annonce">Livraison en Europe et dans le monde · Paiement sécurisé</div>
+<div class="annonce">Livraison en Europe et dans le monde · Paiement sécurisé@include('partials.langues')</div>
 <header class="entete"><div class="conteneur">
   <nav class="nav" aria-label="Navigation principale"><ul>{!! $menu('primary_navigation') !!}</ul></nav>
   <button class="burger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu-mobile" data-menu-ouvrir>

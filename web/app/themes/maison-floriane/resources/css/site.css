@@ -164,3 +164,14 @@
     body.admin-bar .entete { top: 0; }
   }
 }
+
+/* Sélecteur de langue FR · EN (TranslatePress) : dans le bandeau d'annonce, à droite */
+.annonce { position: relative; }
+.langues { position: absolute; top: 0; right: var(--s4, 32px); display: flex; gap: .5em; letter-spacing: .1em; }
+.langues a { color: inherit; opacity: .65; text-decoration: none; }
+.langues a:hover, .langues a:focus-visible { opacity: 1; color: var(--or, #C9A96E); }
+.langues__active { font-weight: 500; }
+@media (max-width: 760px) {
+  .annonce { padding-right: 64px; }
+  .langues { right: 12px; }
+}
