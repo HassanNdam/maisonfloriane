@@ -39,6 +39,11 @@ function traduire(string $texte): string
                 break;
             }
         }
+        // La recherche en base ignore la casse (« politique… » peut répondre pour « Politique… ») : on garde la majuscule initiale.
+        $initiale = mb_substr($texte, 0, 1);
+        if ($initiale !== mb_strtolower($initiale) && $initiale === mb_strtoupper($initiale)) {
+            $traduction = mb_strtoupper(mb_substr($traduction, 0, 1)) . mb_substr($traduction, 1);
+        }
         $cache[$langue][$texte] = $traduction;
     }
     return $cache[$langue][$texte];

@@ -35,6 +35,12 @@ $mf_stripe = function ($settings) {
     $settings['enabled'] = $pret ? 'yes' : 'no';
     $settings['title'] = $settings['title'] ?? 'Carte bancaire';
 
+    // Paiement express (Apple Pay, Google Pay) : au panier et à la commande seulement. La fiche produit du thème
+    // n'affiche pas ce bouton, inutile d'y charger ses scripts (React, commande, Stripe.js).
+    if (isset($settings['express_checkout_button_locations'])) {
+        $settings['express_checkout_button_locations'] = array_values(array_diff((array) $settings['express_checkout_button_locations'], ['product']));
+    }
+
     return $settings;
 };
 // Réglages enregistrés, ou valeur par défaut tant que l'admin Stripe n'a jamais été enregistrée.

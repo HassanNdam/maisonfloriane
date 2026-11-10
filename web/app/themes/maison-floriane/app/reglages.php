@@ -128,6 +128,30 @@ function media_url(mixed $valeur, string $taille = 'full'): string
     return (string) (wp_attachment_is_image($id) ? wp_get_attachment_image_url($id, $taille) : wp_get_attachment_url($id));
 }
 
+/**
+ * Balise <img> d'un média : pour une image de la médiathèque, tailles adaptées (srcset) et dimensions déclarées ;
+ * sinon (image du thème) simple balise. $attributs : alt, sizes, class, loading…
+ */
+function image(mixed $valeur, string $taille = 'large', array $attributs = []): string
+{
+    $attributs += ['alt' => '', 'loading' => 'lazy'];
+    $id = is_string($valeur) && str_starts_with($valeur, 'resources/') ? 0 : media_ref($valeur);
+    if ($id && wp_attachment_is_image($id)) {
+        return wp_get_attachment_image($id, $taille, false, $attributs);
+    }
+    $url = media_url($valeur, $taille);
+    if (! $url) {
+        return '';
+    }
+    unset($attributs['sizes']);
+    $html = '<img src="' . esc_url($url) . '"';
+    foreach ($attributs as $nom => $attribut) {
+        $html .= ' ' . $nom . '="' . esc_attr((string) $attribut) . '"';
+    }
+
+    return $html . '>';
+}
+
 /** Lignes d'un répéteur, sans les lignes vides (aucun des champs $requis rempli). */
 function lignes(mixed $valeur, array $requis): array
 {
