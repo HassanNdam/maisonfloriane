@@ -1,0 +1,39 @@
+/*
+ * Animations légères du site : uniquement opacity / transform (pas de recalcul de mise en page), aucune bibliothèque.
+ * - Apparition au défilement : classes posées par app.js sur les blocs situés sous l'écran au chargement
+ *   (sans JavaScript ou avec « mouvement réduit », tout reste simplement visible).
+ * - Panier latéral, voile et menu mobile : ouverture / fermeture en douceur.
+ * - Accordéons (FAQ, fiche produit) : dépliage progressif sur les navigateurs qui le permettent.
+ */
+@layer components {
+  /* La transition n'est portée que par l'état visible : masquer un bloc hors écran est immédiat */
+  .apparition { opacity: 0; transform: translateY(18px); }
+  .apparition--visible { opacity: 1; transform: none;
+    transition: opacity .8s cubic-bezier(.22, 1, .36, 1) var(--retard, 0ms), transform .8s cubic-bezier(.22, 1, .36, 1) var(--retard, 0ms); }
+  @media print { .apparition { opacity: 1; transform: none; } }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* Panier latéral : glisse depuis la droite, le voile se fond */
+    .voile { display: block; opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility 0s .35s; }
+    .tiroir { display: flex; transform: translateX(100%); visibility: hidden;
+      transition: transform .45s cubic-bezier(.22, 1, .36, 1), visibility 0s .45s; }
+    body.panier-ouvert .voile { opacity: 1; visibility: visible; transition-delay: 0s; }
+    body.panier-ouvert .tiroir { transform: none; visibility: visible; transition-delay: 0s; }
+
+    /* Menu mobile : fondu avec un léger glissement */
+    .menu-mobile { display: flex; opacity: 0; visibility: hidden; transform: translateY(-10px);
+      transition: opacity .3s ease, transform .3s ease, visibility 0s .3s; }
+    body.menu-ouvert .menu-mobile { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+
+    /* Menu « Partager » */
+    .partage__menu:not([hidden]) { animation: mf-fondu .2s ease both; }
+
+    /* Accordéons : hauteur animée (Chrome, Edge, Safari récents ; ouverture instantanée ailleurs) */
+    :root { interpolate-size: allow-keywords; }
+    .accordeon details::details-content { block-size: 0; overflow: clip; opacity: 0;
+      transition: block-size .4s cubic-bezier(.22, 1, .36, 1), opacity .4s ease, content-visibility .4s allow-discrete; }
+    .accordeon details[open]::details-content { block-size: auto; opacity: 1; }
+  }
+
+  @keyframes mf-fondu { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+}
