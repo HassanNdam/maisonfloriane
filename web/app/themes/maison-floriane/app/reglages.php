@@ -74,6 +74,14 @@ const REGLAGES = [
     'e404_titre' => "Cette page *n'existe pas*.",
     'e404_texte' => "Elle a peut-être changé d'adresse.",
     'e404_bouton' => "Retour à l'accueil",
+    // Page d'attente « bientôt en ligne » (app/maintenance.php)
+    'attente_surtitre' => 'Maison Floriane',
+    'attente_titre' => 'Notre boutique ouvre *très bientôt*',
+    'attente_texte' => 'Le savon noir réparateur et la Glow Oil Floréa Skin arrivent : un rituel simple, pour tous les types de peau et toutes les carnations.',
+    'attente_invite' => 'Laissez-nous votre e-mail, nous vous écrirons le jour de l’ouverture.',
+    'attente_question' => 'Une question ?',
+    'attente_whatsapp' => 'Nous écrire sur WhatsApp',
+    'attente_onglet' => 'Bientôt en ligne',
 ];
 
 /**

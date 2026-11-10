@@ -3,6 +3,7 @@
 /**
  * Page d'attente (« bientôt en ligne »). Tant que le site n'est pas en production, les visiteurs non connectés
  * ne voient que resources/views/maintenance.blade.php ; une personne connectée navigue normalement.
+ * Textes : Maison Floriane › Réglages du site › Page d'attente (réglages attente_* de app/reglages.php).
  *
  * Interrupteur : constante MF_MAINTENANCE (config/application.php) = vraie dès que WP_ENV n'est pas « production ».
  * Pour forcer : MF_MAINTENANCE=true ou MF_MAINTENANCE=false dans le .env.
@@ -16,9 +17,6 @@ namespace App;
 
 /** Pages lisibles pendant l'attente, sans le reste du site (liées depuis la page d'attente et le bandeau cookies). */
 const MAINTENANCE_PAGES_OUVERTES = ['mentions-legales', 'politique-de-confidentialite', 'politique-de-cookies'];
-
-/** Titre de l'onglet de la page d'attente. */
-const MAINTENANCE_TITRE = 'Bientôt en ligne';
 
 function maintenance_active(): bool
 {
@@ -51,7 +49,7 @@ add_action('template_redirect', function () {
     // Page légale : son texte seul (réponse 200, titre et description d'origine).
     $legale = is_page(MAINTENANCE_PAGES_OUVERTES);
     if (! $legale) {
-        $titre = fn () => traduire(MAINTENANCE_TITRE) . ' - ' . get_bloginfo('name');
+        $titre = fn () => implode(' - ', array_filter([traduire(texte('attente_onglet')), get_bloginfo('name')]));
         add_filter('pre_get_document_title', $titre, 99);
         add_filter('wpseo_title', $titre, 99);
         add_filter('wpseo_robots', fn () => 'noindex, nofollow', 99);

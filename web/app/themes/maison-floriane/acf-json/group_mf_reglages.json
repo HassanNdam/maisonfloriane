@@ -459,6 +459,72 @@
             "label": "Bouton",
             "name": "e404_bouton",
             "type": "text"
+        },
+        {
+            "key": "field_mf_tab_attente",
+            "label": "Page d’attente",
+            "name": "",
+            "type": "tab",
+            "placement": "left",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mf_attente_message",
+            "label": "",
+            "name": "",
+            "type": "message",
+            "message": "Page « bientôt en ligne » que voient les visiteurs non connectés tant que le site n’est pas ouvert au public. Une fois connectée, vous naviguez sur le site normalement : ajoutez ?maintenance=1 à la fin de l’adresse du site pour voir cette page. Le logo, l’adresse e-mail, le numéro WhatsApp et les réseaux sociaux viennent des autres onglets. Un champ laissé vide n’est pas affiché."
+        },
+        {
+            "key": "field_mf_attente_surtitre",
+            "label": "Surtitre",
+            "name": "attente_surtitre",
+            "type": "text",
+            "instructions": "Petite ligne dorée au-dessus du titre."
+        },
+        {
+            "key": "field_mf_attente_titre",
+            "label": "Titre",
+            "name": "attente_titre",
+            "type": "text",
+            "instructions": "Entourez un ou plusieurs mots d’astérisques pour les mettre en doré : Notre boutique ouvre *très bientôt*."
+        },
+        {
+            "key": "field_mf_attente_texte",
+            "label": "Texte",
+            "name": "attente_texte",
+            "type": "textarea",
+            "rows": 3,
+            "new_lines": "",
+            "instructions": "Une ou deux phrases sous le titre."
+        },
+        {
+            "key": "field_mf_attente_invite",
+            "label": "Phrase d’inscription à la Lettre Floréa",
+            "name": "attente_invite",
+            "type": "text",
+            "instructions": "Affichée au-dessus du champ e-mail. Vide : ni phrase ni formulaire d’inscription. Les inscrits sont dans Forminator › Envois."
+        },
+        {
+            "key": "field_mf_attente_question",
+            "label": "Ligne de contact",
+            "name": "attente_question",
+            "type": "text",
+            "instructions": "Affichée devant les liens WhatsApp et e-mail. Vide : ni ligne ni liens de contact."
+        },
+        {
+            "key": "field_mf_attente_whatsapp",
+            "label": "Texte du lien WhatsApp",
+            "name": "attente_whatsapp",
+            "type": "text",
+            "instructions": "Vide : pas de lien WhatsApp."
+        },
+        {
+            "key": "field_mf_attente_onglet",
+            "label": "Titre de l’onglet du navigateur",
+            "name": "attente_onglet",
+            "type": "text",
+            "instructions": "Suivi automatiquement du nom du site : « Bientôt en ligne - Maison Floriane »."
         }
     ],
     "location": [
@@ -479,5 +545,5 @@
     "active": true,
     "description": "Menu Maison Floriane : coordonnées, logo, textes communs à tout le site.",
     "show_in_rest": 0,
-    "modified": 1794237099
+    "modified": 1794299718
 }
