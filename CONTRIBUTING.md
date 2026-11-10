@@ -36,6 +36,21 @@ git flow hotfix finish 1.0.1
 git push origin main develop --tags
 ```
 
+## Rythme des commits et des push
+
+Règle du projet : **rien ne reste seulement en local**.
+
+| Moment | Action |
+| --- | --- |
+| Début d'une fonctionnalité | `git flow feature start <sujet>` depuis `develop` |
+| Chaque étape qui fonctionne | commit (petit, une idée par commit), seulement si le site répond et que `npm run build` passe |
+| Premier commit de la branche | `git flow feature publish <sujet>` : la branche est sauvegardée sur GitHub |
+| Commits suivants | `git push` |
+| Fonctionnalité terminée et vérifiée | `git flow feature finish <sujet>` (supprime aussi la branche sur GitHub) puis `git push origin develop` |
+| Mise en ligne | **sur décision explicite seulement** : `git flow release` → `main` + tag `vX.Y.Z` + `CHANGELOG.md` |
+
+Avant chaque push, vérifier qu'aucun secret n'est indexé : `.env`, clés Stripe (`sk_…`, `pk_…`, `whsec_…`), clé Germanized dans `web/wp-config.php`.
+
 ## Messages de commit
 
 [Conventional Commits](https://www.conventionalcommits.org/fr/), en français : `feat(theme): fiche produit`, `fix(woocommerce): seuil de stock`, `docs: cadrage`, `chore(deps): mise à jour WooCommerce`.

@@ -104,12 +104,10 @@ add_action('after_setup_theme', function () {
     add_theme_support('title-tag');
 
     /**
-     * WooCommerce (galerie produit : zoom, lightbox, slider).
+     * WooCommerce. La galerie de la fiche produit est celle du thème (single-product.blade.php) : on ne déclare pas
+     * le zoom, la lightbox ni le slider de WooCommerce, pour ne pas charger leurs scripts (flexslider, photoswipe, zoom).
      */
     add_theme_support('woocommerce');
-    add_theme_support('wc-product-gallery-zoom');
-    add_theme_support('wc-product-gallery-lightbox');
-    add_theme_support('wc-product-gallery-slider');
 
     /**
      * Enable post thumbnail support.
@@ -174,8 +172,12 @@ add_action('widgets_init', function () {
 
 /**
  * Favicons (fichiers à la racine de web/, voir docs/01-images-site/favicon).
+ * Une « Icône du site » choisie dans Réglages › Général les remplace (WordPress l'affiche alors lui-même).
  */
 add_action('wp_head', function () {
+    if (has_site_icon()) {
+        return;
+    }
     echo <<<'HTML'
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -186,3 +188,23 @@ add_action('wp_head', function () {
 
 HTML;
 }, 2);
+
+/**
+ * Polices du premier écran préchargées (texte courant Jost 300, titres Cormorant Garamond 400) : sans cela le texte
+ * s'affiche d'abord dans la police de secours puis se recompose à l'arrivée de la police (lignes qui sautent).
+ */
+add_filter('wp_preload_resources', function ($ressources) {
+    $polices = [
+        'node_modules/@fontsource/jost/files/jost-latin-300-normal.woff2',
+        'node_modules/@fontsource/cormorant-garamond/files/cormorant-garamond-latin-400-normal.woff2',
+    ];
+    foreach ($polices as $police) {
+        try {
+            $ressources[] = ['href' => Vite::asset($police), 'as' => 'font', 'type' => 'font/woff2', 'crossorigin' => 'anonymous'];
+        } catch (\Throwable $e) {
+            // Fichier absent du manifeste (thème non compilé) : pas de préchargement.
+        }
+    }
+
+    return $ressources;
+});

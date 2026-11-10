@@ -1,0 +1,231 @@
+/* Bandeau de consentement Complianz aux couleurs de la charte Maison Floriane.
+ * Copié dans « CSS personnalisé » de la bannière par scripts/complianz.php (composer seed).
+ * Couleurs : lin #F8F4EE, ivoire #FFFDFA, ligne #E6DDD0, encre #2E2A26, taupe #6F665E, or-fonce #8A6418.
+ * Polices : Cormorant Garamond (titres) et Jost (texte), déjà chargées par le thème. */
+
+.cmplz-cookiebanner {
+  /* colonnes calculées par Complianz pour son propre padding : on les rend élastiques */
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  overflow-x: hidden !important;
+  font-family: "Jost", "Helvetica Neue", Arial, sans-serif;
+  padding: 28px 28px 22px !important;
+  box-shadow: 0 18px 50px -18px rgba(46, 42, 38, .35) !important;
+  row-gap: 14px !important;
+}
+
+/* Filet d'or en tête de bandeau, comme les cartes de la charte */
+.cmplz-cookiebanner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 28px;
+  width: 48px;
+  height: 2px;
+  background: #B8862F;
+}
+
+/* Ni logo ni croix : le titre prend toute la largeur, aligné à gauche sous le filet d'or. */
+.cmplz-cookiebanner .cmplz-header {
+  grid-template-columns: 1fr !important;
+}
+.cmplz-cookiebanner .cmplz-logo,
+.cmplz-cookiebanner .cmplz-close {
+  display: none !important;
+}
+
+.cmplz-cookiebanner .cmplz-title {
+  grid-column: 1 / -1 !important;
+  justify-self: start !important;
+  text-align: left;
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-weight: 500 !important;
+  font-size: 26px !important;
+  line-height: 1.15 !important;
+  letter-spacing: 0;
+  color: #2E2A26;
+}
+
+.cmplz-cookiebanner .cmplz-close {
+  color: #6F665E !important;
+}
+.cmplz-cookiebanner .cmplz-close:hover {
+  color: #2E2A26 !important;
+}
+
+.cmplz-cookiebanner .cmplz-divider {
+  display: none !important;
+}
+
+.cmplz-cookiebanner .cmplz-body {
+  overflow-x: hidden;
+}
+.cmplz-cookiebanner .cmplz-message {
+  width: auto !important;
+  margin: 0 !important;
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+  color: #6F665E;
+}
+.cmplz-cookiebanner .cmplz-message p {
+  margin: 0;
+}
+
+/* Boutons : mêmes codes que .btn de la charte (capitales espacées, angles à 2 px). */
+.cmplz-cookiebanner .cmplz-buttons {
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+}
+.cmplz-cookiebanner .cmplz-buttons .cmplz-btn.cmplz-accept,
+.cmplz-cookiebanner .cmplz-buttons .cmplz-btn.cmplz-deny {
+  flex: 1 1 0 !important;
+  min-width: 0;
+}
+/* « Enregistrer mes choix » (vue Personnaliser) : sur sa propre ligne, sous Accepter / Refuser. */
+.cmplz-cookiebanner .cmplz-buttons .cmplz-btn.cmplz-save-preferences {
+  flex: 0 0 100% !important;
+  order: 3;
+}
+.cmplz-cookiebanner .cmplz-buttons .cmplz-btn {
+  height: 46px !important;
+  margin: 0 !important;
+  padding: 0 16px !important;
+  font-family: "Jost", "Helvetica Neue", Arial, sans-serif !important;
+  font-weight: 500 !important;
+  font-size: 13px !important;
+  letter-spacing: .14em !important;
+  text-transform: uppercase;
+  transition: background .25s, color .25s, border-color .25s;
+}
+.cmplz-cookiebanner .cmplz-buttons .cmplz-btn.cmplz-accept:hover {
+  background-color: #4A433D !important;
+  border-color: #4A433D !important;
+}
+.cmplz-cookiebanner .cmplz-buttons .cmplz-btn.cmplz-deny:hover,
+.cmplz-cookiebanner .cmplz-buttons .cmplz-btn.cmplz-save-preferences:hover {
+  background-color: #2E2A26 !important;
+  color: #FFFDFA !important;
+}
+
+/* « Personnaliser » : lien souligné discret plutôt qu'un troisième bouton, le refus reste aussi visible que l'acceptation. */
+.cmplz-cookiebanner .cmplz-buttons .cmplz-btn.cmplz-view-preferences {
+  flex: 0 0 100% !important;
+  height: auto !important;
+  padding: 6px 0 0 !important;
+  background: none !important;
+  border: 0 !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  letter-spacing: .04em !important;
+  text-transform: none;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  color: #6F665E !important;
+}
+.cmplz-cookiebanner .cmplz-buttons .cmplz-btn.cmplz-view-preferences:hover {
+  color: #2E2A26 !important;
+}
+
+/* Liens vers les pages légales */
+.cmplz-cookiebanner .cmplz-links .cmplz-link {
+  font-size: 13px !important;
+  letter-spacing: .04em;
+  text-underline-offset: 3px;
+}
+.cmplz-cookiebanner .cmplz-documents {
+  flex-wrap: wrap;
+  justify-content: flex-start !important;
+  gap: 4px 18px;
+  border-top: 1px solid #E6DDD0;
+  padding-top: 12px;
+}
+.cmplz-cookiebanner .cmplz-documents ul {
+  flex-wrap: wrap !important;
+  justify-content: flex-start !important;
+  gap: 4px 18px;
+  margin: 0 !important;
+}
+.cmplz-cookiebanner .cmplz-documents li {
+  margin: 0 !important;
+}
+.cmplz-cookiebanner .cmplz-documents .cmplz-link {
+  display: inline-block;
+  margin: 0 !important;
+  white-space: nowrap;
+}
+/* /en/ : « privacy policy » vient d'une traduction partagée avec une phrase, d'où la minuscule */
+html[lang^="en"] .cmplz-cookiebanner .cmplz-documents .cmplz-link::first-letter {
+  text-transform: uppercase;
+}
+
+/* Catégories (vue « Personnaliser ») */
+.cmplz-cookiebanner .cmplz-categories .cmplz-category {
+  background-color: #F8F4EE !important;
+  border: 1px solid #E6DDD0;
+  border-radius: 2px !important;
+}
+.cmplz-cookiebanner .cmplz-category .cmplz-category-title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 500 !important;
+  font-size: 19px !important;
+  color: #2E2A26;
+}
+.cmplz-cookiebanner .cmplz-category .cmplz-always-active {
+  font-size: 12px !important;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #4F6B4A !important;
+}
+.cmplz-cookiebanner .cmplz-category .cmplz-description-functional,
+.cmplz-cookiebanner .cmplz-category .cmplz-description {
+  font-size: 14px !important;
+  line-height: 1.55;
+  color: #6F665E;
+}
+
+/* Focus clavier visible (accessibilité) */
+.cmplz-cookiebanner .cmplz-btn:focus-visible,
+.cmplz-cookiebanner a:focus-visible,
+.cmplz-cookiebanner .cmplz-close:focus-visible,
+#cmplz-manage-consent .cmplz-manage-consent:focus-visible {
+  outline: 2px solid #8A6418 !important;
+  outline-offset: 3px;
+}
+
+/* Onglet « Cookies » pour revenir sur son choix : à gauche, pour ne pas croiser le bouton WhatsApp. */
+#cmplz-manage-consent .cmplz-manage-consent {
+  left: 32px;
+  right: auto;
+  font-family: "Jost", "Helvetica Neue", Arial, sans-serif;
+  font-size: 13px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+@media (min-width: 769px) {
+  .cmplz-cookiebanner {
+    width: var(--cmplz_banner_width) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .cmplz-cookiebanner {
+    padding: 22px 18px 16px !important;
+  }
+  .cmplz-cookiebanner::before {
+    left: 18px;
+  }
+  /* Complianz masque le titre sur mobile : on garde « Bienvenue… », c'est l'accueil du site */
+  .cmplz-cookiebanner .cmplz-title {
+    display: block !important;
+    font-size: 23px !important;
+  }
+  .cmplz-cookiebanner .cmplz-buttons {
+    flex-direction: row !important;
+  }
+  .cmplz-cookiebanner .cmplz-buttons .cmplz-btn {
+    width: auto !important;
+  }
+  .cmplz-cookiebanner .cmplz-message {
+    font-size: 14px !important;
+  }
+}

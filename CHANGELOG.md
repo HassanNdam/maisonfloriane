@@ -3,6 +3,62 @@
 Format : [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/), versions [SemVer](https://semver.org/lang/fr/).
 Chaque version correspond à un tag `vX.Y.Z` sur `main` (voir `CONTRIBUTING.md`).
 
+## [Non publié]
+
+## [0.2.0] - 2026-11-10
+
+Site complet en local (back-office, FR/EN, légal, livraison, SEO), derrière la page d'attente. Pas encore en ligne.
+
+### Ajouté
+- Version anglaise complète sous `/en/` (TranslatePress), sélecteur FR · EN, e-mails de commande dans la langue du client.
+- Livraison : Espagne 4,90 €, France 7,90 €, UE 9,90 €, monde 19,90 € (TTC), retrait gratuit à Barcelone ; TVA 20 % dans l'UE, 0 % hors UE.
+- Bandeau cookies Complianz « Bienvenue chez Maison Floriane » aux couleurs de la charte.
+- Textes définitifs des pages légales et de livraison (FR + EN), coordonnées de la société dans Maison Floriane › Réglages › Société.
+- Page d'attente « bientôt en ligne » hors production, modifiable dans le back-office.
+- Formulaire de rétractation en ligne (Germanized) en français et à la charte, lien « Se rétracter du contrat ici » dans le pied de page, lien « Se rétracter » dans Mes commandes, e-mails au client et à Flore.
+- Animations légères d'apparition au défilement, tiroir panier, menu mobile et FAQ en fondu (désactivées si l'appareil demande moins de mouvement).
+- Menu **Maison Floriane** dans le back-office (Secure Custom Fields) : logo, slogan, coordonnées (e-mail, téléphone, WhatsApp), délais de réponse, réseaux sociaux, bandeau du haut, arguments de réassurance, pied de page, messages WhatsApp préremplis et page 404 se modifient sans toucher au code.
+- Accueil modifiable dans Pages › Accueil : textes, vidéos de l'en-tête, produits présentés, résultats avant/après, étapes, extrait « Mon histoire », questions fréquentes et Lettre Floréa.
+- Pages Mon histoire, Contact et Boutique modifiables dans le back-office : textes et photos, en-tête de la boutique (descriptions des images : dans Médias).
+- Fiches produit : onglet « Fiche Floréa » (étape du rituel, accroche, quand/où, photo, soin complémentaire, contenance, ingrédients, conseils, vidéo, composition du duo) et textes communs dans Maison Floriane › Fiches produit (atouts, délai d'expédition, livraison, mention INCI).
+- Référencement de toutes les pages en français et en anglais : titres et descriptions travaillés sur les mots-clés (soins anti-taches, savon noir visage, huile éclat, routine anti-taches…), images de partage 1200 × 630 pour les réseaux, textes alternatifs des photos, schéma Organization (marque Floréa Skin, réseaux, contact), panier, commande et compte hors des résultats et du sitemap.
+- Toutes les pages au vert dans Yoast (73 à 92) : expression clé par page choisie dans le texte existant (boutique « savon noir et Glow Oil », Glow Oil « huile corporelle », duo « Duo rituel », contact « conseil peau », pages légales), titres commençant par l'expression clé, descriptions de 140 caractères au plus, FR et EN.
+- Analyse Yoast dans l'admin : elle lit la page publiée (contenu principal et pied de page) au lieu de l'éditeur vide. Accueil : titre et description recentrés sur « soins anti-taches », score SEO de 11 à 92.
+- Les titres, descriptions et textes alternatifs retouchés dans Yoast ou la médiathèque ne sont plus écrasés par `composer seed` (sauf `MF_SEED_FORCE=1`).
+- Compte client : connexion et création de compte côte à côte (onglets sur mobile), prénom et nom à l'inscription, Lettre Floréa en option, anti-robot.
+- Espace client en français (`/mon-compte/mes-commandes/`, `mes-adresses`, `mes-informations`…) : tableau de bord avec dernière commande et raccourcis, menu latéral, fil d'Ariane.
+- Mot de passe oublié et réinitialisation aux couleurs de la charte ; 5 essais de connexion ratés bloquent 15 minutes ; message d'erreur neutre.
+- « Mes données » : copie ou suppression du compte (RGPD), confirmées par e-mail.
+- E-mails WooCommerce aux couleurs de la charte avec le logo, réponses envoyées à Flore ; e-mail de bienvenue sans textes légaux.
+- Lien « Compte » dans l'en-tête et le menu mobile.
+
+- Page « Droit de rétractation » avec le formulaire type, liée dans le pied de page et jointe à la confirmation de commande.
+- Logos de paiement du pied de page au choix dans Maison Floriane › Pied de page ; icône du site modifiable dans Réglages › Général.
+- Notice du back-office pour Flore : `docs/guide-back-office.md`.
+
+### Modifié
+- `composer seed` n'écrase plus les produits modifiés dans l'admin (nom, prix, promo, descriptions, catégorie, statut, photos) : le catalogue ne complète que ce qui est vide, sauf avec `MF_SEED_FORCE=1`.
+- Référencement : Yoast SEO (gratuit) remplace Rank Math. Titres et descriptions des produits, titres et descriptions de partage traduits sur /en/.
+- Fiches produits : données structurées « Product » (prix, disponibilité) rétablies ; un seul fil d'Ariane déclaré (celui du thème).
+- Fiches produits allégées : scripts Stripe et galerie WooCommerce retirés (≈ 80 → 38 requêtes, 4,4 → 1,3 Mo en développement) ; le paiement express reste au panier et à la commande.
+- Polices principales préchargées (plus de saut de lignes au chargement, CLS 0,2 → 0) ; photos de l'accueil en tailles adaptées à l'écran.
+- Heures au format 24 h (« 14:30 ») sur le site et dans les e-mails.
+
+### Corrigé
+- Données structurées de la FAQ (accueil) illisibles par Google : Blade cassait « @context ». Questions et réponses désormais traduites sur /en/.
+- Traductions anglaises enregistrées sous les deux formes d'apostrophe (`'` et `&#039;`) : bouton « S'inscrire » de la Lettre Floréa traduit, textes du back-office reconnus.
+- Germanized pointait vers des pages légales anglaises par défaut (confidentialité, mentions légales) dans les e-mails.
+- Textes anglais de Germanized traduits : case légale et bouton « Commander et payer » de la commande, e-mails de confirmation et de paiement, salutation « Bonjour {prénom} ».
+- Pages anglaises de Germanized traduites (moyens de paiement, authenticité des avis, formulaire de rétractation) ou remplacées par les nôtres (livraison, mentions légales).
+- E-mails de commande : « répondez à cet e-mail » au lieu de l'adresse no-reply ; dates au format « 9 novembre 2026 » ; adresses `commande-recue` et `paiement`.
+- Titre anglais « Privacy policy » avec sa majuscule.
+
+### À faire avant la 1.0.0 (mise en ligne)
+- Société : forme juridique, NIF, adresse postale ; téléphone et liens des réseaux sociaux.
+- Stripe en production (clés live + webhook) ; e-mail administrateur, expéditeur et SMTP de production.
+- Hébergement IONOS, domaine maisonfloriane.com, build du thème ; lever la page d'attente et autoriser l'indexation.
+- Activer Wordfence et UpdraftPlus ; mettre à jour les extensions.
+
 ## [0.1.0] - 2026-11-09
 
 Première version complète en local, avant la mise en ligne.

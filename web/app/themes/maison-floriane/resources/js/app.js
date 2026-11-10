@@ -161,3 +161,96 @@ document.querySelectorAll('[data-partage]').forEach((bloc) => {
   document.addEventListener('click', (e) => { if (!bloc.contains(e.target)) basculer(false); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') basculer(false); });
 });
+
+/* Compte client (mobile) : onglets « Se connecter » / « Créer un compte » */
+document.querySelectorAll('[data-onglet-vers]').forEach((bouton) => {
+  const acces = bouton.closest('.acces');
+  const maj = () => acces.querySelectorAll('[data-onglet-vers]').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.ongletVers === acces.dataset.onglet)));
+  bouton.addEventListener('click', () => { acces.dataset.onglet = bouton.dataset.ongletVers; maj(); });
+  maj();
+});
+
+/*
+ * Ancres internes (#rituel, #resultats, #lettre…) : défilement doux qui accélère puis ralentit,
+ * arrêté dès que le visiteur reprend la main (molette, doigt, clavier). Désactivé si prefers-reduced-motion.
+ * La cible s'arrête sous l'en-tête collant (même décalage que scroll-padding-top en CSS).
+ */
+const mouvementReduit = matchMedia('(prefers-reduced-motion: reduce)');
+const adoucir = (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
+let defilement = 0;
+
+const defiler = (cible) => {
+  const entete = document.querySelector('.entete');
+  const decalage = entete ? entete.offsetHeight + (parseFloat(getComputedStyle(entete).top) || 0) : 0;
+  const max = document.documentElement.scrollHeight - innerHeight;
+  const depart = scrollY;
+  const arrivee = Math.min(max, Math.max(0, cible.getBoundingClientRect().top + depart - decalage));
+  const distance = arrivee - depart;
+  const duree = Math.min(1500, Math.max(800, Math.abs(distance) * 0.5));
+  const debut = performance.now();
+  const course = ++defilement;
+
+  const arreter = () => { defilement++; };
+  ['wheel', 'touchstart', 'keydown'].forEach((type) => addEventListener(type, arreter, { once: true, passive: true }));
+
+  const pas = (maintenant) => {
+    if (course !== defilement) return;
+    const t = Math.min(1, (maintenant - debut) / duree);
+    scrollTo(0, depart + distance * adoucir(t));
+    if (t < 1) requestAnimationFrame(pas);
+    else ['wheel', 'touchstart', 'keydown'].forEach((type) => removeEventListener(type, arreter));
+  };
+  requestAnimationFrame(pas);
+};
+
+document.addEventListener('click', (e) => {
+  const lien = e.target.closest('a[href*="#"]');
+  if (!lien || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const url = new URL(lien.href, location.href);
+  if (url.origin !== location.origin || url.pathname !== location.pathname || url.search !== location.search || url.hash.length < 2) return;
+  const cible = document.getElementById(decodeURIComponent(url.hash.slice(1)));
+  if (!cible) return;
+  e.preventDefault();
+  history.pushState(null, '', url.hash);
+  if (mouvementReduit.matches) cible.scrollIntoView();
+  else defiler(cible);
+  if (!cible.hasAttribute('tabindex')) cible.setAttribute('tabindex', '-1');
+  cible.focus({ preventScroll: true });
+});
+
+/*
+ * Apparition au défilement : les blocs situés sous l'écran au chargement montent en fondu quand ils entrent
+ * dans la fenêtre (styles dans animations.css). Ce qui est déjà visible n'est jamais masqué : aucun effet sur
+ * le premier affichage. Les blocs voisins arrivent en léger décalé ; les classes sont retirées une fois l'effet joué.
+ */
+const BLOCS_ANIMES = [
+  '.entete-section', '.soin', '.resultat', '.mention', '.etape', '.histoire > *', '.reassurance > div',
+  '.accordeon', '.newsletter .conteneur > *', '.rappel .conteneur > *', '.lettre > *', '.duo', '.pied__grille > div',
+].join(',');
+
+if (!mouvementReduit.matches && 'IntersectionObserver' in window) {
+  const observateur = new IntersectionObserver((entrees) => {
+    entrees.filter((entree) => entree.isIntersecting).forEach(({ target: bloc }, rang) => {
+      observateur.unobserve(bloc);
+      bloc.style.setProperty('--retard', `${Math.min(rang, 5) * 90}ms`);
+      bloc.classList.add('apparition--visible');
+      bloc.addEventListener('transitionend', function fin(e) {
+        if (e.target !== bloc || e.propertyName !== 'opacity') return;
+        bloc.removeEventListener('transitionend', fin);
+        bloc.classList.remove('apparition', 'apparition--visible');
+        bloc.style.removeProperty('--retard');
+      });
+    });
+  }, { threshold: 0.1 }); // pas de marge négative : un bloc tout en bas de page doit pouvoir apparaître
+
+  /* Dans un carrousel horizontal (soins sur téléphone), c'est le carrousel entier qui apparaît, pas chaque fiche */
+  const blocs = new Set([...document.querySelectorAll(BLOCS_ANIMES)].map((bloc) => {
+    const parent = bloc.parentElement;
+    return parent.scrollWidth > parent.clientWidth + 1 ? parent : bloc;
+  }));
+  blocs.forEach((bloc) => {
+    if (bloc.getBoundingClientRect().top < innerHeight) return;
+    bloc.classList.add('apparition');
+    observateur.observe(bloc);
+  });
+}

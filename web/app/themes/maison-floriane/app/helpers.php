@@ -6,11 +6,6 @@
 
 namespace App;
 
-/** Coordonnées de la boutique (cadrage : docs/00-projet/cadrage-v2-europe.md). */
-const WHATSAPP = '41792738353';
-const TELEPHONE = '+41 79 273 83 53';
-const EMAIL = 'florekhadije@gmail.com';
-
 /**
  * URL d'un média de la médiathèque importé par `composer seed`, retrouvé par son nom de fichier d'origine
  * (méta `_mf_source`). Renvoie une chaîne vide si le média n'est pas importé.
@@ -40,7 +35,7 @@ function media_id(string $file): int
 /** Lien wa.me avec un message prérempli. */
 function whatsapp_url(string $message = ''): string
 {
-    return 'https://wa.me/' . WHATSAPP . ($message !== '' ? '?text=' . rawurlencode($message) : '');
+    return 'https://wa.me/' . whatsapp_numero() . ($message !== '' ? '?text=' . rawurlencode($message) : '');
 }
 
 /** Produit WooCommerce par référence (FS-001 = savon noir, FS-002 = Glow Oil). */
@@ -92,38 +87,6 @@ function economie(?\WC_Product $product): string
     return $ecart > 0 ? montant($ecart) : '';
 }
 
-/**
- * Ingrédients clés (méta `_mf_ingredients`) en liste, sans doublon.
- * Le duo (« Savon noir : … . Glow Oil : … ») est aplati.
- */
-function ingredients(?\WC_Product $product): array
-{
-    $texte = $product ? (string) $product->get_meta('_mf_ingredients') : '';
-    if ($texte === '') {
-        return [];
-    }
-    $liste = [];
-    foreach (preg_split('/\.\s+/', $texte) as $groupe) {
-        $groupe = preg_replace('/^[^:]{1,30}:\s*/u', '', $groupe);
-        foreach (explode(',', $groupe) as $ingredient) {
-            $ingredient = trim($ingredient, " .\t\n");
-            if ($ingredient !== '') {
-                $liste[mb_strtolower($ingredient)] = mb_strtoupper(mb_substr($ingredient, 0, 1)) . mb_substr($ingredient, 1);
-            }
-        }
-    }
-
-    return array_values($liste);
-}
-
-/** Composants d'un produit composé (le duo) : méta `_mf_composants` = références. */
-function composants(?\WC_Product $product): array
-{
-    $skus = $product ? (array) $product->get_meta('_mf_composants') : [];
-
-    return array_values(array_filter(array_map(fn ($sku) => produit((string) $sku), array_filter($skus))));
-}
-
 /** Badge de stock : [classe CSS, libellé]. Seuil « stock limité » = option WooCommerce (3). Le duo suit ses composants. */
 function stock(?\WC_Product $product): array
 {
@@ -138,14 +101,6 @@ function stock(?\WC_Product $product): array
     }
 
     return ['stock--ok', __('En stock', 'sage')];
-}
-
-/** Contenance saisie dans le catalogue (méta `_mf_contenance`), sans la mention « à confirmer ». */
-function contenance(?\WC_Product $product): string
-{
-    $value = $product ? (string) $product->get_meta('_mf_contenance') : '';
-
-    return trim(preg_replace('/\(.*?\)/', '', $value));
 }
 
 /** Nom court affiché sur le site (« Savon noir réparateur », « Glow Oil »). */
@@ -189,37 +144,22 @@ function attributs_image(int $attachment, float $ratio, array $attributs = []): 
     return array_filter($attributs + ['class' => ajustement($attachment, $ratio), 'style' => cadrage($attachment)]);
 }
 
-/** Place de chaque produit dans le rituel en deux gestes. */
-function rituel(?\WC_Product $product): array
-{
-    $rituel = [
-        'FS-001' => ['etape' => 1, 'geste' => 'Purifier', 'usage' => 'Visage & corps', 'photo' => 'savon-noir-reparateur-florea-skin-en-main.webp',
-            'accroche' => 'Nettoie en profondeur et prépare la peau, sans la dessécher.', 'complement' => 'FS-002'],
-        'FS-002' => ['etape' => 2, 'geste' => 'Révéler', 'usage' => 'Huile corporelle', 'photo' => 'glow-oil-florea-skin-huile-corporelle-en-main.webp',
-            'accroche' => 'Nourrit, répare et laisse un fini lumineux. Le soir, seule ou en booster.', 'complement' => 'FS-001'],
-        'FS-003' => ['etape' => null, 'geste' => '', 'usage' => 'Le rituel complet', 'photo' => 'duo-savon-noir-glow-oil-florea-skin-rituel.webp',
-            'accroche' => 'Le savon noir matin et soir, le Glow Oil le soir : la routine complète, à prix doux.', 'complement' => null],
-    ];
-
-    return $rituel[$product?->get_sku()] ?? ['etape' => null, 'geste' => '', 'usage' => '', 'photo' => '', 'accroche' => '', 'complement' => null];
-}
-
 /** Message WhatsApp pour une liste de lignes [nom, quantité]. */
 function message_commande(array $lignes): string
 {
-    $texte = "Bonjour Flore, je souhaite commander :\n";
+    $texte = texte('wa_commande') . "\n";
     foreach ($lignes as [$nom, $quantite]) {
         $texte .= "- {$quantite} × {$nom}\n";
     }
 
-    return $texte . "\nLivraison vers : ";
+    return $texte . "\n" . reglage('wa_livraison');
 }
 
-/** Message WhatsApp avec le contenu du panier. */
+/** Message WhatsApp avec le contenu du panier (textes : Maison Floriane › Messages WhatsApp). */
 function message_panier(): string
 {
     if (! function_exists('WC') || ! WC()->cart || WC()->cart->is_empty()) {
-        return "Bonjour Flore, j'aimerais un conseil sur les soins Floréa Skin.";
+        return texte('wa_conseil');
     }
     $lignes = [];
     foreach (WC()->cart->get_cart() as $item) {
@@ -227,4 +167,29 @@ function message_panier(): string
     }
 
     return message_commande($lignes);
+}
+
+/**
+ * Langues du site pour le sélecteur FR · EN (TranslatePress). Vide si l'extension est désactivée :
+ * le sélecteur disparaît alors sans erreur.
+ *
+ * @return array<int, array{code: string, label: string, nom: string, url: string, active: bool}>
+ */
+function langues(): array
+{
+    if (! function_exists('trp_custom_language_switcher')) {
+        return [];
+    }
+    $courante = $GLOBALS['TRP_LANGUAGE'] ?? get_locale();
+    $langues = [];
+    foreach (trp_custom_language_switcher() as $code => $langue) {
+        $langues[] = [
+            'code' => $code,
+            'label' => strtoupper($langue['short_language_name']),
+            'nom' => $langue['language_name'],
+            'url' => $langue['current_page_url'],
+            'active' => $code === $courante,
+        ];
+    }
+    return count($langues) > 1 ? $langues : [];
 }

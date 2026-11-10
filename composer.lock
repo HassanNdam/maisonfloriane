@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "16fafbabd31ecb9828f89e7244accd68",
+    "content-hash": "18f158cba0644b84b29b64e7c63dd80e",
     "packages": [
         {
             "name": "brick/math",
@@ -7259,16 +7259,16 @@
             "time": "2026-11-02T11:16:54+00:00"
         },
         {
-            "name": "wp-plugin/seo-by-rank-math",
-            "version": "1.0.281",
+            "name": "wp-plugin/secure-custom-fields",
+            "version": "6.9.8",
             "source": {
                 "type": "svn",
-                "url": "https://plugins.svn.wordpress.org/seo-by-rank-math/",
-                "reference": "tags/1.0.281"
+                "url": "https://plugins.svn.wordpress.org/secure-custom-fields/",
+                "reference": "tags/6.9.8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/seo-by-rank-math.1.0.281.zip"
+                "url": "https://downloads.wordpress.org/plugin/secure-custom-fields.6.9.8.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"
@@ -7277,17 +7277,48 @@
             "notification-url": "https://wp-packages.org/downloads",
             "authors": [
                 {
-                    "name": "Rank Math SEO"
+                    "name": "WordPress.org"
                 }
             ],
-            "description": "Grow your organic traffic and AI visibility with powerful SEO tools, XML sitemaps, Schema automation, and built-in AI SEO, all in one place.",
-            "homepage": "https://rankmath.com/",
+            "description": "Secure Custom Fields boosts content management with custom fields and options. It deactivates Advanced Custom Fields to prevent duplicate code errors.",
+            "homepage": "https://developer.wordpress.org/secure-custom-fields/",
             "support": {
-                "changelog": "https://wordpress.org/plugins/seo-by-rank-math/#developers",
-                "issues": "https://wordpress.org/support/plugin/seo-by-rank-math",
-                "source": "https://plugins.svn.wordpress.org/seo-by-rank-math"
+                "changelog": "https://wordpress.org/plugins/secure-custom-fields/#developers",
+                "issues": "https://wordpress.org/support/plugin/secure-custom-fields",
+                "source": "https://plugins.svn.wordpress.org/secure-custom-fields"
             },
-            "time": "2026-11-03T11:42:39+00:00"
+            "time": "2026-11-03T15:21:43+00:00"
+        },
+        {
+            "name": "wp-plugin/translatepress-multilingual",
+            "version": "3.3.9",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/translatepress-multilingual/",
+                "reference": "tags/3.3.9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/translatepress-multilingual.3.3.9.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0|~2.0"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Cozmoslabs"
+                }
+            ],
+            "description": "Translate your site visually, directly from the front-end. Go multilingual in minutes using automatic AI translation. Works with any theme or plugin.",
+            "homepage": "https://translatepress.com/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/translatepress-multilingual/#developers",
+                "issues": "https://wordpress.org/support/plugin/translatepress-multilingual",
+                "source": "https://plugins.svn.wordpress.org/translatepress-multilingual"
+            },
+            "time": "2026-11-03T09:26:30+00:00"
         },
         {
             "name": "wp-plugin/updraftplus",
@@ -7443,6 +7474,37 @@
                 "source": "https://plugins.svn.wordpress.org/wordfence"
             },
             "time": "2026-09-30T15:30:05+00:00"
+        },
+        {
+            "name": "wp-plugin/wordpress-seo",
+            "version": "28.8",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/wordpress-seo/",
+                "reference": "tags/28.8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.28.8.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0|~2.0"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Yoast"
+                }
+            ],
+            "description": "Real-time SEO guidance, schema, and AI built in. Help search engines and AI systems understand your content. All AI tools included, no hidden fees.",
+            "homepage": "https://yoa.st/1uj",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/wordpress-seo/#developers",
+                "issues": "https://wordpress.org/support/plugin/wordpress-seo",
+                "source": "https://plugins.svn.wordpress.org/wordpress-seo"
+            },
+            "time": "2026-10-27T06:18:09+00:00"
         },
         {
             "name": "wp-theme/twentytwentyfive",

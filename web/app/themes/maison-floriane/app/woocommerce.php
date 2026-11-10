@@ -46,7 +46,7 @@ add_filter('wc_add_to_cart_message_html', '__return_empty_string');
 |--------------------------------------------------------------------------
 | Le Duo rituel (FS-003) : produit à part, dont le stock est celui de ses composants
 |--------------------------------------------------------------------------
-| Méta `_mf_composants` = ['FS-001', 'FS-002']. Vendre un duo retire un savon et un Glow Oil
+| Composants : champ « Composé de » de la fiche du duo (app/produits.php). Vendre un duo retire un savon et un Glow Oil
 | (si ces produits gèrent leur stock) ; une commande annulée ou remboursée les remet en stock.
 */
 
@@ -145,3 +145,31 @@ function fragments(): array
 
 /** Fragments WooCommerce (ajout au panier en AJAX des blocs, etc.). */
 add_filter('woocommerce_add_to_cart_fragments', fn ($fragments) => array_merge($fragments, fragments()));
+
+/*
+ * Fiche produit : Stripe y charge ses scripts de paiement (formulaire de carte, paiement express, Stripe.js, et avec
+ * eux React et les scripts de la commande) alors que le thème n'y affiche aucun moyen de paiement : on paie au
+ * panier et à la commande. On les retire ici ; leurs dépendances ne sont alors plus chargées non plus.
+ */
+$sans_paiement = function () {
+    if (! function_exists('is_product') || ! is_product()) {
+        return;
+    }
+    foreach (['wc-stripe-upe-classic', 'wc_stripe_express_checkout', 'stripe', 'wc-custom-place-order-button'] as $script) {
+        wp_dequeue_script($script);
+    }
+    foreach (['wc-stripe-upe-classic', 'wc_stripe_express_checkout_style', 'stripelink_styles'] as $style) {
+        wp_dequeue_style($style);
+    }
+};
+// Stripe les ajoute tard (pendant le rendu de la page) : on repasse juste avant l'impression des scripts du pied de page.
+add_action('wp_enqueue_scripts', $sans_paiement, 999);
+add_action('wp_footer', $sans_paiement, 19);
+// Même raison : pas de préchargement du script de paiement express sur la fiche produit.
+add_filter('wp_preload_resources', function ($ressources) {
+    if (! function_exists('is_product') || ! is_product()) {
+        return $ressources;
+    }
+
+    return array_values(array_filter((array) $ressources, fn ($r) => ! str_contains((string) ($r['href'] ?? ''), 'woocommerce-gateway-stripe')));
+}, 99);

@@ -57,8 +57,6 @@
   .statut { padding: var(--s2) var(--s3); margin-bottom: var(--s3); font-size: 17px; border-left: 2px solid currentColor; background: var(--ivoire); }
   .statut--ok { color: var(--sauge); }
   .statut--erreur { color: var(--brique); }
-  .newsletter .statut { max-width: 520px; margin: var(--s3) auto 0; text-align: left; }
-  .champ-ligne button { white-space: nowrap; }
 
   /* Formulaire de contact Forminator (style Forminator désactivé) : reprend .champ, .case, .btn et .statut du prototype */
   .formulaire .forminator-custom-form { display: block !important; margin: 0; }
@@ -91,9 +89,89 @@
   .formulaire .forminator-response-message p { margin: 0; }
   .formulaire .forminator-hidden { position: absolute; left: -9999px; }
 
-  /* Pages éditoriales (contenu saisi dans WordPress) */
-  .legal .contenu > .chapo { margin-bottom: var(--s4); }
+  /* Formulaire de rétractation en ligne (Germanized) : champs WooCommerce habillés comme .champ, .case, .btn et .statut */
+  .retractation { margin-top: var(--s4); }
+  .retractation .eu-owb-form-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--s3); }
+  .retractation .eu-owb-form-fields > * { grid-column: 1 / -1; min-width: 0; }
+  .retractation .eu-owb-form-fields > .form-row-first, .retractation .eu-owb-form-fields > .form-row-last { grid-column: auto; }
+  .retractation .form-row { display: flex; flex-direction: column; gap: 8px; margin: 0 0 var(--s3); }
+  .retractation .form-row > label { font: 500 14px/1.3 var(--sans); letter-spacing: .16em; text-transform: uppercase; }
+  .retractation .required { color: var(--or-fonce); text-decoration: none; border: 0; }
+  .retractation input.input-text, .retractation select, .retractation textarea {
+    width: 100%; font: 300 19px var(--sans); color: var(--encre); background: var(--ivoire); border: 1px solid var(--ligne);
+    border-radius: var(--rayon); padding: 14px 16px; outline: none; min-height: 54px; }
+  .retractation input.input-text:focus, .retractation select:focus, .retractation textarea:focus { border-color: var(--encre); }
+  .retractation .woocommerce-invalid input.input-text, .retractation .woocommerce-invalid select { border-color: var(--brique); }
+  .retractation .withdrawal-inline-error-message { margin: 0; font-size: 15px; color: var(--brique); }
+  .retractation label.checkbox { display: flex; gap: 12px; align-items: flex-start; font: 300 17px/1.5 var(--sans); letter-spacing: 0; text-transform: none; color: var(--taupe); cursor: pointer; }
+  .retractation input[type="checkbox"] { width: 18px; height: 18px; flex: none; margin: 4px 0 0; accent-color: var(--encre); }
+  .retractation .clear, .retractation .form-row .optional { display: none; }
+  .retractation .screen-reader-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .retractation .form-row-submit { margin: var(--s2) 0 0; }
+  .retractation button[type="submit"] { display: inline-flex; align-items: center; justify-content: center; width: 100%; height: 52px; padding: 0 var(--s4);
+    font: 500 15px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; border: 0; border-radius: var(--rayon); cursor: pointer;
+    background: var(--encre); color: var(--ivoire); transition: background .25s, opacity .25s; }
+  .retractation button[type="submit"]:hover { background: #4A433D; }
+  .retractation button[type="submit"]:disabled { opacity: .6; cursor: wait; }
+  .retractation .woocommerce-error, .retractation .woocommerce-message, .retractation .woocommerce-info {
+    list-style: none; padding: var(--s2) var(--s3); margin: 0 0 var(--s3); font-size: 17px; border-left: 2px solid currentColor; background: var(--ivoire); }
+  .retractation .woocommerce-error { color: var(--brique); }
+  .retractation .woocommerce-message { color: var(--sauge); }
+  .retractation .woocommerce-info { color: var(--taupe); }
+  .retractation .woocommerce-error a, .retractation .woocommerce-info a { border-bottom: 1px solid currentColor; }
+  .retractation .eu-owb-woocommerce-withdrawal-order-details { margin: 0 0 var(--s2); color: var(--taupe); }
+  .retractation mark { background: none; color: var(--encre); font-weight: 500; }
+  .retractation table { width: 100%; margin: 0 0 var(--s3); border-collapse: collapse; font-size: 17px; }
+  .retractation th { padding: 10px 12px; font: 500 13px/1.3 var(--sans); letter-spacing: .16em; text-transform: uppercase; text-align: left; border-bottom: 1px solid var(--encre); }
+  .retractation td { padding: 14px 12px; border-bottom: 1px solid var(--ligne); vertical-align: middle; }
+  .retractation .product-select { width: 42px; }
+  .retractation .product-quantity { width: 110px; }
+  .retractation .quantity input { width: 72px; min-height: 44px; padding: 8px 10px; font: 300 17px var(--sans); color: var(--encre); background: var(--ivoire); border: 1px solid var(--ligne); border-radius: var(--rayon); }
+  .retractation small { color: var(--taupe); }
+
+  /* Lettre Floréa (Forminator) : champ e-mail et bouton sur une seule ligne soulignée, comme la maquette (.champ-ligne) */
+  .formulaire--lettre { max-width: 520px; margin: var(--s4) auto var(--s2); text-align: left; }
+  .formulaire--lettre div.forminator-custom-form { display: none !important; } /* conteneur vide que Forminator ajoute avant le formulaire */
+  .formulaire--lettre form.forminator-custom-form { display: flex !important; flex-wrap: wrap; align-items: flex-end; border-bottom: 1px solid var(--encre); }
+  .formulaire--lettre .forminator-response-message { flex: 0 0 100%; }
+  .formulaire--lettre .forminator-row { display: block; flex: 1; min-width: 0; }
+  .formulaire--lettre .forminator-row-last { flex: none; }
+  .formulaire--lettre .forminator-field { margin: 0; gap: 4px; }
+  .formulaire--lettre .forminator-label { position: absolute; left: -9999px; }
+  .formulaire--lettre .forminator-input { background: none; border: 0; border-radius: 0; padding: var(--s2) 0; }
+  .formulaire--lettre .forminator-error-message { padding-bottom: 8px; }
+  .formulaire--lettre .forminator-button-submit { width: auto; height: auto; padding: var(--s2) 0 var(--s2) var(--s2); background: none; color: var(--encre);
+    font: 500 16px/1 var(--sans); letter-spacing: .04em; text-transform: none; white-space: nowrap; }
+  .formulaire--lettre .forminator-button-submit { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
+  .formulaire--lettre .forminator-button-submit:hover { background: none; color: var(--or-fonce); }
+
+  /* Pages éditoriales (contenu saisi dans WordPress) : pleine largeur du conteneur, comme les autres pages
+     (le prototype les réduisait à une colonne centrée de 760 px). */
+  .legal { max-width: var(--page); }
+  .legal .contenu > .chapo { max-width: none; margin-bottom: var(--s4); }
+  .legal .contenu h3 { font: 500 22px/1.3 var(--serif); margin: var(--s4) 0 var(--s1); }
+  .legal .contenu .maj { margin-top: var(--s6); font-size: 15px; letter-spacing: .04em; }
+  /* Fiche société / hébergeur (shortcodes [mf_editeur], [mf_hebergeur]) */
+  .fiche-legale { display: grid; grid-template-columns: max-content 1fr; gap: 10px var(--s4); margin: var(--s3) 0; padding: var(--s3) var(--s4);
+    background: var(--ivoire); border: 1px solid var(--ligne); }
+  .fiche-legale dt { font: 500 13px/1.6 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--encre); padding-top: 3px; }
+  .fiche-legale dd { margin: 0; color: var(--taupe); }
+  /* Tableau des cookies */
+  .legal .contenu table { width: 100%; border-collapse: collapse; margin: var(--s3) 0; font-size: 15px; }
+  .legal .contenu th { text-align: left; font: 500 13px/1.4 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--encre);
+    padding: 10px 12px; border-bottom: 1px solid var(--encre); }
+  .legal .contenu td { padding: 12px; border-bottom: 1px solid var(--ligne); color: var(--taupe); vertical-align: top; }
+  .legal .contenu td:first-child { color: var(--encre); font-family: ui-monospace, Consolas, monospace; font-size: 13px; word-break: break-all; }
+  @media (max-width: 640px) {
+    .fiche-legale { grid-template-columns: 1fr; gap: 2px; padding: var(--s3); }
+    .fiche-legale dd + dt { margin-top: var(--s2); }
+    .legal .contenu table, .legal .contenu tbody, .legal .contenu tr, .legal .contenu td { display: block; }
+    .legal .contenu thead { display: none; }
+    .legal .contenu tr { padding: 12px 0; border-bottom: 1px solid var(--ligne); }
+    .legal .contenu td { padding: 2px 0; border: 0; }
+  }
   .legal .contenu a { border-bottom: 1px solid currentColor; }
+  .legal .contenu blockquote { margin: var(--s3) 0; padding: var(--s3) var(--s4); background: var(--ivoire); border-left: 2px solid var(--or); display: grid; gap: var(--s2); }
 
   /* Pages WooCommerce (panier, commande, compte) : blocs aux couleurs de la charte */
   .page-boutique { padding-top: var(--s4); padding-bottom: var(--s8); }
@@ -118,7 +196,7 @@
   .achat .economie { display: inline-block; margin-bottom: var(--s2); }
   .achat__texte { margin-top: var(--s3); }
 
-  /* « Tous types de peau, toutes carnations » */
+  /* « Toutes peaux, toutes carnations » */
   .peaux { display: flex; align-items: center; gap: 8px; font-size: 15px; color: var(--taupe); }
   .peaux .icone { width: 20px; height: 20px; color: var(--or-fonce); flex: none; }
   .atouts .atouts__peaux { color: var(--encre); font-weight: 400; }
@@ -153,13 +231,146 @@
   /* Barre d'administration WordPress : l'en-tête collant passe dessous */
   body.admin-bar .entete { top: 32px; }
 
+  /* Ancres : la cible s'arrête sous l'en-tête collant (le défilement doux est fait en JS, voir app.js) */
+  html { scroll-padding-top: 104px; }
+  html:has(body.admin-bar) { scroll-padding-top: 136px; }
+  [tabindex="-1"]:focus { outline: none; }
+
   @media (max-width: 760px) {
+    html, html:has(body.admin-bar) { scroll-padding-top: 76px; }
     .formulaire .forminator-col-6 { grid-column: span 12; }
     .formulaire .forminator-row { gap: 0; }
+    .retractation .eu-owb-form-fields > .form-row-first, .retractation .eu-owb-form-fields > .form-row-last { grid-column: 1 / -1; }
     .actions__liens { display: none; }
     .duo .btn { white-space: normal; text-align: center; line-height: 1.3; }
     .duo .btn { width: 100%; height: auto; min-height: 52px; padding: 12px var(--s2); }
     .achat, .produit > * { min-width: 0; }
     body.admin-bar .entete { top: 0; }
   }
+}
+
+/* Sélecteur de langue FR · EN (TranslatePress) : dans le bandeau d'annonce, à droite */
+.annonce { position: relative; }
+.langues { position: absolute; top: 0; right: var(--s4, 32px); display: flex; gap: .5em; letter-spacing: .1em; }
+.langues a { color: inherit; opacity: .65; text-decoration: none; }
+.langues a:hover, .langues a:focus-visible { opacity: 1; color: var(--or, #C9A96E); }
+.langues__active { font-weight: 500; }
+.menu-mobile .langues { position: static; margin-left: auto; margin-right: var(--s3); font: 400 15px/1 var(--sans); }
+.menu-mobile .langues a { display: inline; padding: 0; border: 0; font: inherit; }
+@media (max-width: 760px) {
+  .annonce .langues { display: none; } /* sur mobile, le sélecteur est dans le menu */
+}
+
+/*
+ * Présentation des soins sur l'accueil (savon noir, Glow Oil, duo) : trois fiches complètes côte à côte.
+ * Les cinq rangées (visuel, nom et prix, accroche, infos, achat) restent alignées d'une fiche à l'autre (subgrid).
+ * Le duo est mis en avant sur fond encre. Sous 1100 px : carrousel horizontal (une fiche et demie, puis une seule sur mobile).
+ */
+@layer components {
+  .soins { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s3); }
+  .soin { --soin-ligne: var(--ligne); --soin-doux: var(--taupe); --soin-accent: var(--or-fonce);
+    display: grid; grid-template-rows: subgrid; grid-row: span 5; row-gap: 0; grid-template-columns: minmax(0, 1fr); min-width: 0; background: var(--ivoire); }
+  .soin > :not(.soin__visuel) { margin-inline: var(--s4); }
+
+  .soin__visuel { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; background: #EFE6D9; }
+  .soin__visuel img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; transition: transform 1s cubic-bezier(.2, .7, .2, 1); }
+  .soin:hover .soin__visuel img { transform: scale(1.04); }
+  .soin__visuel .etiquette { position: absolute; top: var(--s2); left: var(--s2); }
+  .soin__pastille { position: absolute; top: var(--s2); right: var(--s2); padding: 6px 12px; border-radius: 40px;
+    background: var(--or); color: var(--encre); font: 500 14px/1 var(--sans); letter-spacing: .04em; }
+
+  .soin__tete { display: flex; flex-direction: column; gap: 6px; padding-top: var(--s4); }
+  .soin__tete .h3 a { transition: color .25s; }
+  .soin__tete .h3 a:hover { color: var(--soin-accent); }
+  .soin__type { font-size: 16px; color: var(--soin-doux); }
+  .soin__prix { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; margin-top: 6px; }
+  .soin__prix .prix { font-size: 30px; }
+  .soin__prix s { font-size: 17px; color: var(--soin-doux); }
+
+  .soin__accroche { padding-top: var(--s2); font-size: 18px; line-height: 1.55; }
+
+  .soin__infos { margin-block: var(--s3) 0; border-top: 1px solid var(--soin-ligne); }
+  .soin__infos > div { display: grid; grid-template-columns: 7.5em minmax(0, 1fr); gap: var(--s2); padding: 12px 0;
+    border-bottom: 1px solid var(--soin-ligne); font-size: 16px; line-height: 1.45; }
+  .soin__infos dt { padding-top: 2px; font: 500 12px/1.5 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--soin-accent); }
+  .soin__infos dd { margin: 0; }
+  .soin__infos > .soin__liste { grid-template-columns: minmax(0, 1fr); gap: 8px; border-bottom: 0; }
+  .puces { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+  .puces li { padding: 5px 11px; border: 1px solid var(--soin-ligne); border-radius: 40px; font-size: 14px; line-height: 1.2; }
+
+  .soin__achat { display: flex; flex-direction: column; gap: var(--s2); align-self: end; padding: var(--s3) 0 var(--s4); }
+  .soin__achat form { margin: 0; }
+  .soin__achat .lien { align-self: center; font-size: 15px; }
+  .soin__achat .btn { height: auto; min-height: 52px; padding: 14px var(--s2); white-space: normal; text-align: center; line-height: 1.3; }
+
+  /* Le duo, mis en avant */
+  .soin--vedette { --soin-ligne: rgba(248, 244, 238, .16); --soin-doux: rgba(248, 244, 238, .68); --soin-accent: var(--or);
+    background: var(--encre); color: var(--ivoire); }
+  .soin--vedette .stock--ok { color: #A9C4A3; }
+  .soin--vedette .stock--limite { color: #E2B66B; }
+  .btn--clair { background: var(--ivoire); color: var(--encre); }
+  .btn--clair:hover { background: var(--or); color: var(--encre); }
+
+  @media (max-width: 1100px) {
+    .soins { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(320px, 46%);
+      overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: thin;
+      margin-inline: calc(-1 * var(--s5)); padding: 0 var(--s5) var(--s2); scroll-padding-inline: var(--s5); }
+    .soin { scroll-snap-align: start; }
+  }
+  @media (max-width: 760px) {
+    .soins { grid-auto-columns: 86%; gap: var(--s2); margin-inline: calc(-1 * var(--s3)); padding-inline: var(--s3); scroll-padding-inline: var(--s3); }
+    .soin > :not(.soin__visuel) { margin-inline: var(--s3); }
+    .soin__visuel { aspect-ratio: 1 / 1; }
+    .soin__infos > div { grid-template-columns: 6.5em minmax(0, 1fr); }
+  }
+  @media (prefers-reduced-motion: reduce) { .soin__visuel img { transition: none; } .soin:hover .soin__visuel img { transform: none; } }
+
+  /* Boutique : pas de carrousel, les fiches passent sur deux colonnes puis l'une sous l'autre */
+  @media (max-width: 1100px) {
+    .soins--boutique { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-flow: row; grid-auto-columns: auto;
+      overflow: visible; margin-inline: 0; padding: 0; }
+  }
+  @media (max-width: 760px) {
+    .soins--boutique { grid-template-columns: minmax(0, 1fr); gap: var(--s4); }
+  }
+
+  /* En-tête : bouton Contact « Une question ? », dernier élément à droite. Pilule crème cerclée d'or (charte),
+     distincte des boutons d'achat noirs ; au survol, or foncé et texte ivoire (contraste 5,3). */
+  .contact-btn { display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 20px 0 16px;
+    background: var(--creme); color: var(--encre); border: 1px solid var(--or); border-radius: 999px;
+    font: 500 15px/1 var(--sans); letter-spacing: .04em; white-space: nowrap;
+    transition: background .25s, border-color .25s, color .25s, box-shadow .25s; }
+  .contact-btn .icone { width: 18px; height: 18px; color: var(--or-fonce); transition: color .25s; }
+  .actions .contact-btn:hover { background: var(--or-fonce); border-color: var(--or-fonce); color: var(--ivoire); box-shadow: 0 6px 16px rgba(138, 100, 24, .28); }
+  .contact-btn:hover .icone { color: var(--ivoire); }
+  .contact-btn:focus-visible { outline: 2px solid var(--or-fonce); outline-offset: 3px; }
+  .nav a, .actions__liens a, .actions .txt { white-space: nowrap; }
+  /*
+   * En-tête : à gauche les 5 liens (… Résultats, Mon histoire), à droite Boutique, Connexion/Compte, Panier, bouton.
+   * Plus large que le reste de la page (1520 px). Les deux groupes se serrent contre le logo, avec le même écart
+   * de 40 px de chaque côté (demande du 09/11) ; ils ne peuvent pas le toucher, même avec un texte un peu plus grand.
+   */
+  .entete .conteneur { max-width: 1520px; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); column-gap: 40px; }
+  .nav { justify-content: flex-end; }
+  .actions { justify-content: flex-start; }
+  .nav ul, .actions, .actions__liens { gap: clamp(20px, 1.7vw, 32px); }
+  /* Moins de place : menu burger (comme sur mobile), Connexion, Panier et bouton gardés */
+  @media (max-width: 1400px) {
+    .nav, .actions__liens { display: none; }
+    .burger { display: inline-flex; justify-self: start; }
+    .actions { justify-content: flex-end; } /* menu burger : icônes et bouton reviennent au bord droit */
+  }
+  @media (max-width: 1000px) { .panier-btn .txt, .compte-btn .txt { display: none; } }
+  .pied__logo-lien { display: inline-block; }
+  /* Logo du pied de page agrandi (72 px dans le prototype, trop petit) */
+  .pied .pied__logo { width: 120px; height: auto; }
+  @media (max-width: 760px) { .pied .pied__logo { width: 100px; } }
+  @media (max-width: 760px) { .contact-btn { display: none; } }
+}
+
+/* Accueil : fond doux sous le texte du hero (crème de la charte vers le lin de la page, léger halo doré en haut à gauche) */
+@layer components {
+  .hero__texte { background:
+    radial-gradient(120% 90% at 0% 0%, rgba(184, 134, 47, .10), transparent 60%),
+    linear-gradient(160deg, var(--creme) 0%, #F6EDE1 55%, var(--lin) 100%); }
 }

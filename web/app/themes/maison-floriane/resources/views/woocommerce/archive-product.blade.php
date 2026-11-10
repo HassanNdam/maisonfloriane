@@ -1,31 +1,36 @@
 @extends('layouts.app')
 
+{{-- Boutique : les trois produits (savon noir, Glow Oil, duo) en fiches cliquables, dans l'ordre des références FS-001 → FS-003.
+     Textes : Pages › Boutique (app/pages.php). --}}
+@php($t = fn ($cle) => App\page_texte('boutique', $cle))
+@php($produits = [])
+@while (have_posts()) @php(the_post())
+  @php($produits[] = wc_get_product(get_the_ID()))
+@endwhile
+@php($produits = array_filter($produits))
+@php(usort($produits, fn ($a, $b) => strcmp($a->get_sku(), $b->get_sku())))
+
 @section('fil')
   @include('partials.fil', ['etapes' => [['Boutique', null]]])
 @endsection
 
 @section('content')
   <section class="recit-hero"><div class="conteneur">
-    <span class="surtitre">Boutique</span>
-    <h1 class="h1">Le rituel <em class="or">Floréa</em></h1>
-    <p class="chapo">Deux soins, deux gestes : le savon noir pour purifier, le Glow Oil pour révéler.</p>
+    <span class="surtitre">{!! $t('surtitre') !!}</span>
+    <h1 class="h1">{!! App\page_titre('boutique', 'titre') !!}</h1>
+    @if ($t('texte'))<p class="chapo">{!! $t('texte') !!}</p>@endif
     <span class="filet-or"></span>
   </div></section>
 
   <section class="section" style="padding-top:0"><div class="conteneur">
-    @if (have_posts())
-      <div class="rituel">
-        @while (have_posts()) @php(the_post())
-          @php($p = wc_get_product(get_the_ID()))
-          {{-- Le duo a sa propre bannière, sous les deux soins. --}}
-          @unless (App\composants($p))
-            @include('partials.carte-produit', ['produit' => $p])
-          @endunless
-        @endwhile
+    @if ($produits)
+      <div class="soins soins--boutique">
+        @foreach ($produits as $produit)
+          @include('partials.soin', ['produit' => $produit])
+        @endforeach
       </div>
-      @include('partials.duo')
     @else
-      <p class="chapo" style="margin:0 auto;text-align:center">Les soins arrivent très bientôt. En attendant, <a class="lien" href="{{ App\whatsapp_url() }}">écrivez-nous sur WhatsApp</a>.</p>
+      <p class="chapo" style="margin:0 auto;text-align:center">{!! $t('vide_texte') !!} <a class="lien" href="{{ App\whatsapp_url() }}">{!! $t('vide_lien') !!}</a>.</p>
     @endif
   </div></section>
 
