@@ -11,7 +11,7 @@ OUT = "00-projet"
 IMG = "01-images-site/florea-skin/"
 VID = "02-videos-site/florea-skin/"
 SEUIL_STOCK_LIMITE = 3
-CONTACT = {"email": "florekhadije@gmail.com", "telephone": "+41 79 273 83 53", "whatsapp": "+41 79 273 83 53"}
+CONTACT = {"email": "contact@maisonfloriane.com", "telephone": "+41 79 273 83 53", "whatsapp": "+41 79 273 83 53"}
 TEST_PEAU = "Faire un test sur une petite zone avant la première utilisation."
 
 

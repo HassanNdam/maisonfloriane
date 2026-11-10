@@ -17,7 +17,7 @@ const REGLAGES = [
     'logo' => 0,
     'slogan' => 'La beauté révélée par la nature.',
     // Coordonnées
-    'email' => 'florekhadije@gmail.com',
+    'email' => 'contact@maisonfloriane.com',
     'telephone' => '+41 79 273 83 53',
     'whatsapp' => '41792738353',
     'delai_reponse' => 'Sous 24 h, du lundi au vendredi',
