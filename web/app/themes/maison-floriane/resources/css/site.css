@@ -89,6 +89,46 @@
   .formulaire .forminator-response-message p { margin: 0; }
   .formulaire .forminator-hidden { position: absolute; left: -9999px; }
 
+  /* Formulaire de rétractation en ligne (Germanized) : champs WooCommerce habillés comme .champ, .case, .btn et .statut */
+  .retractation { margin-top: var(--s4); }
+  .retractation .eu-owb-form-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--s3); }
+  .retractation .eu-owb-form-fields > * { grid-column: 1 / -1; min-width: 0; }
+  .retractation .eu-owb-form-fields > .form-row-first, .retractation .eu-owb-form-fields > .form-row-last { grid-column: auto; }
+  .retractation .form-row { display: flex; flex-direction: column; gap: 8px; margin: 0 0 var(--s3); }
+  .retractation .form-row > label { font: 500 14px/1.3 var(--sans); letter-spacing: .16em; text-transform: uppercase; }
+  .retractation .required { color: var(--or-fonce); text-decoration: none; border: 0; }
+  .retractation input.input-text, .retractation select, .retractation textarea {
+    width: 100%; font: 300 19px var(--sans); color: var(--encre); background: var(--ivoire); border: 1px solid var(--ligne);
+    border-radius: var(--rayon); padding: 14px 16px; outline: none; min-height: 54px; }
+  .retractation input.input-text:focus, .retractation select:focus, .retractation textarea:focus { border-color: var(--encre); }
+  .retractation .woocommerce-invalid input.input-text, .retractation .woocommerce-invalid select { border-color: var(--brique); }
+  .retractation .withdrawal-inline-error-message { margin: 0; font-size: 15px; color: var(--brique); }
+  .retractation label.checkbox { display: flex; gap: 12px; align-items: flex-start; font: 300 17px/1.5 var(--sans); letter-spacing: 0; text-transform: none; color: var(--taupe); cursor: pointer; }
+  .retractation input[type="checkbox"] { width: 18px; height: 18px; flex: none; margin: 4px 0 0; accent-color: var(--encre); }
+  .retractation .clear, .retractation .form-row .optional { display: none; }
+  .retractation .screen-reader-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .retractation .form-row-submit { margin: var(--s2) 0 0; }
+  .retractation button[type="submit"] { display: inline-flex; align-items: center; justify-content: center; width: 100%; height: 52px; padding: 0 var(--s4);
+    font: 500 15px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; border: 0; border-radius: var(--rayon); cursor: pointer;
+    background: var(--encre); color: var(--ivoire); transition: background .25s, opacity .25s; }
+  .retractation button[type="submit"]:hover { background: #4A433D; }
+  .retractation button[type="submit"]:disabled { opacity: .6; cursor: wait; }
+  .retractation .woocommerce-error, .retractation .woocommerce-message, .retractation .woocommerce-info {
+    list-style: none; padding: var(--s2) var(--s3); margin: 0 0 var(--s3); font-size: 17px; border-left: 2px solid currentColor; background: var(--ivoire); }
+  .retractation .woocommerce-error { color: var(--brique); }
+  .retractation .woocommerce-message { color: var(--sauge); }
+  .retractation .woocommerce-info { color: var(--taupe); }
+  .retractation .woocommerce-error a, .retractation .woocommerce-info a { border-bottom: 1px solid currentColor; }
+  .retractation .eu-owb-woocommerce-withdrawal-order-details { margin: 0 0 var(--s2); color: var(--taupe); }
+  .retractation mark { background: none; color: var(--encre); font-weight: 500; }
+  .retractation table { width: 100%; margin: 0 0 var(--s3); border-collapse: collapse; font-size: 17px; }
+  .retractation th { padding: 10px 12px; font: 500 13px/1.3 var(--sans); letter-spacing: .16em; text-transform: uppercase; text-align: left; border-bottom: 1px solid var(--encre); }
+  .retractation td { padding: 14px 12px; border-bottom: 1px solid var(--ligne); vertical-align: middle; }
+  .retractation .product-select { width: 42px; }
+  .retractation .product-quantity { width: 110px; }
+  .retractation .quantity input { width: 72px; min-height: 44px; padding: 8px 10px; font: 300 17px var(--sans); color: var(--encre); background: var(--ivoire); border: 1px solid var(--ligne); border-radius: var(--rayon); }
+  .retractation small { color: var(--taupe); }
+
   /* Lettre Floréa (Forminator) : champ e-mail et bouton sur une seule ligne soulignée, comme la maquette (.champ-ligne) */
   .formulaire--lettre { max-width: 520px; margin: var(--s4) auto var(--s2); text-align: left; }
   .formulaire--lettre div.forminator-custom-form { display: none !important; } /* conteneur vide que Forminator ajoute avant le formulaire */
@@ -200,6 +240,7 @@
     html, html:has(body.admin-bar) { scroll-padding-top: 76px; }
     .formulaire .forminator-col-6 { grid-column: span 12; }
     .formulaire .forminator-row { gap: 0; }
+    .retractation .eu-owb-form-fields > .form-row-first, .retractation .eu-owb-form-fields > .form-row-last { grid-column: 1 / -1; }
     .actions__liens { display: none; }
     .duo .btn { white-space: normal; text-align: center; line-height: 1.3; }
     .duo .btn { width: 100%; height: auto; min-height: 52px; padding: 12px var(--s2); }
