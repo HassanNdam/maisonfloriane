@@ -4,6 +4,7 @@
 @import "./site.css";
 @import "./compte.css";
 @import "./maintenance.css";
+@import "./animations.css";
 @source "../../app/**/*.php";
 @source "../**/*.blade.php";
 @source "../**/*.js";

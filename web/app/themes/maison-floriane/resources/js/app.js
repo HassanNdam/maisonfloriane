@@ -217,3 +217,40 @@ document.addEventListener('click', (e) => {
   if (!cible.hasAttribute('tabindex')) cible.setAttribute('tabindex', '-1');
   cible.focus({ preventScroll: true });
 });
+
+/*
+ * Apparition au défilement : les blocs situés sous l'écran au chargement montent en fondu quand ils entrent
+ * dans la fenêtre (styles dans animations.css). Ce qui est déjà visible n'est jamais masqué : aucun effet sur
+ * le premier affichage. Les blocs voisins arrivent en léger décalé ; les classes sont retirées une fois l'effet joué.
+ */
+const BLOCS_ANIMES = [
+  '.entete-section', '.soin', '.resultat', '.mention', '.etape', '.histoire > *', '.reassurance > div',
+  '.accordeon', '.newsletter .conteneur > *', '.rappel .conteneur > *', '.lettre > *', '.duo', '.pied__grille > div',
+].join(',');
+
+if (!mouvementReduit.matches && 'IntersectionObserver' in window) {
+  const observateur = new IntersectionObserver((entrees) => {
+    entrees.filter((entree) => entree.isIntersecting).forEach(({ target: bloc }, rang) => {
+      observateur.unobserve(bloc);
+      bloc.style.setProperty('--retard', `${Math.min(rang, 5) * 90}ms`);
+      bloc.classList.add('apparition--visible');
+      bloc.addEventListener('transitionend', function fin(e) {
+        if (e.target !== bloc || e.propertyName !== 'opacity') return;
+        bloc.removeEventListener('transitionend', fin);
+        bloc.classList.remove('apparition', 'apparition--visible');
+        bloc.style.removeProperty('--retard');
+      });
+    });
+  }, { threshold: 0.1 }); // pas de marge négative : un bloc tout en bas de page doit pouvoir apparaître
+
+  /* Dans un carrousel horizontal (soins sur téléphone), c'est le carrousel entier qui apparaît, pas chaque fiche */
+  const blocs = new Set([...document.querySelectorAll(BLOCS_ANIMES)].map((bloc) => {
+    const parent = bloc.parentElement;
+    return parent.scrollWidth > parent.clientWidth + 1 ? parent : bloc;
+  }));
+  blocs.forEach((bloc) => {
+    if (bloc.getBoundingClientRect().top < innerHeight) return;
+    bloc.classList.add('apparition');
+    observateur.observe(bloc);
+  });
+}
