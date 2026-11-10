@@ -5,7 +5,18 @@ Chaque version correspond à un tag `vX.Y.Z` sur `main` (voir `CONTRIBUTING.md`)
 
 ## [Non publié]
 
+## [0.2.0] - 2026-11-10
+
+Site complet en local (back-office, FR/EN, légal, livraison, SEO), derrière la page d'attente. Pas encore en ligne.
+
 ### Ajouté
+- Version anglaise complète sous `/en/` (TranslatePress), sélecteur FR · EN, e-mails de commande dans la langue du client.
+- Livraison : Espagne 4,90 €, France 7,90 €, UE 9,90 €, monde 19,90 € (TTC), retrait gratuit à Barcelone ; TVA 20 % dans l'UE, 0 % hors UE.
+- Bandeau cookies Complianz « Bienvenue chez Maison Floriane » aux couleurs de la charte.
+- Textes définitifs des pages légales et de livraison (FR + EN), coordonnées de la société dans Maison Floriane › Réglages › Société.
+- Page d'attente « bientôt en ligne » hors production, modifiable dans le back-office.
+- Formulaire de rétractation en ligne (Germanized) en français et à la charte, lien « Se rétracter du contrat ici » dans le pied de page, lien « Se rétracter » dans Mes commandes, e-mails au client et à Flore.
+- Animations légères d'apparition au défilement, tiroir panier, menu mobile et FAQ en fondu (désactivées si l'appareil demande moins de mouvement).
 - Menu **Maison Floriane** dans le back-office (Secure Custom Fields) : logo, slogan, coordonnées (e-mail, téléphone, WhatsApp), délais de réponse, réseaux sociaux, bandeau du haut, arguments de réassurance, pied de page, messages WhatsApp préremplis et page 404 se modifient sans toucher au code.
 - Accueil modifiable dans Pages › Accueil : textes, vidéos de l'en-tête, produits présentés, résultats avant/après, étapes, extrait « Mon histoire », questions fréquentes et Lettre Floréa.
 - Pages Mon histoire, Contact et Boutique modifiables dans le back-office : textes et photos, en-tête de la boutique (descriptions des images : dans Médias).
@@ -29,6 +40,9 @@ Chaque version correspond à un tag `vX.Y.Z` sur `main` (voir `CONTRIBUTING.md`)
 - `composer seed` n'écrase plus les produits modifiés dans l'admin (nom, prix, promo, descriptions, catégorie, statut, photos) : le catalogue ne complète que ce qui est vide, sauf avec `MF_SEED_FORCE=1`.
 - Référencement : Yoast SEO (gratuit) remplace Rank Math. Titres et descriptions des produits, titres et descriptions de partage traduits sur /en/.
 - Fiches produits : données structurées « Product » (prix, disponibilité) rétablies ; un seul fil d'Ariane déclaré (celui du thème).
+- Fiches produits allégées : scripts Stripe et galerie WooCommerce retirés (≈ 80 → 38 requêtes, 4,4 → 1,3 Mo en développement) ; le paiement express reste au panier et à la commande.
+- Polices principales préchargées (plus de saut de lignes au chargement, CLS 0,2 → 0) ; photos de l'accueil en tailles adaptées à l'écran.
+- Heures au format 24 h (« 14:30 ») sur le site et dans les e-mails.
 
 ### Corrigé
 - Données structurées de la FAQ (accueil) illisibles par Google : Blade cassait « @context ». Questions et réponses désormais traduites sur /en/.
@@ -37,6 +51,13 @@ Chaque version correspond à un tag `vX.Y.Z` sur `main` (voir `CONTRIBUTING.md`)
 - Textes anglais de Germanized traduits : case légale et bouton « Commander et payer » de la commande, e-mails de confirmation et de paiement, salutation « Bonjour {prénom} ».
 - Pages anglaises de Germanized traduites (moyens de paiement, authenticité des avis, formulaire de rétractation) ou remplacées par les nôtres (livraison, mentions légales).
 - E-mails de commande : « répondez à cet e-mail » au lieu de l'adresse no-reply ; dates au format « 9 novembre 2026 » ; adresses `commande-recue` et `paiement`.
+- Titre anglais « Privacy policy » avec sa majuscule.
+
+### À faire avant la 1.0.0 (mise en ligne)
+- Société : forme juridique, NIF, adresse postale ; téléphone et liens des réseaux sociaux.
+- Stripe en production (clés live + webhook) ; e-mail administrateur, expéditeur et SMTP de production.
+- Hébergement IONOS, domaine maisonfloriane.com, build du thème ; lever la page d'attente et autoriser l'indexation.
+- Activer Wordfence et UpdraftPlus ; mettre à jour les extensions.
 
 ## [0.1.0] - 2026-11-09
 
