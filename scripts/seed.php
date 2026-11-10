@@ -355,6 +355,9 @@ $menus = [
         $page('Cookies', $legalIds['politique-de-cookies']),
         $page('Livraison & retours', $legalIds['livraison-retours']),
         $page('Rétractation', $legalIds['droit-de-retractation']),
+        // Bouton de rétractation en ligne (directive UE 2023/2673) : visible sur toutes les pages, libellé sans équivoque.
+        ...((int) get_option('woocommerce_withdraw_from_contract_page_id') > 0
+            ? [$page('Se rétracter du contrat ici', (int) get_option('woocommerce_withdraw_from_contract_page_id'))] : []),
     ]],
 ];
 $locations = get_theme_mod('nav_menu_locations', []);
@@ -543,6 +546,7 @@ $compte = [
     'woocommerce_checkout_order_received_endpoint' => 'commande-recue',
     'woocommerce_checkout_pay_endpoint' => 'paiement',
     'date_format' => 'j F Y', // « 9 novembre 2026 » (sites, e-mails)
+    'time_format' => 'H:i', // « 14:30 » plutôt que « 2:30 pm »
     'woocommerce_registration_privacy_policy_text' => 'Vos données servent uniquement à gérer votre compte et vos commandes ; elles ne sont jamais revendues. En savoir plus : [privacy_policy].',
     'woocommerce_checkout_privacy_policy_text' => 'Vos données servent à traiter votre commande et à gérer votre compte, comme décrit dans notre [privacy_policy].',
     // E-mails WooCommerce aux couleurs de la charte (lin, encre, or) ; les réponses des clients arrivent chez Flore.
@@ -613,11 +617,28 @@ if (class_exists('WooCommerce_Germanized')) {
             continue;
         }
         $contenu = file_get_contents(__DIR__ . "/pages/$slug.html");
-        if ($post->post_name === $ancien || getenv('MF_SEED_FORCE')) {
+        // Réécrite si elle est encore en anglais, ou inchangée depuis le dernier seed (une retouche dans l'admin est gardée).
+        $auto = (string) get_post_meta($id, '_mf_contenu_auto', true);
+        $intacte = $auto === '' ? $slug === 'formulaire-de-retractation' : $auto === md5($post->post_content);
+        if ($post->post_name === $ancien || getenv('MF_SEED_FORCE') || ($intacte && $post->post_content !== $contenu)) {
             wp_update_post(['ID' => $id, 'post_name' => $slug, 'post_title' => $title, 'post_content' => $contenu]);
             mf_log("page Germanized traduite : $title");
         }
+        update_post_meta($id, '_mf_contenu_auto', md5((string) get_post_field('post_content', $id)));
     }
+
+    // Rétractation en ligne (module de Germanized) : page publiée, lien dans notre pied de page plutôt que le bouton
+    // ajouté par l'extension. Aucun blocage si le numéro saisi est introuvable (une faute de frappe ne doit pas faire
+    // perdre le délai) : la demande arrive alors « non vérifiée » et ne change pas le statut de la commande.
+    $retractation = (int) get_option('woocommerce_withdraw_from_contract_page_id');
+    if ($retractation > 0 && get_post_status($retractation) === 'draft') {
+        wp_update_post(['ID' => $retractation, 'post_status' => 'publish']);
+        mf_log('page publiée : Formulaire de rétractation en ligne');
+    }
+    update_option('eu_owb_woocommerce_enable_embed', 'no');
+    update_option('eu_owb_woocommerce_guest_order_validation', 'none');
+    update_option('eu_owb_woocommerce_number_of_days_to_withdraw', '30'); // 14 jours après réception + délai de livraison
+    update_option('eu_owb_woocommerce_myaccount_withdrawal_link', 'yes');
     // Textes réglables de Germanized (pas de traduction française officielle). Ceux écrits en dur dans ses gabarits
     // sont traduits dans le thème (app/germanized.php).
     $gzd = [
