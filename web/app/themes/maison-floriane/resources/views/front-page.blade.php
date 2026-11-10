@@ -50,11 +50,11 @@
         @php($etiquette = App\echappe((string) ($resultat['etiquette'] ?? '')))
         @if ($video = App\media_url($resultat['video'] ?? ''))
           <button class="resultat" type="button" data-video="{{ $video }}" aria-label="Lire la vidéo du résultat sans filtre">
-            <img src="{{ App\media_url($resultat['image']) }}" alt="{{ $resultat['description'] ?? '' }}" loading="lazy">@if ($etiquette)<span class="etiquette">{!! $etiquette !!}</span>@endif<span class="lecture"></span>
+            {!! App\image($resultat['image'], 'medium_large', ['alt' => $resultat['description'] ?? '', 'sizes' => '(min-width: 900px) 25vw, 50vw']) !!}@if ($etiquette)<span class="etiquette">{!! $etiquette !!}</span>@endif<span class="lecture"></span>
           </button>
         @else
           <div class="resultat">
-            <img src="{{ App\media_url($resultat['image']) }}" alt="{{ $resultat['description'] ?? '' }}" loading="lazy">@if ($etiquette)<span class="etiquette">{!! $etiquette !!}</span>@endif
+            {!! App\image($resultat['image'], 'medium_large', ['alt' => $resultat['description'] ?? '', 'sizes' => '(min-width: 900px) 25vw, 50vw']) !!}@if ($etiquette)<span class="etiquette">{!! $etiquette !!}</span>@endif
           </div>
         @endif
       @endforeach
@@ -72,9 +72,7 @@
   </div></section>
 
   <section class="section section--ivoire"><div class="conteneur histoire">
-    @if ($image = App\media_url(App\accueil('histoire_image'), 'large'))
-      <img src="{{ $image }}" alt="Logo Floréa Skin" loading="lazy">
-    @endif
+    {!! App\image(App\accueil('histoire_image'), 'large', ['alt' => 'Logo Floréa Skin', 'sizes' => '(min-width: 900px) 440px, 80vw']) !!}
     <div>
       <span class="surtitre">{!! $t('histoire_surtitre') !!}</span>
       <h2 class="h2">{!! App\titre((string) App\accueil('histoire_titre')) !!}</h2>
