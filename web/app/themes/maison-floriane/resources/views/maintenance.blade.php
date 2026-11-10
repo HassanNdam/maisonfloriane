@@ -1,7 +1,11 @@
 {{-- Page d'attente affichée aux visiteurs non connectés tant que le site n'est pas en production (app/maintenance.php).
-     Page autonome : ni en-tête, ni menu, ni pied de page du site. Traductions anglaises : scripts/traductions/en_GB.json.
+     Page autonome : ni en-tête, ni menu, ni pied de page du site.
+     Textes : Maison Floriane › Réglages du site › Page d'attente. Traductions anglaises : scripts/traductions/en_GB.json.
      $legale : vrai sur une page légale, dont on affiche alors le texte seul dans le même habillage. --}}
 @php($lettre = (int) get_option('mf_formulaire_lettre'))
+@php($invite = App\affiche('attente_invite'))
+@php($question = App\affiche('attente_question'))
+@php($whatsapp = App\affiche('attente_whatsapp'))
 @php($reseaux = array_filter(App\reseaux(), fn ($reseau) => $reseau['url']))
 <!doctype html>
 <html @php(language_attributes())>
@@ -34,26 +38,28 @@
       @else
       <main class="attente__coeur" id="main">
         <img class="attente__logo" src="{{ App\logo_url() }}" alt="Floréa Skin" width="180" height="180" fetchpriority="high">
-        <span class="surtitre">Maison Floriane</span>
-        <h1 class="h1">Notre boutique ouvre <em class="or">très bientôt</em></h1>
-        <p class="chapo">Le savon noir réparateur et la Glow Oil Floréa Skin arrivent : un rituel simple, pour tous les types de peau et toutes les carnations.</p>
+        @if ($surtitre = App\affiche('attente_surtitre'))<span class="surtitre">{!! $surtitre !!}</span>@endif
+        <h1 class="h1">{!! App\titre(App\texte('attente_titre')) !!}</h1>
+        @if ($texte = App\affiche('attente_texte'))<p class="chapo">{!! $texte !!}</p>@endif
 
-        @if ($lettre)
+        @if ($lettre && $invite)
           <div class="attente__lettre">
-            <p class="attente__invite">Laissez-nous votre e-mail, nous vous écrirons le jour de l’ouverture.</p>
+            <p class="attente__invite">{!! $invite !!}</p>
             <div class="formulaire formulaire--lettre">{!! do_shortcode('[forminator_form id="' . $lettre . '"]') !!}</div>
           </div>
         @endif
 
-        <div class="attente__contact">
-          <span class="petit">Une question ?</span>
-          @if (App\whatsapp_numero())
-            <a class="lien" href="{{ App\whatsapp_url() }}" target="_blank" rel="noopener"><svg class="icone" aria-hidden="true"><use href="#i-whatsapp"/></svg>Nous écrire sur WhatsApp</a>
-          @endif
-          @if ($email = App\email())
-            <a class="lien" href="mailto:{{ $email }}"><svg class="icone" aria-hidden="true"><use href="#i-courriel"/></svg>{{ $email }}</a>
-          @endif
-        </div>
+        @if ($question)
+          <div class="attente__contact">
+            <span class="petit">{!! $question !!}</span>
+            @if ($whatsapp && App\whatsapp_numero())
+              <a class="lien" href="{{ App\whatsapp_url() }}" target="_blank" rel="noopener"><svg class="icone" aria-hidden="true"><use href="#i-whatsapp"/></svg>{!! $whatsapp !!}</a>
+            @endif
+            @if ($email = App\email())
+              <a class="lien" href="mailto:{{ $email }}" data-no-translation><svg class="icone" aria-hidden="true"><use href="#i-courriel"/></svg>{{ $email }}</a>
+            @endif
+          </div>
+        @endif
       </main>
       @endif
 
