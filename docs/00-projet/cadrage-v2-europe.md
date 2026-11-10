@@ -24,7 +24,7 @@ Ce document remplace les points concernés du cahier des charges d'octobre (`cah
 - **WooCommerce** : produits, stocks (En stock / Stock limité / Rupture), commandes, promotions.
 - **Paiement** : WooCommerce Stripe Gateway (carte, Apple Pay, Google Pay) et WooCommerce PayPal Payments, toutes deux gratuites.
 - **Conformité UE** : Germanized (version gratuite) pour les mentions, la rétractation et les prix TTC ; Complianz (version gratuite) pour les cookies.
-- **Référencement** : Rank Math ou Yoast (version gratuite).
+- **Référencement** : Yoast SEO (version gratuite).
 - **Sécurité et sauvegardes** : Wordfence et UpdraftPlus (versions gratuites), plus le cache de l'hébergeur.
 - **Bouton WhatsApp** avec le panier prérempli : codé dans le thème.
 - **Coût fixe estimé** : hébergement et domaine, soit environ 60 à 140 € par an. À prévoir en plus : une formule de maintenance (mises à jour, sauvegardes).
