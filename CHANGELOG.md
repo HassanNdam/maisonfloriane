@@ -5,6 +5,21 @@ Chaque version correspond à un tag `vX.Y.Z` sur `main` (voir `CONTRIBUTING.md`)
 
 ## [Non publié]
 
+## [1.0.0] - 2026-11-17
+
+Mise en ligne de **https://maisonfloriane.com** chez IONOS (domaine servi par `web/`, page d'attente levée, indexation autorisée).
+
+### Ajouté
+- Paquet de mise en ligne généré dans `mise-en-ligne/` (ignoré par Git) : base exportée avec les URL de production et nettoyée (commande de test, corbeille, révisions, sessions), site complet sans outils de développement, thème compilé, `.env` de production, `.htaccess` (HTTPS, domaine sans www, fichiers sensibles refusés, cache navigateur).
+
+### Modifié
+- Adresse e-mail du site : contact@maisonfloriane.com (expéditeur des e-mails, SMTP IONOS).
+
+### À suivre après la mise en ligne
+- Commande réelle par carte puis remboursement (clés Stripe live et webhook).
+- Première sauvegarde UpdraftPlus ; Search Console et sitemap.
+- Retirer l'en-tête `x-powered-by` d'Acorn.
+
 ## [0.2.0] - 2026-11-10
 
 Site complet en local (back-office, FR/EN, légal, livraison, SEO), derrière la page d'attente. Pas encore en ligne.

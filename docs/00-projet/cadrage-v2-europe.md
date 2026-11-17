@@ -8,7 +8,7 @@ Ce document remplace les points concernés du cahier des charges d'octobre (`cah
 |---|---|---|
 | Domaine | à définir | **maisonfloriane.com** |
 | Propriétaire | — | **Flore**, installée en **Espagne** (UE) |
-| Contact | à définir | **florekhadije@gmail.com**, **+41 79 273 83 53** (téléphone et WhatsApp) |
+| Contact | à définir | **contact@maisonfloriane.com**, **+41 79 273 83 53** (téléphone et WhatsApp) |
 | Produits | Floréa Skin complet, coffrets PARFUMEmOI, autres marques | **2 produits Floréa Skin seulement : savon noir réparateur et Glow Oil** |
 | Prix | grille en FCFA | **pas de prix pour l'instant** |
 | Marché | Afrique, prix en FCFA | **Accent sur l'Union européenne**, commandes possibles **du monde entier** (Afrique, Cameroun…) |

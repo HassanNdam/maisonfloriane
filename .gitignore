@@ -36,3 +36,6 @@ wp-cli.local.yml
 # Traductions (réinstallées par composer seed)
 web/app/languages/*
 !web/app/languages/.gitkeep
+
+# Paquet de mise en ligne (base exportée, .env de production) : jamais dans Git
+/mise-en-ligne/

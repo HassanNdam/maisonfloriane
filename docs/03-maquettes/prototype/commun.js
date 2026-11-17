@@ -30,7 +30,7 @@ document.body.insertAdjacentHTML("beforeend", `
       <p>La beauté révélée par la nature.<br>Deux soins, un rituel, des résultats montrés sans filtre.</p></div>
     <div><h4>Boutique</h4><ul><li>Savon noir réparateur</li><li>Glow Oil</li><li>Le rituel duo</li></ul></div>
     <div><h4>Aide</h4><ul><li><a href="mon-histoire.html">Mon histoire</a></li><li><a href="livraison-retours.html">Livraison & retours</a></li><li>Questions fréquentes</li><li><a href="contact.html">Contact</a></li><li>WhatsApp</li></ul></div>
-    <div><h4>Contact</h4><ul><li>florekhadije@gmail.com</li><li>+41 79 273 83 53</li><li>Réponse sous 24 h ouvrées</li></ul></div>
+    <div><h4>Contact</h4><ul><li>contact@maisonfloriane.com</li><li>+41 79 273 83 53</li><li>Réponse sous 24 h ouvrées</li></ul></div>
   </div>
   <div class="paiements"><span>Paiement sécurisé</span>
     <span class="badge" title="Visa"><svg viewBox="0 0 48 16"><text x="24" y="12.5" text-anchor="middle" font-family="Arial" font-weight="700" font-style="italic" font-size="13" fill="#1A1F71">VISA</text></svg></span>
